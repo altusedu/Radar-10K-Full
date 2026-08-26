@@ -57,7 +57,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Trava Anti-Acesso Direto */
     #access-denied-screen {
       display: none;
       height: 100vh;
@@ -115,28 +114,28 @@
       user-select: none; 
     }
 
-    /* Container dos dois botões em 1 mesma linha */
+    /* CONTAINER DOS 3 BOTÕES DIVIDIDOS NA MESMA LINHA */
     .action-row-btns {
-      display: flex;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
       margin-bottom: 15px;
       width: 100%;
     }
 
     .row-btn {
-      flex: 1;
       background: rgba(59, 130, 246, 0.1);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 10px 8px;
-      border-radius: 8px;
+      padding: 8px 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
       white-space: nowrap;
       transition: all 0.2s;
     }
@@ -144,6 +143,8 @@
     .row-btn:hover { background: rgba(59, 130, 246, 0.2); }
     .row-btn.btn-fullscreen { border-color: rgba(34, 197, 94, 0.4); color: var(--accent-green); background: rgba(34, 197, 94, 0.1); }
     .row-btn.btn-fullscreen:hover { background: rgba(34, 197, 94, 0.2); }
+    .row-btn.btn-shortcut { border-color: rgba(234, 179, 8, 0.4); color: var(--accent-yellow); background: rgba(234, 179, 8, 0.1); }
+    .row-btn.btn-shortcut:hover { background: rgba(234, 179, 8, 0.2); }
 
     .nav-btn { background: none; border: none; color: var(--text-muted); padding: 12px 16px; text-align: left; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; white-space: nowrap; }
     .nav-btn:hover, .nav-btn.active { background-color: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
@@ -220,8 +221,8 @@
       .app-container { flex-direction: column; }
       .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px; overflow-x: auto; flex-direction: row; align-items: center; justify-content: flex-start; }
       .brand-container { margin-bottom: 0; padding-right: 12px; border-right: 1px solid var(--border-color); }
-      .action-row-btns { margin-bottom: 0; width: auto; }
-      .row-btn { padding: 8px 10px; font-size: 0.75rem; }
+      .action-row-btns { margin-bottom: 0; width: auto; min-width: 210px; }
+      .row-btn { padding: 6px 4px; font-size: 0.7rem; }
       .nav-btn { padding: 8px 12px; font-size: 0.85rem; }
       .main-content { padding: 15px; }
       .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -245,10 +246,11 @@
       <span class="brand-title">RADAR 10K+ FULL</span>
     </div>
 
-    <!-- BOTÕES NA MESMA LINHA -->
+    <!-- LINHA DIVIDIDA EM 3 BOTÕES PROPORCIONAIS -->
     <div class="action-row-btns">
-      <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text">☀️ Claro</button>
-      <button class="row-btn btn-fullscreen" onclick="toggleFullscreen()" title="Expandir Tela Cheia">⛶ Tela Cheia</button>
+      <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Claro</button>
+      <button class="row-btn btn-fullscreen" onclick="toggleFullscreen()" title="Expandir em Tela Cheia">⛶ Cheia</button>
+      <button class="row-btn btn-shortcut" onclick="instalarAppPWA()" id="btn-install-pwa" title="Criar Atalho na Tela">📲 Atalho</button>
     </div>
 
     <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar</button>
@@ -455,7 +457,6 @@
 </div>
 
 <script>
-  /* TRAVA DE SEGURANÇA: Exibe o app apenas se estiver dentro do iframe do Nutror/Eduzz */
   function validarAmbienteIframe() {
     const dentroDoIframe = window.self !== window.top;
     if (!dentroDoIframe) {
@@ -470,12 +471,32 @@
 
   const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbzs900_ic_8V0kpiMfF6PpjpC9Vw7VTM0ExBvs7Xs3He9yOB2dOjyl_0onLvlUrtih6/exec"; 
   let vendas = JSON.parse(localStorage.getItem('vendas_radar')) || [];
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  function instalarAppPWA() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('Usuário aceitou o atalho.');
+        }
+        deferredPrompt = null;
+      });
+    } else {
+      alert('Para criar o atalho no celular ou computador:\n\n1. Clique no menu do seu navegador (3 pontinhos).\n2. Selecione "Adicionar à Tela Inicial" ou "Instalar Aplicativo".');
+    }
+  }
 
   function getUsuarioId() {
     const urlParams = new URLSearchParams(window.location.search);
     const idDaUrl = urlParams.get('aluno_id') || urlParams.get('user_id') || urlParams.get('email');
 
-    if (idDaUrl && idDaUrl.trim() !== '') {
+    if (idDaUrl && idDaUrl.trim() !== '' && !idDaUrl.includes('#')) {
       const idLimpo = idDaUrl.trim().toLowerCase();
       localStorage.setItem('radar_user_id', idLimpo);
       return idLimpo;
@@ -509,7 +530,6 @@
     }
   }
 
-  /* Função para alternar modo Tela Cheia */
   function toggleFullscreen() {
     const elem = document.documentElement;
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
@@ -813,7 +833,6 @@
 
   render();
 
-  /* Registro de PWA para convite de instalação do Atalho */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
