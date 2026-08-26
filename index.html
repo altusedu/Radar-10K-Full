@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar 10K+ Full — Altus Edu</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --accent-green: #22c55e;
+      --accent-blue: #3b82f6;
+      --accent-yellow: #eab308;
+      --accent-red: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    body.light-theme {
+      --bg-dark: #f1f5f9;
+      --card-bg: #ffffff;
+      --accent-green: #16a34a;
+      --accent-blue: #2563eb;
+      --accent-yellow: #ca8a04;
+      --accent-red: #dc2626;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, select, textarea {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* BRANDING & LOGO CONTAINER */
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .brand-logo {
+      max-height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      letter-spacing: -0.5px;
+    }
+
+    /* TELA DE LOGIN SUPABASE */
+    .auth-overlay {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100vw;
+      padding: 20px;
+    }
+
+    .login-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 35px 30px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-card h2 {
+      margin-top: 10px;
+      color: var(--text-main);
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .login-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 25px;
+    }
+
+    .btn-google {
+      width: 100%;
+      background-color: #ffffff;
+      color: #1f2937;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin: 20px 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span { padding: 0 10px; }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--accent-green);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .auth-toggle {
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .auth-toggle a {
+      color: var(--accent-green);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .msg-feedback {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      display: none;
+    }
+
+    /* INTERFACE DO APLICATIVO RADAR 10K+ FULL */
+    #app-radar {
+      display: none;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100vw;
+      flex-direction: row;
+    }
+
+    .sidebar { 
+      width: 270px; 
+      background-color: var(--card-bg); 
+      border-right: 1px solid var(--border-color); 
+      padding: 24px 20px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      flex-shrink: 0; 
+      transition: background-color 0.3s; 
+    }
+
+    .theme-toggle-btn { background: rgba(59, 130, 246, 0.1); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+    .theme-toggle-btn:hover { background: rgba(59, 130, 246, 0.2); }
+
+    .btn-logout-sidebar { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); color: var(--accent-red); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; margin-bottom: 15px; text-align: center; }
+
+    .nav-btn { background: none; border: none; color: var(--text-muted); padding: 12px 16px; text-align: left; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; white-space: nowrap; }
+    .nav-btn:hover, .nav-btn.active { background-color: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+
+    .main-content { 
+      flex: 1; 
+      padding: 30px; 
+      overflow-y: auto; 
+      width: 100%; 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .content-body {
+      flex: 1;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .subtitle { color: var(--text-muted); margin-bottom: 25px; }
+
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .card { background-color: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); transition: background-color 0.3s; }
+    .card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 6px; }
+    .card .val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
+    .card .val.green { color: var(--accent-green); }
+    .card .val.red { color: var(--accent-red); }
+    .card .val.yellow { color: var(--accent-yellow); }
+
+    .form-container { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 25px; transition: background-color 0.3s; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .input-field { display: flex; flex-direction: column; gap: 6px; }
+    .input-field label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+
+    input, select { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); font-size: 1rem; width: 100%; min-height: 48px; transition: background-color 0.3s, color 0.3s; }
+    button.btn-primary { background-color: var(--accent-green); color: #fff; font-weight: 700; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; height: 48px; align-self: flex-end; width: 100%; }
+    
+    .search-container { margin-bottom: 15px; }
+    .search-input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-main); font-size: 0.95rem; }
+
+    .table-responsive { width: 100%; overflow-x: auto; background-color: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+    table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+    th { background-color: rgba(0,0,0,0.04); color: var(--text-muted); font-size: 0.85rem; }
+
+    .action-btn-group { display: flex; gap: 8px; align-items: center; }
+    .icon-btn { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; }
+    .btn-edit { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+    .btn-delete { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+    .btn-pay { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+
+    .badge { padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    .badge-pago { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+    .badge-pendente { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
+
+    .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+    .sub-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 200px; text-align: center; }
+    .sub-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+    .tip-card { background: var(--card-bg); border-left: 4px solid var(--accent-blue); padding: 18px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+    .tip-card h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--text-main); }
+    .tip-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* FOOTER DE DIREITOS RESERVADOS */
+    .app-footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .app-footer strong {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 768px) {
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px; overflow-x: auto; flex-direction: row; align-items: center; justify-content: flex-start; }
+      .brand-container { margin-bottom: 0; padding-right: 12px; border-right: 1px solid var(--border-color); }
+      .theme-toggle-btn, .btn-logout-sidebar { margin-bottom: 0; padding: 8px 10px; font-size: 0.75rem; }
+      .nav-btn { padding: 8px 12px; font-size: 0.85rem; }
+      .main-content { padding: 15px; }
+      .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .card { padding: 12px; }
+      .card .val { font-size: 1.25rem; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TELA DE LOGIN SUPABASE -->
+  <div class="auth-overlay" id="card-login">
+    <div class="login-card">
+      <div class="brand-container" style="justify-content: center;">
+        <span class="brand-text">📡 RADAR 10K+ FULL</span>
+      </div>
+      <p id="card-subtitle">Acesse com sua conta para gerenciar suas vendas</p>
+
+      <button class="btn-google" id="btn-google-login">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        Entrar com o Google
+      </button>
+
+      <div class="divider"><span>OU USE SEU E-MAIL</span></div>
+
+      <div class="form-group">
+        <label for="email-input">Seu E-mail</label>
+        <input type="email" id="email-input" placeholder="seuemail@exemplo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="password-input">Sua Senha</label>
+        <input type="password" id="password-input" placeholder="Sua senha">
+      </div>
+
+      <button class="btn-submit" id="btn-email-action">Entrar no Radar</button>
+
+      <div class="msg-feedback" id="msg-feedback"></div>
+
+      <div class="auth-toggle">
+        <span id="toggle-text">Não tem uma conta?</span> 
+        <a id="btn-toggle-auth">Cadastre-se aqui</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERFACE COMPLETA DO RADAR -->
+  <div id="app-radar">
+    <div class="app-container">
+      <div class="sidebar">
+        <!-- LOGO & BRANDING -->
+        <div class="brand-container" onclick="goHome(event)" style="cursor: pointer;">
+          <!-- Substitua o src abaixo pela URL da imagem da sua logo quando quiser -->
+          <img src="https://via.placeholder.com/40x40/22c55e/ffffff?text=A" alt="Altus Edu Logo" class="brand-logo" id="logo-img" style="display:none;"> 
+          <span class="brand-text">📡 RADAR 10K+ FULL</span>
+        </div>
+
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="btn-theme-text">☀️ Modo Claro</button>
+
+        <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar</button>
+        <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
+        <button class="nav-btn" onclick="switchTab('calculadora', event)">🔒 Simulador Desconto</button>
+        <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
+        <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
+
+        <div style="margin-top: auto;">
+          <button class="btn-logout-sidebar" id="btn-logout" style="width: 100%;">🔴 Sair da Conta</button>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="content-body">
+          <div id="tab-radar" class="tab-content active">
+            <h1>Radar de Vendas & Comissões</h1>
+            <p class="subtitle">Lance aqui as suas vendas para rastrear seu salário em tempo real!</p>
+
+            <div class="grid-cards">
+              <div class="card"><h4>Acumulado do Mês</h4><div class="val green" id="total-comissao">R$ 0,00</div></div>
+              <div class="card"><h4>Vendas Realizadas</h4><div class="val" id="total-vendas">0</div></div>
+              <div class="card"><h4>Ticket Médio</h4><div class="val" id="ticket-medio">R$ 0,00</div></div>
+              <div class="card"><h4>Taxa de Conversão Realizada</h4><div class="val yellow" id="radar-taxa-conversao">0,0%</div></div>
+            </div>
+
+            <div class="form-container">
+              <form id="form-venda-radar" onsubmit="return false;">
+                <input type="hidden" id="edit-id">
+                <div class="form-grid">
+                  <div class="input-field">
+                    <label for="data-venda">Data da Venda</label>
+                    <input type="date" id="data-venda" required>
+                  </div>
+                  <div class="input-field">
+                    <label for="cliente">Nome do Cliente</label>
+                    <input type="text" id="cliente" placeholder="Ex: João Silva" required>
+                  </div>
+                  <div class="input-field">
+                    <label for="valor">Valor da Venda (R$)</label>
+                    <input type="text" id="valor" inputmode="decimal" placeholder="R$ 0,00" oninput="mascaraMoedaInput(this)" required>
+                  </div>
+                  <div class="input-field">
+                    <label for="porcentagem">Sua Comissão (%)</label>
+                    <input type="number" id="porcentagem" inputmode="decimal" value="10" step="any" required>
+                  </div>
+                  <div class="input-field">
+                    <label for="status">Status</label>
+                    <select id="status">
+                      <option value="Pago">Pago / Confirmado</option>
+                      <option value="Pendente">Pendente / Aguardando</option>
+                    </select>
+                  </div>
+                  <button type="button" onclick="salvarVenda(event)" class="btn-primary" id="btn-salvar-venda">+ Registrar Venda</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="search-container">
+              <input type="text" id="busca-venda" class="search-input" placeholder="🔍 Buscar por cliente, valor, comissão ou status..." oninput="render()">
+            </div>
+
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Valor da Venda</th>
+                    <th>% Comissão</th>
+                    <th>Sua Comissão</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-vendas"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="tab-metas" class="tab-content">
+            <h1>Mapeador de Metas & Taxa de Conversão</h1>
+            <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
+            <div class="form-container">
+              <div class="form-grid">
+                <div class="input-field">
+                  <label for="meta-mensal">Meta de Comissão no Bolso (R$)</label>
+                  <input type="text" id="meta-mensal" inputmode="decimal" value="R$ 10.000,00" oninput="mascaraMoedaInput(this); calcularMeta()">
+                </div>
+                <div class="input-field">
+                  <label for="dias-uteis">Dias Úteis Restantes</label>
+                  <input type="number" id="dias-uteis" inputmode="numeric" value="20" oninput="calcularMeta()">
+                </div>
+                <div class="input-field">
+                  <label for="atendimentos-totais">Total de Leads Atendidos no Mês</label>
+                  <input type="number" id="atendimentos-totais" inputmode="numeric" value="100" oninput="calcularMeta()" placeholder="Ex: 100">
+                </div>
+              </div>
+            </div>
+            <div class="grid-cards">
+              <div class="card"><h4>Acumulado (Realizado)</h4><div class="val green" id="meta-realizada">R$ 0,00</div></div>
+              <div class="card"><h4>Falta para a Meta</h4><div class="val red" id="falta-meta">R$ 0,00</div></div>
+              <div class="card"><h4>Meta Diária de Comissão</h4><div class="val green" id="meta-diaria">R$ 0,00</div></div>
+              <div class="card"><h4>Taxa de Conversão Realizada</h4><div class="val yellow" id="taxa-conversao">0,0%</div></div>
+              <div class="card" style="grid-column: span 2;"><h4>Atendimentos Diários Necessários</h4><div class="val" id="leads-diarios">0 leads/dia</div></div>
+            </div>
+          </div>
+
+          <div id="tab-calculadora" class="tab-content">
+            <h1>Calculadora & Simulador de Desconto</h1>
+            <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
+            <div class="form-container">
+              <div class="form-grid">
+                <div class="input-field">
+                  <label for="val-original">Valor Original do Produto (R$)</label>
+                  <input type="text" id="val-original" inputmode="decimal" value="R$ 1.000,00" oninput="mascaraMoedaInput(this); calcularDesconto()">
+                </div>
+                <div class="input-field">
+                  <label for="comissao-padrao">% de Comissão Padrão</label>
+                  <input type="number" id="comissao-padrao" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()">
+                </div>
+                <div class="input-field">
+                  <label for="desc-porcent">Desconto Solicitado pelo Cliente (%)</label>
+                  <input type="number" id="desc-porcent" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()">
+                </div>
+              </div>
+            </div>
+            <div class="grid-cards">
+              <div class="card">
+                <h4>Cenário Padrão (Sem Desconto)</h4>
+                <p style="color: var(--text-muted); font-size: 0.8rem;">Venda: <span id="venda-normal">R$ 0,00</span></p>
+                <div class="val" id="comissao-normal">R$ 0,00</div>
+              </div>
+              <div class="card">
+                <h4>Cenário Simulado (Com Desconto)</h4>
+                <p style="color: var(--text-muted); font-size: 0.8rem;">Venda: <span id="venda-simulada">R$ 0,00</span></p>
+                <div class="val green" id="comissao-simulada">R$ 0,00</div>
+              </div>
+              <div class="card" style="grid-column: span 2; border-color: var(--accent-red);">
+                <h4>Sua Perda por esse Desconto</h4>
+                <p style="color: var(--text-muted); font-size: 0.8rem;">Diferença no seu bolso:</p>
+                <div class="val red" id="perda-comissao">- R$ 0,00</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-checklist" class="tab-content">
+            <h1>Comissões Pendentes</h1>
+            <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento. Não deixe dinheiro na mesa!</p>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Valor da Venda</th>
+                    <th>Comissão a Receber</th>
+                    <th>Ação Rápida</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-pendentes"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="tab-dicas" class="tab-content">
+            <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
+            <p class="subtitle">Clique no módulo desejado para desbloquear as estratégias práticas da dica.</p>
+
+            <div class="sub-nav">
+              <button class="sub-btn" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Aumentar Ticket Médio (10 Dicas)</button>
+              <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Aumentar Taxa de Conversão (10 Dicas)</button>
+            </div>
+
+            <div id="sub-dicas-ticket" class="sub-dica-content" style="display: none;">
+              <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Quando o cliente decidir a compra básica, ofereça a versão superior destacando apenas a pequena diferença de preço.</p></div>
+              <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM', antes de mandar a chave PIX.</p></div>
+              <div class="tip-card"><h3>Dica 3: Ancoragem com 3 Pacotes</h3><p>Apresente as opções Básico, Alvo e Premium. O cliente tenderá instintivamente a escolher a opção do meio.</p></div>
+              <div class="tip-card"><h3>Dica 4: Combo de Proteção/Garantia</h3><p>Adicione um serviço extra de suporte exclusivo ou garantia estendida como opcional pago.</p></div>
+              <div class="tip-card"><h3>Dica 5: O Pacote Familiar/Equipe</h3><p>Incentive a compra de mais unidades com desconto progressivo para presentear ou usar em equipe.</p></div>
+              <div class="tip-card"><h3>Dica 6: O Bônus Condicionado ao Ticket Alto</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor de pedido.</p></div>
+              <div class="tip-card"><h3>Dica 7: Edição Limitada / Item Exclusivo</h3><p>Ofereça um item complementar com estoque limitado para gerar desejo imediato.</p></div>
+              <div class="tip-card"><h3>Dica 8: Eliminação do Frete/Taxa por Valor</h3><p>Mostre que adicionando mais R$ 50 num produto extra, ele economiza na taxa de envio/serviço.</p></div>
+              <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste item, você já tem o [item complementar] para usar junto?".</p></div>
+              <div class="tip-card"><h3>Dica 10: Renovação Antecipada com Desconto</h3><p>Para serviços/planos, ofereça desconto para contratação de maior período à vista.</p></div>
+            </div>
+
+            <div id="sub-dicas-conversao" class="sub-dica-content" style="display: none;">
+              <div class="tip-card"><h3>Dica 1: Regra dos 5 Minutos no WhatsApp</h3><p>Responda o primeiro 'Oi' imediatamente. Rapidez inicial aumenta a conversão em até 400%.</p></div>
+              <div class="tip-card"><h3>Dica 2: Fechamento por Dupla Escolha</h3><p>Pergunte: "Prefere acerto via PIX ou cartão?" em vez de "Vai querer fechar?".</p></div>
+              <div class="tip-card"><h3>Dica 3: A Trava do "Vou Pensar"</h3><p>Pergunte qual dúvida em relação ao produto ou pagamento ainda impede o fechamento agora.</p></div>
+              <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após apresentar o preço.</p></div>
+              <div class="tip-card"><h3>Dica 5: Escassez Real de Agendamento/Estoque</h3><p>Comunique que a condição especial dura apenas para pedidos confirmados até as 18h.</p></div>
+              <div class="tip-card"><h3>Dica 6: Chamada de Vídeo/Áudio Personalizado</h3><p>Envie um áudio chamando o cliente pelo nome para gerar conexão humana imediata.</p></div>
+              <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play aqui?".</p></div>
+              <div class="tip-card"><h3>Dica 8: Eliminação de Risco (Garantia)</h3><p>Destaque a garantia incondicional no exato momento da trava de decisão.</p></div>
+              <div class="tip-card"><h3>Dica 9: A Técnica da Reserva do Pedido</h3><p>Pergunte se pode deixar o pedido reservado por 2 horas no sistema enquanto ele decide.</p></div>
+              <div class="tip-card"><h3>Dica 10: O Script de Resgate no Fim do Mês</h3><p>Aborde todos os orçamentos abertos do mês oferecendo um incentivo final para bater meta.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RODAPÉ PERFUMADO DE DIREITOS RESERVADOS -->
+        <footer class="app-footer">
+          <p>© 2026 <strong>Grupo Altus Educacional</strong>. Todos os direitos reservados.</p>
+          <p style="font-size: 0.72rem; margin-top: 4px; opacity: 0.75;">Tecnologia e Inteligência em Vendas. Proibida a reprodução parcial ou total do software.</p>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Trava de Segurança Contra Cópia
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        return false;
+      }
+    };
+
+    const SUPABASE_URL = "https://wozeofkrqjvduqhgioka.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvemVvZmtycXZkdXFoZ2lva2EiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc3MDE0MDAwMCwiZXhwIjoyMDg1NzE2MDAwfQ.ic3Vi3ViYWBhc2Ui";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbzs900_ic_8V0kpiMfF6PpjpC9Vw7VTM0ExBvs7Xs3He9yOB2dOjyl_0onLvlUrtih6/exec";
+    let vendas = JSON.parse(localStorage.getItem('vendas_radar')) || [];
+    let usuarioAtualEmail = "";
+    let isRegisterMode = false;
+
+    function abrirPainelMembros(emailIdentificado) {
+      usuarioAtualEmail = emailIdentificado || "";
+      document.getElementById('card-login').style.display = 'none';
+      document.getElementById('app-radar').style.display = 'block';
+
+      carregarTemaSalvo();
+      const hoje = new Date().toISOString().split('T')[0];
+      if (document.getElementById('data-venda')) document.getElementById('data-venda').value = hoje;
+      if (document.getElementById('dias-uteis')) document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
+      
+      carregarVendasNuvem();
+      render();
+    }
+
+    function exibirFeedback(mensagem, cor) {
+      const msgDiv = document.getElementById('msg-feedback');
+      msgDiv.style.display = 'block';
+      msgDiv.style.color = cor;
+      msgDiv.innerText = mensagem;
+    }
+
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (session && session.user && session.user.email) {
+        abrirPainelMembros(session.user.email);
+        if (window.location.hash) {
+          history.replaceState(null, '', window.location.pathname);
+        }
+      }
+    });
+
+    window.onload = async function() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session && session.user && session.user.email) {
+        abrirPainelMembros(session.user.email);
+      }
+
+      document.getElementById('btn-toggle-auth').onclick = function() {
+        isRegisterMode = !isRegisterMode;
+        const btnAction = document.getElementById('btn-email-action');
+        const subtitle = document.getElementById('card-subtitle');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtn = document.getElementById('btn-toggle-auth');
+        document.getElementById('msg-feedback').style.display = 'none';
+
+        if (isRegisterMode) {
+          subtitle.innerText = "Crie sua conta para liberar seu acesso";
+          btnAction.innerText = "Cadastrar no Radar";
+          toggleText.innerText = "Já tem uma conta?";
+          toggleBtn.innerText = "Faça login aqui";
+        } else {
+          subtitle.innerText = "Acesse com sua conta para gerenciar suas vendas";
+          btnAction.innerText = "Entrar no Radar";
+          toggleText.innerText = "Não tem uma conta?";
+          toggleBtn.innerText = "Cadastre-se aqui";
+        }
+      };
+
+      document.getElementById('btn-email-action').onclick = async function() {
+        const email = document.getElementById('email-input').value.trim();
+        const password = document.getElementById('password-input').value.trim();
+
+        if (!email || !password) {
+          exibirFeedback("Por favor, preencha o e-mail e a senha.", "var(--accent-red)");
+          return;
+        }
+
+        if (isRegisterMode) {
+          const { data, error } = await supabaseClient.auth.signUp({ email, password });
+          if (error) {
+            exibirFeedback(error.message, "var(--accent-red)");
+          } else {
+            exibirFeedback("Cadastro realizado! Verifique seu e-mail para confirmar.", "var(--accent-green)");
+          }
+        } else {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            exibirFeedback("E-mail ou senha incorretos.", "var(--accent-red)");
+          } else if (data.session && data.session.user) {
+            abrirPainelMembros(data.session.user.email);
+          }
+        }
+      };
+
+      document.getElementById('btn-google-login').onclick = async function() {
+        await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: { 
+            redirectTo: window.location.origin + window.location.pathname
+          }
+        });
+      };
+
+      document.getElementById('btn-logout').onclick = async function() {
+        await supabaseClient.auth.signOut();
+        window.location.href = window.location.origin + window.location.pathname;
+      };
+    };
+
+    function goHome(ev) {
+      const btnRadar = document.getElementById('nav-btn-radar');
+      switchTab('radar', { currentTarget: btnRadar });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      localStorage.setItem('radar_theme', isLight ? 'light' : 'dark');
+      document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Modo Escuro' : '☀️ Modo Claro';
+    }
+
+    function carregarTemaSalvo() {
+      const temaSalvo = localStorage.getItem('radar_theme');
+      if (temaSalvo === 'light') {
+        document.body.classList.add('light-theme');
+        document.getElementById('btn-theme-text').innerText = '🌙 Modo Escuro';
+      }
+    }
+
+    function calcularDiasUteisRestantesAutomatico() {
+      const hoje = new Date();
+      const ano = hoje.getFullYear();
+      const mes = hoje.getMonth();
+      const ultimoDiaMes = new Date(ano, mes + 1, 0).getDate();
+      
+      let diasUteis = 0;
+      for (let dia = hoje.getDate(); dia <= ultimoDiaMes; dia++) {
+        const dataTemp = new Date(ano, mes, dia);
+        const diaSemana = dataTemp.getDay();
+        if (diaSemana !== 0 && diaSemana !== 6) {
+          diasUteis++;
+        }
+      }
+      return diasUteis || 1;
+    }
+
+    function sincronizarNuvem() {
+      localStorage.setItem('vendas_radar', JSON.stringify(vendas));
+      const userIdFinal = getUsuarioId();
+      
+      if (API_NUVEM_URL) {
+        fetch(API_NUVEM_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ vendas: vendas, usuario_id: userIdFinal })
+        }).catch(err => console.log('Erro de sincronização em nuvem:', err));
+      }
+    }
+
+    function carregarVendasNuvem() {
+      const userIdFinal = getUsuarioId();
+      if (API_NUVEM_URL) {
+        fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(userIdFinal))
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.vendas) {
+              vendas = data.vendas;
+              localStorage.setItem('vendas_radar', JSON.stringify(vendas));
+              render();
+            }
+          })
+          .catch(err => console.log('Usando dados locais armazenados.'));
+      }
+    }
+
+    function getUsuarioId() {
+      if (usuarioAtualEmail && usuarioAtualEmail !== "" && usuarioAtualEmail.includes('@')) {
+        return usuarioAtualEmail;
+      }
+      let id = localStorage.getItem('radar_user_id');
+      if (!id) {
+        id = 'user_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('radar_user_id', id);
+      }
+      return id;
+    }
+
+    function formatarDataBR(dataIso) {
+      if (!dataIso) return '-';
+      const partes = dataIso.split('-');
+      return partes[2] + '/' + partes[1] + '/' + partes[0];
+    }
+
+    function parseMoedaFloat(str) {
+      if (typeof str === 'number') return str;
+      if (!str) return 0;
+      return parseFloat(str.replace(/[^\d,-]/g, '').replace(',', '.')) || 0;
+    }
+
+    function formatarMoeda(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function mascaraMoedaInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      v = (v / 100).toFixed(2) + '';
+      v = v.replace(".", ",");
+      v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+      input.value = "R$ " + v;
+    }
+
+    function switchTab(tabId, ev) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (ev) ev.currentTarget.classList.add('active');
+    }
+
+    function switchDicaSub(type, ev) {
+      document.querySelectorAll('.sub-dica-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.sub-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('sub-dicas-' + type).style.display = 'block';
+      if (ev) ev.currentTarget.classList.add('active');
+    }
+
+    function salvarVenda(e) {
+      if (e) e.preventDefault();
+      const editId = document.getElementById('edit-id').value;
+      const dataVenda = document.getElementById('data-venda').value;
+      const cliente = document.getElementById('cliente').value;
+      const valor = parseMoedaFloat(document.getElementById('valor').value);
+      const porcentagem = parseFloat(document.getElementById('porcentagem').value);
+      const status = document.getElementById('status').value;
+
+      if (!cliente || valor <= 0) {
+        alert('Por favor, preencha o nome do cliente e o valor da venda.');
+        return;
+      }
+
+      const comissao = valor * (porcentagem / 100);
+
+      if (editId) {
+        vendas = vendas.map(v => v.id == editId ? { id: Number(editId), dataVenda, cliente, valor, porcentagem, comissao, status } : v);
+        document.getElementById('edit-id').value = '';
+        document.getElementById('btn-salvar-venda').innerText = '+ Registrar Venda';
+      } else {
+        vendas.push({ id: Date.now(), dataVenda, cliente, valor, porcentagem, comissao, status });
+      }
+
+      sincronizarNuvem();
+      document.getElementById('cliente').value = '';
+      document.getElementById('valor').value = '';
+
+      render();
+    }
+
+    function editarVenda(id) {
+      const v = vendas.find(item => item.id === id);
+      if (!v) return;
+      document.getElementById('edit-id').value = v.id;
+      document.getElementById('data-venda').value = v.dataVenda || new Date().toISOString().split('T')[0];
+      document.getElementById('cliente').value = v.cliente;
+      document.getElementById('valor').value = formatarMoeda(v.valor);
+      document.getElementById('porcentagem').value = v.porcentagem;
+      document.getElementById('status').value = v.status;
+      document.getElementById('btn-salvar-venda').innerText = '💾 Salvar Alteração';
+    }
+
+    function excluirVenda(id) {
+      if (confirm('Tem certeza que deseja excluir esta venda do Radar?')) {
+        vendas = vendas.filter(v => v.id !== id);
+        sincronizarNuvem();
+        render();
+      }
+    }
+
+    function darBaixa(id) {
+      vendas = vendas.map(v => v.id === id ? { ...v, status: 'Pago' } : v);
+      sincronizarNuvem();
+      render();
+    }
+
+    function render() {
+      const lista = document.getElementById('lista-vendas');
+      const listaPendentes = document.getElementById('lista-pendentes');
+      const termoBusca = (document.getElementById('busca-venda') ? document.getElementById('busca-venda').value : '').toLowerCase().trim();
+
+      lista.innerHTML = '';
+      listaPendentes.innerHTML = '';
+
+      let totalComissao = 0;
+      let totalVendasVal = 0;
+      let pendentesCount = 0;
+
+      vendas.sort((a, b) => new Date(b.dataVenda) - new Date(a.dataVenda));
+
+      vendas.forEach(v => {
+        if (v.status === 'Pago') {
+          totalComissao += v.comissao;
+          totalVendasVal += v.valor;
+        }
+
+        const textoBuscaAlvo = (formatarDataBR(v.dataVenda) + ' ' + v.cliente + ' ' + v.valor + ' ' + v.porcentagem + '% ' + v.comissao + ' ' + v.status).toLowerCase();
+
+        if (!termoBusca || textoBuscaAlvo.includes(termoBusca)) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
+            '<td><b>' + v.cliente + '</b></td>' +
+            '<td>' + formatarMoeda(v.valor) + '</td>' +
+            '<td>' + v.porcentagem + '%</td>' +
+            '<td style="color: var(--accent-green); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
+            '<td><span class="badge ' + (v.status === 'Pago' ? 'badge-pago' : 'badge-pendente') + '">' + v.status + '</span></td>' +
+            '<td><div class="action-btn-group">' +
+            (v.status === 'Pendente' ? '<button class="icon-btn btn-pay" title="Confirmar Pagamento" onclick="darBaixa(' + v.id + ')">✓</button>' : '') +
+            '<button class="icon-btn btn-edit" title="Editar Venda" onclick="editarVenda(' + v.id + ')">✏️</button>' +
+            '<button class="icon-btn btn-delete" title="Excluir Venda" onclick="excluirVenda(' + v.id + ')">🗑️</button>' +
+            '</div></td>';
+          lista.appendChild(tr);
+        }
+
+        if (v.status === 'Pendente') {
+          pendentesCount++;
+          const trP = document.createElement('tr');
+          trP.innerHTML = '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
+            '<td><b>' + v.cliente + '</b></td>' +
+            '<td>' + formatarMoeda(v.valor) + '</td>' +
+            '<td style="color: var(--accent-yellow); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
+            '<td><button class="icon-btn btn-pay" style="padding: 8px 16px; font-size: 0.9rem;" onclick="darBaixa(' + v.id + ')">✓ Confirmar</button></td>';
+          listaPendentes.appendChild(trP);
+        }
+      });
+
+      if (pendentesCount === 0) {
+        listaPendentes.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma comissão pendente no momento!</td></tr>';
+      }
+
+      const vendasPagasCount = vendas.filter(v => v.status === 'Pago').length;
+
+      document.getElementById('total-comissao').innerText = formatarMoeda(totalComissao);
+      document.getElementById('total-vendas').innerText = vendasPagasCount;
+      document.getElementById('ticket-medio').innerText = vendasPagasCount ? formatarMoeda(totalVendasVal / vendasPagasCount) : formatarMoeda(0);
+
+      calcularMeta();
+      calcularDesconto();
+    }
+
+    function calcularMeta() {
+      const meta = parseMoedaFloat(document.getElementById('meta-mensal').value);
+      const dias = parseFloat(document.getElementById('dias-uteis').value) || 1;
+      const atendimentosTotais = parseFloat(document.getElementById('atendimentos-totais').value) || 0;
+
+      const vendasPagas = vendas.filter(v => v.status === 'Pago');
+      let totalComissaoRealizada = vendasPagas.reduce((acc, v) => acc + v.comissao, 0);
+      let qtdVendasRealizadas = vendasPagas.length;
+
+      let faltaMeta = meta - totalComissaoRealizada;
+      if (faltaMeta < 0) faltaMeta = 0;
+
+      let metaDiariaVal = faltaMeta / dias;
+
+      let taxaConversaoDecimal = (atendimentosTotais > 0 && qtdVendasRealizadas > 0)
+        ? (qtdVendasRealizadas / atendimentosTotais)
+        : 0;
+
+      let comissaoMediaPorVenda = qtdVendasRealizadas > 0
+        ? (totalComissaoRealizada / qtdVendasRealizadas)
+        : 0;
+
+      let leadsDiariosNecessarios = 0;
+
+      if (faltaMeta > 0 && comissaoMediaPorVenda > 0 && taxaConversaoDecimal > 0 && dias > 0) {
+        let vendasFaltantes = faltaMeta / comissaoMediaPorVenda;
+        let leadsTotaisNecessarios = vendasFaltantes / taxaConversaoDecimal;
+        leadsDiariosNecessarios = Math.ceil(leadsTotaisNecessarios / dias);
+      }
+
+      const taxaExibicao = (taxaConversaoDecimal * 100).toFixed(1) + '%';
+      document.getElementById('radar-taxa-conversao').innerText = taxaExibicao;
+      document.getElementById('taxa-conversao').innerText = taxaExibicao;
+
+      document.getElementById('meta-realizada').innerText = formatarMoeda(totalComissaoRealizada);
+      document.getElementById('falta-meta').innerText = formatarMoeda(faltaMeta);
+      document.getElementById('meta-diaria').innerText = formatarMoeda(metaDiariaVal);
+
+      if (faltaMeta === 0 && qtdVendasRealizadas > 0) {
+        document.getElementById('leads-diarios').innerText = 'Meta Atingida!';
+      } else if (qtdVendasRealizadas === 0) {
+        document.getElementById('leads-diarios').innerText = 'Registre 1ª venda';
+      } else if (atendimentosTotais === 0) {
+        document.getElementById('leads-diarios').innerText = 'Informe os leads';
+      } else {
+        document.getElementById('leads-diarios').innerText = leadsDiariosNecessarios + ' leads/dia';
+      }
+    }
+
+    function calcularDesconto() {
+      const orig = parseMoedaFloat(document.getElementById('val-original').value);
+      const desc = parseFloat(document.getElementById('desc-porcent').value) || 0;
+      const comissaoPadrao = parseFloat(document.getElementById('comissao-padrao').value) || 0;
+
+      const comissaoNormal = orig * (comissaoPadrao / 100);
+      const precoSimulado = orig * (1 - (desc / 100));
+      const comissaoSimulada = precoSimulado * (comissaoPadrao / 100);
+      const perda = comissaoNormal - comissaoSimulada;
+
+      document.getElementById('venda-normal').innerText = formatarMoeda(orig);
+      document.getElementById('comissao-normal').innerText = formatarMoeda(comissaoNormal);
+
+      document.getElementById('venda-simulada').innerText = formatarMoeda(precoSimulado);
+      document.getElementById('comissao-simulada').innerText = formatarMoeda(comissaoSimulada);
+
+      document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
+    }
+  </script>
+</body>
+</html>
