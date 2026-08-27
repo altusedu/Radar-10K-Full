@@ -57,24 +57,87 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    #access-denied-screen {
-      display: none;
+    /* TELA DE LOGIN / VALIDAÇÃO DE ACESSO */
+    #auth-screen {
+      display: flex;
       height: 100vh;
       width: 100vw;
-      background-color: #0f172a;
-      color: #f8fafc;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
       padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
     }
 
-    #access-denied-screen h1 { color: #ef4444; font-size: 2rem; margin-bottom: 10px; }
-    #access-denied-screen p { color: #94a3b8; max-width: 500px; line-height: 1.5; }
+    .auth-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 35px 25px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
 
-    .app-container {
+    .auth-card h2 {
+      color: var(--accent-green);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .auth-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+
+    .auth-input-group {
       display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .auth-input-group input {
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-auth {
+      background-color: var(--accent-green);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .btn-auth:hover { opacity: 0.9; }
+
+    #auth-msg {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .msg-error { color: var(--accent-red); }
+    .msg-success { color: var(--accent-green); }
+
+    /* LAYOUT PRINCIPAL DO APP */
+    .app-container {
+      display: none;
       min-height: 100vh;
       width: 100vw;
       flex-direction: row;
@@ -114,7 +177,6 @@
       user-select: none; 
     }
 
-    /* CONTAINER DOS 3 BOTÕES DIVIDIDOS NA MESMA LINHA */
     .action-row-btns {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -206,6 +268,13 @@
     .tip-card h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--text-main); }
     .tip-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
+    .user-info-bar {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      word-break: break-all;
+    }
+
     .app-footer {
       margin-top: 40px;
       padding-top: 20px;
@@ -234,19 +303,30 @@
 </head>
 <body>
 
-<div id="access-denied-screen">
-  <h1>🔒 Acesso Restrito</h1>
-  <p>Esta ferramenta é de uso exclusivo dos alunos do Grupo Altus Educacional. Por favor, acesse o aplicativo através da sua Área de Membros no Nutror/Eduzz.</p>
+<!-- TELA DE AUTENTICAÇÃO POR E-MAIL -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <h2>📡 RADAR 10K+ FULL</h2>
+    <p>Digite o e-mail cadastrado na sua compra para acessar a aplicação.</p>
+    <div class="auth-input-group">
+      <input type="email" id="input-login-email" placeholder="seu-email@exemplo.com" required>
+      <button class="btn-auth" id="btn-login" onclick="validarEEntrar()">Entrar no Aplicativo</button>
+    </div>
+    <div id="auth-msg"></div>
+  </div>
 </div>
 
+<!-- APLICAÇÃO PRINCIPAL -->
 <div class="app-container" id="app-main-content">
   <div class="sidebar">
     <div class="brand-container" onclick="goHome(event)">
       <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
-      <span class="brand-title">RADAR 10K+ FULL</span>
+      <div>
+        <span class="brand-title">RADAR 10K+ FULL</span>
+        <div class="user-info-bar" id="display-user-email"></div>
+      </div>
     </div>
 
-    <!-- LINHA DIVIDIDA EM 3 BOTÕES PROPORCIONAIS -->
     <div class="action-row-btns">
       <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Claro</button>
       <button class="row-btn btn-fullscreen" onclick="toggleFullscreen()" title="Expandir em Tela Cheia">⛶ Cheia</button>
@@ -457,21 +537,110 @@
 </div>
 
 <script>
-  function validarAmbienteIframe() {
-    const dentroDoIframe = window.self !== window.top;
-    if (!dentroDoIframe) {
-      document.getElementById('app-main-content').style.display = 'none';
-      document.getElementById('access-denied-screen').style.display = 'flex';
-      return false;
+  const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbw8434aQAZ1VDqiswuYu90ubaRNDWWJhMYhpONeOQX-07te87ZCXlA5mDElExpy-R2PYA/exec"; 
+  let vendas = [];
+  let deferredPrompt = null;
+  let usuarioEmail = "";
+
+  /* VERIFICA E-MAIL NA ABERTURA */
+  document.addEventListener("DOMContentLoaded", () => {
+    carregarTemaSalvo();
+
+    // 1. Tenta pegar pela URL (caso venha do Nutror com ?aluno_id=email)
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailUrl = urlParams.get('aluno_id') || urlParams.get('user_id') || urlParams.get('email');
+
+    if (emailUrl && emailUrl.trim() !== '' && !emailUrl.includes('#')) {
+      usuarioEmail = emailUrl.trim().toLowerCase();
+      localStorage.setItem('radar_user_email', usuarioEmail);
+    } else {
+      // 2. Se não estiver na URL, pega do Cache do Dispositivo
+      usuarioEmail = localStorage.getItem('radar_user_email') || "";
     }
-    return true;
+
+    if (usuarioEmail) {
+      validarEmailNuvem(usuarioEmail, true);
+    }
+  });
+
+  function validarEEntrar() {
+    const input = document.getElementById('input-login-email');
+    const emailTyped = input.value.trim().toLowerCase();
+    
+    if (!emailTyped || !emailTyped.includes('@')) {
+      exibirMensagemAuth("Por favor, digite um e-mail válido.", "msg-error");
+      return;
+    }
+
+    document.getElementById('btn-login').innerText = "Validando...";
+    document.getElementById('btn-login').disabled = true;
+
+    validarEmailNuvem(emailTyped, false);
   }
 
-  validarAmbienteIframe();
+  function validarEmailNuvem(email, ehAutoLogin) {
+    fetch(API_NUVEM_URL + "?action=validar_aluno&email=" + encodeURIComponent(email))
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.autorizado === true) {
+          usuarioEmail = email;
+          localStorage.setItem('radar_user_email', usuarioEmail);
+          
+          document.getElementById('auth-screen').style.display = 'none';
+          document.getElementById('app-main-content').style.display = 'flex';
+          document.getElementById('display-user-email').innerText = usuarioEmail;
 
-  const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbzs900_ic_8V0kpiMfF6PpjpC9Vw7VTM0ExBvs7Xs3He9yOB2dOjyl_0onLvlUrtih6/exec"; 
-  let vendas = JSON.parse(localStorage.getItem('vendas_radar')) || [];
-  let deferredPrompt = null;
+          inicializarApp();
+        } else {
+          localStorage.removeItem('radar_user_email');
+          document.getElementById('auth-screen').style.display = 'flex';
+          document.getElementById('app-main-content').style.display = 'none';
+          
+          if (!ehAutoLogin) {
+            exibirMensagemAuth("E-mail não autorizado ou assinatura inativa.", "msg-error");
+          }
+          resetaBotaoLogin();
+        }
+      })
+      .catch(err => {
+        console.log('Erro de validação:', err);
+        // Em caso de falha de conexão mas com login prévio local
+        if (ehAutoLogin && usuarioEmail) {
+          document.getElementById('auth-screen').style.display = 'none';
+          document.getElementById('app-main-content').style.display = 'flex';
+          inicializarApp();
+        } else {
+          exibirMensagemAuth("Erro ao conectar à API. Tente novamente.", "msg-error");
+          resetaBotaoLogin();
+        }
+      });
+  }
+
+  function resetaBotaoLogin() {
+    const btn = document.getElementById('btn-login');
+    if (btn) {
+      btn.innerText = "Entrar no Aplicativo";
+      btn.disabled = false;
+    }
+  }
+
+  function exibirMensagemAuth(msg, classe) {
+    const el = document.getElementById('auth-msg');
+    el.innerText = msg;
+    el.className = classe;
+    el.style.display = 'block';
+  }
+
+  function inicializarApp() {
+    const hoje = new Date().toISOString().split('T')[0];
+    document.getElementById('data-venda').value = hoje;
+    document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
+    
+    // Tenta carregar do LocalStorage do e-mail do usuário primeiro
+    vendas = JSON.parse(localStorage.getItem('vendas_radar_' + usuarioEmail)) || [];
+    carregarVendasNuvem();
+    render();
+  }
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -493,21 +662,7 @@
   }
 
   function getUsuarioId() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idDaUrl = urlParams.get('aluno_id') || urlParams.get('user_id') || urlParams.get('email');
-
-    if (idDaUrl && idDaUrl.trim() !== '' && !idDaUrl.includes('#')) {
-      const idLimpo = idDaUrl.trim().toLowerCase();
-      localStorage.setItem('radar_user_id', idLimpo);
-      return idLimpo;
-    }
-
-    let idLocal = localStorage.getItem('radar_user_id');
-    if (!idLocal) {
-      idLocal = 'USR-' + Math.floor(100000 + Math.random() * 900000);
-      localStorage.setItem('radar_user_id', idLocal);
-    }
-    return idLocal;
+    return usuarioEmail;
   }
 
   function goHome(ev) {
@@ -568,34 +723,25 @@
     return diasUteis || 1;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    carregarTemaSalvo();
-    const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-venda').value = hoje;
-    document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
-    carregarVendasNuvem();
-    render();
-  });
-
   function sincronizarNuvem() {
-    localStorage.setItem('vendas_radar', JSON.stringify(vendas));
-    if (API_NUVEM_URL) {
+    localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
+    if (API_NUVEM_URL && usuarioEmail) {
       fetch(API_NUVEM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ vendas: vendas, usuario_id: getUsuarioId() })
+        body: JSON.stringify({ vendas: vendas, usuario_id: usuarioEmail })
       }).catch(err => console.log('Erro de sincronização:', err));
     }
   }
 
   function carregarVendasNuvem() {
-    if (API_NUVEM_URL) {
-      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(getUsuarioId()))
+    if (API_NUVEM_URL && usuarioEmail) {
+      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail))
         .then(res => res.json())
         .then(data => {
           if (data && data.vendas) {
             vendas = data.vendas;
-            localStorage.setItem('vendas_radar', JSON.stringify(vendas));
+            localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
             render();
           }
         })
@@ -703,6 +849,8 @@
     const lista = document.getElementById('lista-vendas');
     const listaPendentes = document.getElementById('lista-pendentes');
     const termoBusca = (document.getElementById('busca-venda') ? document.getElementById('busca-venda').value : '').toLowerCase().trim();
+
+    if (!lista || !listaPendentes) return;
 
     lista.innerHTML = '';
     listaPendentes.innerHTML = '';
@@ -830,8 +978,6 @@
 
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
-
-  render();
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
