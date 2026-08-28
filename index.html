@@ -109,7 +109,6 @@
       flex-direction: row;
     }
 
-    /* TOP BAR FIXA NO MOBILE / SIDEBAR NO DESKTOP */
     .sidebar { 
       width: 270px; 
       background-color: var(--card-bg); 
@@ -346,7 +345,6 @@
         max-height: 48px; 
       }
 
-      /* ROLAGEM HORIZONTAL SUAVE (CARROSSEL DE ABAS) */
       .nav-btn-group {
         flex-direction: row;
         overflow-x: auto;
@@ -416,7 +414,6 @@
 <div class="app-container" id="app-main-content">
   <div class="sidebar">
     <div class="sidebar-top">
-      <!-- LOGO ESTÁTICA COM CLIQUE PARA RETORNAR À HOME -->
       <div class="brand-container">
         <button class="brand-logo-btn" onclick="goHome(event)" title="Voltar ao Radar de Vendas">
           <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
@@ -424,7 +421,6 @@
         <div class="user-info-bar" id="display-user-email"></div>
       </div>
 
-      <!-- CARROSSEL DE ABAS COM SCROLL HORIZONTAL NO MOBILE -->
       <div class="nav-btn-group" id="nav-container">
         <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar de Vendas</button>
         <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
@@ -443,7 +439,6 @@
 
   <div class="main-content">
     <div class="content-body">
-      <!-- ABA 1: RADAR DE VENDAS -->
       <div id="tab-radar" class="tab-content active">
         <div class="header-radar-actions">
           <div>
@@ -516,7 +511,6 @@
         </div>
       </div>
 
-      <!-- ABA HISTÓRICO DE MESES -->
       <div id="tab-historico" class="tab-content">
         <h1>Histórico de Meses Anteriores</h1>
         <p class="subtitle">Consulte o relatório consolidado dos meses que você já fechou.</p>
@@ -538,7 +532,6 @@
         </div>
       </div>
 
-      <!-- ABA METAS -->
       <div id="tab-metas" class="tab-content">
         <h1>Mapeador de Metas & Taxa de Conversão</h1>
         <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
@@ -567,7 +560,6 @@
         </div>
       </div>
 
-      <!-- ABA SIMULADOR DESCONTO -->
       <div id="tab-calculadora" class="tab-content">
         <h1>Calculadora & Simulador de Desconto</h1>
         <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
@@ -606,7 +598,6 @@
         </div>
       </div>
 
-      <!-- ABA PENDENTES -->
       <div id="tab-checklist" class="tab-content">
         <h1>Comissões Pendentes</h1>
         <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento. Não deixe dinheiro na mesa!</p>
@@ -626,7 +617,6 @@
         </div>
       </div>
 
-      <!-- ABA DICAS -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Clique no módulo desejado para desbloquear as estratégias práticas da dica.</p>
@@ -679,7 +669,6 @@
   let deferredPrompt = null;
   let usuarioEmail = "";
 
-  // CAPTURA O EVENTO DE INSTALAÇÃO DO PWA LOGO NO INÍCIO
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -732,7 +721,7 @@
   }
 
   function validarEmailNuvem(email, ehAutoLogin) {
-    fetch(API_NUVEM_URL + "?action=validar_aluno&email=" + encodeURIComponent(email))
+    fetch(API_NUVEM_URL + "?action=validar_aluno&email=" + encodeURIComponent(email), { redirect: 'follow' })
       .then(res => res.json())
       .then(data => {
         if (data && data.autorizado === true) {
@@ -853,14 +842,15 @@
       fetch(API_NUVEM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ vendas: vendas, usuario_id: usuarioEmail })
+        body: JSON.stringify({ vendas: vendas, usuario_id: usuarioEmail }),
+        redirect: 'follow'
       }).catch(err => console.log('Erro de sincronização:', err));
     }
   }
 
   function carregarVendasNuvem() {
     if (API_NUVEM_URL && usuarioEmail) {
-      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail))
+      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
         .then(res => res.json())
         .then(data => {
           if (data && data.vendas) {
@@ -875,7 +865,7 @@
 
   function carregarHistoricoNuvem() {
     if (API_NUVEM_URL && usuarioEmail) {
-      fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail))
+      fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
         .then(res => res.json())
         .then(data => {
           if (data && data.historico) {
@@ -916,7 +906,8 @@
       fetch(API_NUVEM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ fechar_mes: registroFechamento, usuario_id: usuarioEmail })
+        body: JSON.stringify({ fechar_mes: registroFechamento, usuario_id: usuarioEmail }),
+        redirect: 'follow'
       }).then(() => carregarHistoricoNuvem());
 
       vendas = [];
@@ -1232,13 +1223,14 @@
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
 
-  // REGISTRO DO SERVICE WORKER
+  // REGISTRO E FORÇAMENTO DE ATUALIZAÇÃO DO SERVICE WORKER
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then(reg => {
-        console.log('Service Worker Registrado!', reg);
+        reg.update();
+        console.log('Service Worker Registrado e Atualizado!');
       }).catch(err => {
-        console.log('Falha ao registrar Service Worker:', err);
+        console.log('Falha no SW:', err);
       });
     });
   }
