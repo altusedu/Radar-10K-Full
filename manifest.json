@@ -1,22 +1,24 @@
 {
-  "name": "Radar 10K+ Full",
   "short_name": "Radar 10K+",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "name": "Radar 10K+ Full — Altus Edu",
   "icons": [
     {
       "src": "logo.png",
-      "sizes": "192x192",
       "type": "image/png",
+      "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
       "src": "logo.png",
-      "sizes": "512x512",
       "type": "image/png",
+      "sizes": "512x512",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./"
 }
