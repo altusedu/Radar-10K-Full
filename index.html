@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Radar 10K+ Full — Altus Edu</title>
   
-  <!-- TAGS DE ÍCONE DO APP / PWA PARA O CELULAR -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
@@ -15,7 +14,7 @@
     :root {
       --bg-dark: #0f172a;
       --card-bg: #1e293b;
-      --accent-green: #22c55e;
+      --accent-orange: #f97316;
       --accent-blue: #3b82f6;
       --accent-yellow: #eab308;
       --accent-red: #ef4444;
@@ -27,7 +26,7 @@
     body.light-theme {
       --bg-dark: #f1f5f9;
       --card-bg: #ffffff;
-      --accent-green: #16a34a;
+      --accent-orange: #ea580c;
       --accent-blue: #2563eb;
       --accent-yellow: #ca8a04;
       --accent-red: #dc2626;
@@ -88,55 +87,19 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    .auth-card h2 {
-      color: var(--accent-green);
-      font-size: 1.5rem;
-      margin-bottom: 8px;
+    .auth-logo {
+      max-height: 60px;
+      margin-bottom: 15px;
     }
 
-    .auth-card p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 25px;
-      line-height: 1.4;
-    }
+    .auth-card h2 { color: var(--accent-orange); font-size: 1.5rem; margin-bottom: 8px; }
+    .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4; }
+    .auth-input-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .auth-input-group input { text-align: center; font-size: 1rem; }
 
-    .auth-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .auth-input-group input {
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .btn-auth {
-      background-color: var(--accent-green);
-      color: #fff;
-      font-weight: 700;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      width: 100%;
-      transition: background 0.2s;
-    }
-
-    .btn-auth:hover { opacity: 0.9; }
-
-    #auth-msg {
-      margin-top: 15px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: none;
-    }
-
+    .btn-auth { background-color: var(--accent-orange); color: #fff; font-weight: 700; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 1rem; width: 100%; }
+    #auth-msg { margin-top: 15px; font-size: 0.85rem; font-weight: 600; display: none; }
     .msg-error { color: var(--accent-red); }
-    .msg-success { color: var(--accent-green); }
 
     .app-container {
       display: none;
@@ -154,8 +117,11 @@
       flex-direction: column; 
       gap: 10px; 
       flex-shrink: 0; 
+      justify-content: space-between;
       transition: background-color 0.3s; 
     }
+
+    .sidebar-top { display: flex; flex-direction: column; gap: 10px; }
 
     .brand-container {
       display: flex;
@@ -165,73 +131,90 @@
       cursor: pointer;
     }
 
-    .brand-logo {
-      max-height: 38px;
-      width: auto;
-      object-fit: contain;
-    }
+    .brand-logo { max-height: 42px; width: auto; object-fit: contain; }
+    .brand-title { font-size: 1.1rem; font-weight: 800; color: var(--accent-orange); letter-spacing: -0.5px; user-select: none; }
 
-    .brand-title { 
-      font-size: 1.1rem; 
-      font-weight: 800;
-      color: var(--accent-green); 
-      letter-spacing: -0.5px;
-      user-select: none; 
-    }
-
-    /* LINHA DE 2 BOTÕES EQUILIBRADOS */
-    .action-row-btns {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 15px;
-      width: 100%;
-    }
+    .action-row-btns { display: flex; gap: 8px; margin-bottom: 15px; width: 100%; }
 
     .row-btn {
-      background: rgba(59, 130, 246, 0.1);
+      background: rgba(249, 115, 22, 0.1);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 9px 6px;
+      padding: 9px 12px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      width: 100%;
       white-space: nowrap;
       transition: all 0.2s;
     }
 
-    .row-btn:hover { background: rgba(59, 130, 246, 0.2); }
-    .row-btn.btn-shortcut { border-color: rgba(234, 179, 8, 0.4); color: var(--accent-yellow); background: rgba(234, 179, 8, 0.1); }
-    .row-btn.btn-shortcut:hover { background: rgba(234, 179, 8, 0.2); }
-
     .nav-btn { background: none; border: none; color: var(--text-muted); padding: 12px 16px; text-align: left; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; white-space: nowrap; }
-    .nav-btn:hover, .nav-btn.active { background-color: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+    .nav-btn:hover, .nav-btn.active { background-color: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
 
-    .main-content { 
-      flex: 1; 
-      padding: 30px; 
-      overflow-y: auto; 
-      width: 100%; 
+    .sidebar-bottom {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 10px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-color);
     }
 
+    .btn-install-footer {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      color: var(--accent-yellow);
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .main-content { flex: 1; padding: 30px; overflow-y: auto; width: 100%; display: flex; flex-direction: column; justify-content: space-between; }
     .content-body { flex: 1; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     .subtitle { color: var(--text-muted); margin-bottom: 25px; }
 
+    .header-radar-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-fechar-mes {
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid var(--accent-orange);
+      color: var(--accent-orange);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
     .card { background-color: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); transition: background-color 0.3s; }
     .card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 6px; }
     .card .val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
-    .card .val.green { color: var(--accent-green); }
+    .card .val.orange { color: var(--accent-orange); }
     .card .val.red { color: var(--accent-red); }
     .card .val.yellow { color: var(--accent-yellow); }
 
@@ -240,14 +223,26 @@
     .input-field { display: flex; flex-direction: column; gap: 6px; }
     .input-field label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
 
-    input, select { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); font-size: 1rem; width: 100%; min-height: 48px; transition: background-color 0.3s, color 0.3s; }
-    button.btn-primary { background-color: var(--accent-green); color: #fff; font-weight: 700; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; height: 48px; align-self: flex-end; width: 100%; }
+    input, select { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); font-size: 1rem; width: 100%; min-height: 48px; }
+    button.btn-primary { background-color: var(--accent-orange); color: #fff; font-weight: 700; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; height: 48px; align-self: flex-end; width: 100%; }
     
-    .search-container { margin-bottom: 15px; }
-    .search-input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-main); font-size: 0.95rem; }
+    .table-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .search-input { flex: 1; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-main); font-size: 0.95rem; min-width: 250px; }
+    
+    .btn-delete-mass {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: none;
+    }
 
     .table-responsive { width: 100%; overflow-x: auto; background-color: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
-    table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
     th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
     th { background-color: rgba(0,0,0,0.04); color: var(--text-muted); font-size: 0.85rem; }
 
@@ -255,49 +250,29 @@
     .icon-btn { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; }
     .btn-edit { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
     .btn-delete { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
-    .btn-pay { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+    .btn-pay { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
 
     .badge { padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
-    .badge-pago { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+    .badge-pago { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
     .badge-pendente { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
 
     .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
     .sub-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 200px; text-align: center; }
-    .sub-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+    .sub-btn.active { background: var(--accent-orange); color: #fff; border-color: var(--accent-orange); }
 
-    .tip-card { background: var(--card-bg); border-left: 4px solid var(--accent-blue); padding: 18px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+    .tip-card { background: var(--card-bg); border-left: 4px solid var(--accent-orange); padding: 18px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
     .tip-card h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--text-main); }
     .tip-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
-    .user-info-bar {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 5px;
-      word-break: break-all;
-    }
-
-    .app-footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border-color);
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-
-    .app-footer strong { color: var(--text-main); }
+    .user-info-bar { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; word-break: break-all; }
+    .app-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
     @media (max-width: 768px) {
       .app-container { flex-direction: column; }
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px; overflow-x: auto; flex-direction: row; align-items: center; justify-content: flex-start; }
-      .brand-container { margin-bottom: 0; padding-right: 12px; border-right: 1px solid var(--border-color); }
-      .action-row-btns { margin-bottom: 0; width: auto; min-width: 180px; }
-      .row-btn { padding: 6px 8px; font-size: 0.72rem; }
-      .nav-btn { padding: 8px 12px; font-size: 0.85rem; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px; flex-direction: row; align-items: center; overflow-x: auto; }
+      .sidebar-bottom { border-top: none; padding-top: 0; flex-direction: row; }
       .main-content { padding: 15px; }
       .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .card { padding: 12px; }
-      .card .val { font-size: 1.25rem; }
       .form-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -306,6 +281,7 @@
 
 <div id="auth-screen">
   <div class="auth-card">
+    <img src="logo.png" alt="Logo Radar 10K+" class="auth-logo" onerror="this.style.display='none'">
     <h2>📡 RADAR 10K+ FULL</h2>
     <p>Digite o e-mail cadastrado na sua compra para acessar a aplicação.</p>
     <div class="auth-input-group">
@@ -318,35 +294,46 @@
 
 <div class="app-container" id="app-main-content">
   <div class="sidebar">
-    <div class="brand-container" onclick="goHome(event)">
-      <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
-      <div>
-        <span class="brand-title">RADAR 10K+ FULL</span>
-        <div class="user-info-bar" id="display-user-email"></div>
+    <div class="sidebar-top">
+      <div class="brand-container" onclick="goHome(event)">
+        <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
+        <div>
+          <span class="brand-title">RADAR 10K+ FULL</span>
+          <div class="user-info-bar" id="display-user-email"></div>
+        </div>
       </div>
+
+      <div class="action-row-btns">
+        <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Tema Claro</button>
+      </div>
+
+      <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar de Vendas</button>
+      <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
+      <button class="nav-btn" onclick="switchTab('calculadora', event)">🔒 Simulador Desconto</button>
+      <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
+      <button class="nav-btn" onclick="switchTab('historico', event)">🏛️ Meses Anteriores</button>
+      <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
     </div>
 
-    <!-- DUAS OPÇÕES LADO A LADO -->
-    <div class="action-row-btns">
-      <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Claro</button>
-      <button class="row-btn btn-shortcut" onclick="instalarAppPWA()" id="btn-install-pwa" title="Instalar Aplicativo na Tela">📲 Instalar App</button>
+    <div class="sidebar-bottom">
+      <button class="btn-install-footer" onclick="instalarAppPWA()" id="btn-install-pwa">📲 Instalar Aplicativo</button>
     </div>
-
-    <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar</button>
-    <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
-    <button class="nav-btn" onclick="switchTab('calculadora', event)">🔒 Simulador Desconto</button>
-    <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
-    <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
   </div>
 
   <div class="main-content">
     <div class="content-body">
+      <!-- ABA 1: RADAR DE VENDAS -->
       <div id="tab-radar" class="tab-content active">
-        <h1>Radar de Vendas & Comissões</h1>
-        <p class="subtitle">Lance aqui as suas vendas para rastrear seu salário em tempo real!</p>
+        <div class="header-radar-actions">
+          <div>
+            <h1>Radar de Vendas & Comissões</h1>
+            <p class="subtitle" style="margin-bottom:0;">Lance aqui as suas vendas para rastrear seu salário em tempo real!</p>
+          </div>
+          <button class="btn-fechar-mes" onclick="fecharMesAtual()">🔒 Fechar Mês Atual</button>
+        </div>
 
         <div class="grid-cards">
-          <div class="card"><h4>Acumulado do Mês</h4><div class="val green" id="total-comissao">R$ 0,00</div></div>
+          <div class="card"><h4>Acumulado do Mês</h4><div class="val orange" id="total-comissao">R$ 0,00</div></div>
           <div class="card"><h4>Vendas Realizadas</h4><div class="val" id="total-vendas">0</div></div>
           <div class="card"><h4>Ticket Médio</h4><div class="val" id="ticket-medio">R$ 0,00</div></div>
           <div class="card"><h4>Taxa de Conversão Realizada</h4><div class="val yellow" id="radar-taxa-conversao">0,0%</div></div>
@@ -384,14 +371,16 @@
           </form>
         </div>
 
-        <div class="search-container">
-          <input type="text" id="busca-venda" class="search-input" placeholder="🔍 Buscar por cliente, valor, comissão ou status..." oninput="render()">
+        <div class="table-tools">
+          <input type="text" id="busca-venda" class="search-input" placeholder="🔍 Buscar cliente, valor ou status..." oninput="render()">
+          <button class="btn-delete-mass" id="btn-delete-mass" onclick="excluirSelecionados()">🗑️ Excluir Selecionadas (<span id="count-mass">0</span>)</button>
         </div>
 
         <div class="table-responsive">
           <table>
             <thead>
               <tr>
+                <th style="width: 40px; text-align: center;"><input type="checkbox" id="check-all" onchange="toggleSelectAll(this)"></th>
                 <th>Data</th>
                 <th>Cliente</th>
                 <th>Valor da Venda</th>
@@ -406,6 +395,29 @@
         </div>
       </div>
 
+      <!-- ABA HISTÓRICO DE MESES -->
+      <div id="tab-historico" class="tab-content">
+        <h1>Histórico de Meses Anteriores</h1>
+        <p class="subtitle">Consulte o relatório consolidado dos meses que você já fechou.</p>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Mês / Referência</th>
+                <th>Comissão no Bolso</th>
+                <th>Total de Vendas</th>
+                <th>Ticket Médio</th>
+                <th>Taxa de Conversão</th>
+                <th>Data do Fechamento</th>
+              </tr>
+            </thead>
+            <tbody id="lista-historico"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ABA METAS -->
       <div id="tab-metas" class="tab-content">
         <h1>Mapeador de Metas & Taxa de Conversão</h1>
         <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
@@ -426,14 +438,15 @@
           </div>
         </div>
         <div class="grid-cards">
-          <div class="card"><h4>Acumulado (Realizado)</h4><div class="val green" id="meta-realizada">R$ 0,00</div></div>
+          <div class="card"><h4>Acumulado (Realizado)</h4><div class="val orange" id="meta-realizada">R$ 0,00</div></div>
           <div class="card"><h4>Falta para a Meta</h4><div class="val red" id="falta-meta">R$ 0,00</div></div>
-          <div class="card"><h4>Meta Diária de Comissão</h4><div class="val green" id="meta-diaria">R$ 0,00</div></div>
+          <div class="card"><h4>Meta Diária de Comissão</h4><div class="val orange" id="meta-diaria">R$ 0,00</div></div>
           <div class="card"><h4>Taxa de Conversão Realizada</h4><div class="val yellow" id="taxa-conversao">0,0%</div></div>
           <div class="card" style="grid-column: span 2;"><h4>Atendimentos Diários Necessários</h4><div class="val" id="leads-diarios">0 leads/dia</div></div>
         </div>
       </div>
 
+      <!-- ABA SIMULADOR DESCONTO -->
       <div id="tab-calculadora" class="tab-content">
         <h1>Calculadora & Simulador de Desconto</h1>
         <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
@@ -462,7 +475,7 @@
           <div class="card">
             <h4>Cenário Simulado (Com Desconto)</h4>
             <p style="color: var(--text-muted); font-size: 0.8rem;">Venda: <span id="venda-simulada">R$ 0,00</span></p>
-            <div class="val green" id="comissao-simulada">R$ 0,00</div>
+            <div class="val orange" id="comissao-simulada">R$ 0,00</div>
           </div>
           <div class="card" style="grid-column: span 2; border-color: var(--accent-red);">
             <h4>Sua Perda por esse Desconto</h4>
@@ -472,6 +485,7 @@
         </div>
       </div>
 
+      <!-- ABA PENDENTES -->
       <div id="tab-checklist" class="tab-content">
         <h1>Comissões Pendentes</h1>
         <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento. Não deixe dinheiro na mesa!</p>
@@ -491,16 +505,17 @@
         </div>
       </div>
 
+      <!-- ABA DICAS -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Clique no módulo desejado para desbloquear as estratégias práticas da dica.</p>
 
         <div class="sub-nav">
-          <button class="sub-btn" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Aumentar Ticket Médio (10 Dicas)</button>
+          <button class="sub-btn active" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Aumentar Ticket Médio (10 Dicas)</button>
           <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Aumentar Taxa de Conversão (10 Dicas)</button>
         </div>
 
-        <div id="sub-dicas-ticket" class="sub-dica-content" style="display: none;">
+        <div id="sub-dicas-ticket" class="sub-dica-content">
           <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Quando o cliente decidir a compra básica, ofereça a versão superior destacando apenas a pequena diferença de preço.</p></div>
           <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM', antes de mandar a chave PIX.</p></div>
           <div class="tip-card"><h3>Dica 3: Ancoragem com 3 Pacotes</h3><p>Apresente as opções Básico, Alvo e Premium. O cliente tenderá instintivamente a escolher a opção do meio.</p></div>
@@ -536,8 +551,10 @@
 </div>
 
 <script>
-  const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbw8434aQAZ1VDqiswuYu90ubaRNDWWJhMYhpONeOQX-07te87ZCXlA5mDElExpy-R2PYA/exec"; 
+  const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec"; 
   let vendas = [];
+  let historicoMeses = [];
+  let selecionadosMass = new Set();
   let deferredPrompt = null;
   let usuarioEmail = "";
 
@@ -549,15 +566,24 @@
 
     if (emailUrl && emailUrl.trim() !== '' && !emailUrl.includes('#')) {
       usuarioEmail = emailUrl.trim().toLowerCase();
-      localStorage.setItem('radar_user_email', usuarioEmail);
     } else {
       usuarioEmail = localStorage.getItem('radar_user_email') || "";
     }
 
-    if (usuarioEmail) {
+    if (usuarioEmail && usuarioEmail.includes('@')) {
       validarEmailNuvem(usuarioEmail, true);
+    } else {
+      bloquearAcesso();
     }
   });
+
+  function bloquearAcesso() {
+    localStorage.removeItem('radar_user_email');
+    usuarioEmail = "";
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('app-main-content').style.display = 'none';
+    resetaBotaoLogin();
+  }
 
   function validarEEntrar() {
     const input = document.getElementById('input-login-email');
@@ -588,25 +614,17 @@
 
           inicializarApp();
         } else {
-          localStorage.removeItem('radar_user_email');
-          document.getElementById('auth-screen').style.display = 'flex';
-          document.getElementById('app-main-content').style.display = 'none';
-          
+          bloquearAcesso();
           if (!ehAutoLogin) {
             exibirMensagemAuth("E-mail não autorizado ou assinatura inativa.", "msg-error");
           }
-          resetaBotaoLogin();
         }
       })
       .catch(err => {
         console.log('Erro de validação:', err);
-        if (ehAutoLogin && usuarioEmail) {
-          document.getElementById('auth-screen').style.display = 'none';
-          document.getElementById('app-main-content').style.display = 'flex';
-          inicializarApp();
-        } else {
+        bloquearAcesso();
+        if (!ehAutoLogin) {
           exibirMensagemAuth("Erro ao conectar à API. Tente novamente.", "msg-error");
-          resetaBotaoLogin();
         }
       });
   }
@@ -632,7 +650,10 @@
     document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
     
     vendas = JSON.parse(localStorage.getItem('vendas_radar_' + usuarioEmail)) || [];
+    historicoMeses = JSON.parse(localStorage.getItem('historico_radar_' + usuarioEmail)) || [];
+    
     carregarVendasNuvem();
+    carregarHistoricoNuvem();
     render();
   }
 
@@ -655,10 +676,6 @@
     }
   }
 
-  function getUsuarioId() {
-    return usuarioEmail;
-  }
-
   function goHome(ev) {
     const btnRadar = document.getElementById('nav-btn-radar');
     switchTab('radar', { currentTarget: btnRadar });
@@ -668,14 +685,14 @@
     document.body.classList.toggle('light-theme');
     const isLight = document.body.classList.contains('light-theme');
     localStorage.setItem('radar_theme', isLight ? 'light' : 'dark');
-    document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Escuro' : '☀️ Claro';
+    document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Tema Escuro' : '☀️ Tema Claro';
   }
 
   function carregarTemaSalvo() {
     const temaSalvo = localStorage.getItem('radar_theme');
     if (temaSalvo === 'light') {
       document.body.classList.add('light-theme');
-      document.getElementById('btn-theme-text').innerText = '🌙 Escuro';
+      document.getElementById('btn-theme-text').innerText = '🌙 Tema Escuro';
     }
   }
 
@@ -697,6 +714,7 @@
   }
 
   function sincronizarNuvem() {
+    if (!usuarioEmail) return;
     localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
     if (API_NUVEM_URL && usuarioEmail) {
       fetch(API_NUVEM_URL, {
@@ -722,9 +740,106 @@
     }
   }
 
+  function carregarHistoricoNuvem() {
+    if (API_NUVEM_URL && usuarioEmail) {
+      fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail))
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.historico) {
+            historicoMeses = data.historico;
+            localStorage.setItem('historico_radar_' + usuarioEmail, JSON.stringify(historicoMeses));
+            renderHistorico();
+          }
+        })
+        .catch(err => console.log('Usando histórico local.'));
+    }
+  }
+
+  function fecharMesAtual() {
+    if (vendas.length === 0) {
+      alert('Não há vendas registradas no Radar para fechar o mês!');
+      return;
+    }
+
+    const mesReferencia = prompt('Digite o Mês/Ano de referência deste fechamento (ex: Agosto/2026):');
+    if (!mesReferencia || mesReferencia.trim() === '') return;
+
+    const vendasPagas = vendas.filter(v => v.status === 'Pago');
+    let totalComissao = vendasPagas.reduce((acc, v) => acc + v.comissao, 0);
+    let totalVendasVal = vendasPagas.reduce((acc, v) => acc + v.valor, 0);
+    let qtdVendas = vendasPagas.length;
+    let ticketMedio = qtdVendas ? (totalVendasVal / qtdVendas) : 0;
+    let taxaConversao = document.getElementById('radar-taxa-conversao').innerText;
+
+    const registroFechamento = {
+      refMes: mesReferencia.trim(),
+      totalComissao: totalComissao,
+      totalVendas: qtdVendas,
+      ticketMedio: ticketMedio,
+      taxaConversao: taxaConversao
+    };
+
+    if (confirm('Confirma o fechamento do mês ' + mesReferencia + '? As vendas ativas do Radar serão limpas e salvas no histórico.')) {
+      fetch(API_NUVEM_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ fechar_mes: registroFechamento, usuario_id: usuarioEmail })
+      }).then(() => carregarHistoricoNuvem());
+
+      vendas = [];
+      sincronizarNuvem();
+      render();
+      alert('Mês ' + mesReferencia + ' fechado com sucesso e arquivado em Meses Anteriores!');
+    }
+  }
+
+  function toggleSelectAll(master) {
+    selecionadosMass.clear();
+    const checks = document.querySelectorAll('.check-venda');
+    checks.forEach(chk => {
+      chk.checked = master.checked;
+      if (master.checked) selecionadosMass.add(Number(chk.value));
+    });
+    atualizarBotaoExclusaoMassa();
+  }
+
+  function toggleSelectVenda(id, chk) {
+    if (chk.checked) {
+      selecionadosMass.add(id);
+    } else {
+      selecionadosMass.delete(id);
+      document.getElementById('check-all').checked = false;
+    }
+    atualizarBotaoExclusaoMassa();
+  }
+
+  function atualizarBotaoExclusaoMassa() {
+    const btn = document.getElementById('btn-delete-mass');
+    const countSpan = document.getElementById('count-mass');
+    if (selecionadosMass.size > 0) {
+      btn.style.display = 'inline-block';
+      countSpan.innerText = selecionadosMass.size;
+    } else {
+      btn.style.display = 'none';
+      countSpan.innerText = '0';
+    }
+  }
+
+  function excluirSelecionados() {
+    if (selecionadosMass.size === 0) return;
+    if (confirm('Tem certeza que deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas?')) {
+      vendas = vendas.filter(v => !selecionadosMass.has(v.id));
+      selecionadosMass.clear();
+      document.getElementById('check-all').checked = false;
+      atualizarBotaoExclusaoMassa();
+      sincronizarNuvem();
+      render();
+    }
+  }
+
   function formatarDataBR(dataIso) {
     if (!dataIso) return '-';
-    const partes = dataIso.split('-');
+    const partes = (dataIso + "").split('T')[0].split('-');
     return partes[2] + '/' + partes[1] + '/' + partes[0];
   }
 
@@ -751,6 +866,7 @@
     document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + tabId).classList.add('active');
     if (ev) ev.currentTarget.classList.add('active');
+    if (tabId === 'historico') renderHistorico();
   }
 
   function switchDicaSub(type, ev) {
@@ -807,6 +923,8 @@
   function excluirVenda(id) {
     if (confirm('Tem certeza que deseja excluir esta venda do Radar?')) {
       vendas = vendas.filter(v => v.id !== id);
+      selecionadosMass.delete(id);
+      atualizarBotaoExclusaoMassa();
       sincronizarNuvem();
       render();
     }
@@ -843,12 +961,14 @@
       const textoBuscaAlvo = (formatarDataBR(v.dataVenda) + ' ' + v.cliente + ' ' + v.valor + ' ' + v.porcentagem + '% ' + v.comissao + ' ' + v.status).toLowerCase();
 
       if (!termoBusca || textoBuscaAlvo.includes(termoBusca)) {
+        const isChecked = selecionadosMass.has(v.id) ? 'checked' : '';
         const tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
+        tr.innerHTML = '<td style="text-align: center;"><input type="checkbox" class="check-venda" value="' + v.id + '" ' + isChecked + ' onchange="toggleSelectVenda(' + v.id + ', this)"></td>' +
+          '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
           '<td><b>' + v.cliente + '</b></td>' +
           '<td>' + formatarMoeda(v.valor) + '</td>' +
           '<td>' + v.porcentagem + '%</td>' +
-          '<td style="color: var(--accent-green); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
+          '<td style="color: var(--accent-orange); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
           '<td><span class="badge ' + (v.status === 'Pago' ? 'badge-pago' : 'badge-pendente') + '">' + v.status + '</span></td>' +
           '<td><div class="action-btn-group">' +
           (v.status === 'Pendente' ? '<button class="icon-btn btn-pay" title="Confirmar Pagamento" onclick="darBaixa(' + v.id + ')">✓</button>' : '') +
@@ -882,6 +1002,28 @@
 
     calcularMeta();
     calcularDesconto();
+  }
+
+  function renderHistorico() {
+    const listaH = document.getElementById('lista-historico');
+    if (!listaH) return;
+    listaH.innerHTML = '';
+
+    if (historicoMeses.length === 0) {
+      listaH.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum mês fechado anteriormente.</td></tr>';
+      return;
+    }
+
+    historicoMeses.forEach(h => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td><b>' + h.refMes + '</b></td>' +
+        '<td style="color: var(--accent-orange); font-weight: bold;">' + formatarMoeda(h.totalComissao) + '</td>' +
+        '<td>' + h.totalVendas + ' vendas</td>' +
+        '<td>' + formatarMoeda(h.ticketMedio) + '</td>' +
+        '<td style="color: var(--accent-yellow); font-weight: bold;">' + h.taxaConversao + '</td>' +
+        '<td>' + (h.dataFechamento ? formatarDataBR(h.dataFechamento) : '-') + '</td>';
+      listaH.appendChild(tr);
+    });
   }
 
   function calcularMeta() {
