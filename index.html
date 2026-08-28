@@ -110,13 +110,13 @@
     }
 
     .sidebar { 
-      width: 270px; 
+      width: 280px; 
       background-color: var(--card-bg); 
       border-right: 1px solid var(--border-color); 
       padding: 24px 20px; 
       display: flex; 
       flex-direction: column; 
-      gap: 10px; 
+      gap: 16px; 
       flex-shrink: 0; 
       justify-content: space-between;
       transition: background-color 0.3s; 
@@ -129,7 +129,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       cursor: pointer;
     }
 
@@ -180,6 +180,51 @@
     .nav-btn:hover, .nav-btn.active { 
       background-color: rgba(249, 115, 22, 0.15); 
       color: var(--accent-orange); 
+    }
+
+    /* BANNER CTA TREINAMENTO MASTER */
+    .banner-cta-course {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(59, 130, 246, 0.12));
+      border: 1px solid var(--accent-orange);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .banner-cta-course h4 {
+      margin: 0 0 6px 0;
+      color: var(--accent-orange);
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-cta-course p {
+      font-size: 0.78rem;
+      color: var(--text-main);
+      margin: 0 0 12px 0;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .btn-course-upgrade {
+      display: block;
+      background: var(--accent-orange);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 12px 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn-course-upgrade:hover {
+      transform: translateY(-2px);
+      background-color: #ea580c;
     }
 
     .sidebar-bottom {
@@ -318,7 +363,7 @@
 
     .app-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
-    /* --- ADAPTAÇÃO MOBILE / ROLAGEM HORIZONTAL DAS ABAS --- */
+    /* --- ADAPTAÇÃO MOBILE --- */
     @media (max-width: 768px) {
       .app-container { 
         flex-direction: column; 
@@ -428,6 +473,13 @@
         <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
         <button class="nav-btn" onclick="switchTab('historico', event)">🏛️ Meses Anteriores</button>
         <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
+      </div>
+
+      <!-- CTA CURSO MASTER: VENDAS MOVEM NEGÓCIOS -->
+      <div class="banner-cta-course">
+        <h4>🔥 QUER MULTIPLICAR SEUS RESULTADOS?</h4>
+        <p>Aprenda a dominar o processo comercial, fechar contratos de alto valor e acelerar sua receita com o método <strong>Vendas Movem Negócios</strong>.</p>
+        <a href="https://sun.eduzz.com/7WXGQ4Y20A" class="btn-course-upgrade">🔥 QUERO DOMINAR VENDAS</a>
       </div>
     </div>
 
@@ -635,7 +687,7 @@
           <div class="tip-card"><h3>Dica 6: O Bônus Condicionado ao Ticket Alto</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor de pedido.</p></div>
           <div class="tip-card"><h3>Dica 7: Edição Limitada / Item Exclusivo</h3><p>Ofereça um item complementar com estoque limitado para gerar desejo imediato.</p></div>
           <div class="tip-card"><h3>Dica 8: Eliminação do Frete/Taxa por Valor</h3><p>Mostre que adicionando mais R$ 50 num produto extra, ele economiza na taxa de envio/serviço.</p></div>
-          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste item, você já tem o [item complementar] para usar junto?".</p></div>
+          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além destes itens, você já tem o [item complementar] para usar junto?".</p></div>
           <div class="tip-card"><h3>Dica 10: Renovação Antecipada com Desconto</h3><p>Para serviços/planos, ofereça desconto para contratação de maior período à vista.</p></div>
         </div>
 
@@ -1223,7 +1275,7 @@
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
 
-  // REGISTRO E FORÇAMENTO DE ATUALIZAÇÃO DO SERVICE WORKER
+  // REGISTRO DO SERVICE WORKER
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then(reg => {
