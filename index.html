@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Radar 10K+ Full — Altus Edu</title>
   
   <link rel="manifest" href="manifest.json">
@@ -88,8 +88,9 @@
     }
 
     .auth-logo {
-      max-height: 60px;
+      max-height: 80px;
       margin-bottom: 15px;
+      object-fit: contain;
     }
 
     .auth-card h2 { color: var(--accent-orange); font-size: 1.5rem; margin-bottom: 8px; }
@@ -108,6 +109,7 @@
       flex-direction: row;
     }
 
+    /* TOP BAR FIXA NO MOBILE / SIDEBAR NO DESKTOP */
     .sidebar { 
       width: 270px; 
       background-color: var(--card-bg); 
@@ -126,21 +128,74 @@
     .brand-container {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
       margin-bottom: 15px;
       cursor: pointer;
     }
 
-    .brand-logo { max-height: 42px; width: auto; object-fit: contain; }
-    .brand-title { font-size: 1.1rem; font-weight: 800; color: var(--accent-orange); letter-spacing: -0.5px; user-select: none; }
+    .brand-logo-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
 
-    .action-row-btns { display: flex; gap: 8px; margin-bottom: 15px; width: 100%; }
+    .brand-logo { 
+      max-height: 52px; 
+      width: auto; 
+      object-fit: contain; 
+    }
+
+    .user-info-bar { 
+      font-size: 0.75rem; 
+      color: var(--text-muted); 
+      text-align: right;
+      word-break: break-all; 
+    }
+
+    .nav-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-btn { 
+      background: none; 
+      border: none; 
+      color: var(--text-muted); 
+      padding: 12px 16px; 
+      text-align: left; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      transition: all 0.2s; 
+      white-space: nowrap; 
+    }
+    
+    .nav-btn:hover, .nav-btn.active { 
+      background-color: rgba(249, 115, 22, 0.15); 
+      color: var(--accent-orange); 
+    }
+
+    .sidebar-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-color);
+    }
 
     .row-btn {
       background: rgba(249, 115, 22, 0.1);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 9px 12px;
+      padding: 10px 12px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
@@ -154,20 +209,9 @@
       transition: all 0.2s;
     }
 
-    .nav-btn { background: none; border: none; color: var(--text-muted); padding: 12px 16px; text-align: left; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; white-space: nowrap; }
-    .nav-btn:hover, .nav-btn.active { background-color: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
-
-    .sidebar-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border-color);
-    }
-
     .btn-install-footer {
-      background: rgba(234, 179, 8, 0.1);
-      border: 1px solid rgba(234, 179, 8, 0.4);
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(234, 179, 8, 0.5);
       color: var(--accent-yellow);
       padding: 10px;
       border-radius: 8px;
@@ -181,7 +225,16 @@
       width: 100%;
     }
 
-    .main-content { flex: 1; padding: 30px; overflow-y: auto; width: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+    .main-content { 
+      flex: 1; 
+      padding: 30px; 
+      overflow-y: auto; 
+      width: 100%; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+    }
+    
     .content-body { flex: 1; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -264,16 +317,84 @@
     .tip-card h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--text-main); }
     .tip-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
-    .user-info-bar { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; word-break: break-all; }
     .app-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
+    /* --- ADAPTAÇÃO MOBILE / ROLAGEM HORIZONTAL DAS ABAS --- */
     @media (max-width: 768px) {
-      .app-container { flex-direction: column; }
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px; flex-direction: row; align-items: center; overflow-x: auto; }
-      .sidebar-bottom { border-top: none; padding-top: 0; flex-direction: row; }
-      .main-content { padding: 15px; }
-      .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .form-grid { grid-template-columns: 1fr; }
+      .app-container { 
+        flex-direction: column; 
+      }
+
+      .sidebar { 
+        width: 100%; 
+        border-right: none; 
+        border-bottom: 1px solid var(--border-color); 
+        padding: 12px 15px; 
+        flex-direction: column; 
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: var(--card-bg);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      }
+
+      .brand-container {
+        margin-bottom: 10px;
+      }
+
+      .brand-logo { 
+        max-height: 48px; 
+      }
+
+      /* ROLAGEM HORIZONTAL SUAVE (CARROSSEL DE ABAS) */
+      .nav-btn-group {
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 6px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .nav-btn-group::-webkit-scrollbar {
+        height: 3px;
+      }
+      .nav-btn-group::-webkit-scrollbar-thumb {
+        background: var(--accent-orange);
+        border-radius: 3px;
+      }
+
+      .nav-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      .sidebar-bottom {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .row-btn, .btn-install-footer {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+      }
+
+      .main-content { 
+        padding: 15px; 
+      }
+
+      .grid-cards { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+      }
+
+      .form-grid { 
+        grid-template-columns: 1fr; 
+      }
     }
   </style>
 </head>
@@ -295,28 +416,28 @@
 <div class="app-container" id="app-main-content">
   <div class="sidebar">
     <div class="sidebar-top">
-      <div class="brand-container" onclick="goHome(event)">
-        <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
-        <div>
-          <span class="brand-title">RADAR 10K+ FULL</span>
-          <div class="user-info-bar" id="display-user-email"></div>
-        </div>
+      <!-- LOGO ESTÁTICA COM CLIQUE PARA RETORNAR À HOME -->
+      <div class="brand-container">
+        <button class="brand-logo-btn" onclick="goHome(event)" title="Voltar ao Radar de Vendas">
+          <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
+        </button>
+        <div class="user-info-bar" id="display-user-email"></div>
       </div>
 
-      <div class="action-row-btns">
-        <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Tema Claro</button>
+      <!-- CARROSSEL DE ABAS COM SCROLL HORIZONTAL NO MOBILE -->
+      <div class="nav-btn-group" id="nav-container">
+        <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar de Vendas</button>
+        <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
+        <button class="nav-btn" onclick="switchTab('calculadora', event)">🔒 Simulador Desconto</button>
+        <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
+        <button class="nav-btn" onclick="switchTab('historico', event)">🏛️ Meses Anteriores</button>
+        <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
       </div>
-
-      <button class="nav-btn active" id="nav-btn-radar" onclick="switchTab('radar', event)">📡 Radar de Vendas</button>
-      <button class="nav-btn" onclick="switchTab('metas', event)">📊 Metas & Conversão</button>
-      <button class="nav-btn" onclick="switchTab('calculadora', event)">🔒 Simulador Desconto</button>
-      <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
-      <button class="nav-btn" onclick="switchTab('historico', event)">🏛️ Meses Anteriores</button>
-      <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
     </div>
 
     <div class="sidebar-bottom">
-      <button class="btn-install-footer" onclick="instalarAppPWA()" id="btn-install-pwa">📲 Instalar Aplicativo</button>
+      <button class="row-btn" onclick="toggleTheme()" id="btn-theme-text" title="Alternar Tema">☀️ Tema Claro</button>
+      <button class="btn-install-footer" onclick="instalarAppPWA()" id="btn-install-pwa">📲 Instalar App</button>
     </div>
   </div>
 
@@ -558,6 +679,16 @@
   let deferredPrompt = null;
   let usuarioEmail = "";
 
+  // CAPTURA O EVENTO DE INSTALAÇÃO DO PWA LOGO NO INÍCIO
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btnInstal = document.getElementById('btn-install-pwa');
+    if (btnInstal) {
+      btnInstal.style.display = 'flex';
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
     carregarTemaSalvo();
 
@@ -657,28 +788,30 @@
     render();
   }
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
-
   function instalarAppPWA() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('Usuário aceitou o atalho.');
+          console.log('Usuário aceitou a instalação.');
         }
         deferredPrompt = null;
       });
     } else {
-      alert('Para criar o atalho no celular ou computador:\n\n1. Clique no menu do seu navegador (3 pontinhos).\n2. Selecione "Adicionar à Tela Inicial" ou "Instalar Aplicativo".');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque no botão "Compartilhar" (ícone do quadrado com a seta pra cima no Safari).\n2. Role para baixo e selecione "Adicionar à Tela de Início".');
+      } else {
+        alert('📲 Para instalar no Android ou Computador:\n\n1. Toque no menu do navegador (3 pontinhos no canto superior direito).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
+      }
     }
   }
 
   function goHome(ev) {
+    if (ev) ev.preventDefault();
     const btnRadar = document.getElementById('nav-btn-radar');
     switchTab('radar', { currentTarget: btnRadar });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function toggleTheme() {
@@ -865,7 +998,12 @@
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + tabId).classList.add('active');
-    if (ev) ev.currentTarget.classList.add('active');
+    
+    if (ev && ev.currentTarget) {
+      ev.currentTarget.classList.add('active');
+      ev.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
     if (tabId === 'historico') renderHistorico();
   }
 
@@ -1094,9 +1232,14 @@
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
 
+  // REGISTRO DO SERVICE WORKER
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
+      navigator.serviceWorker.register('./sw.js').then(reg => {
+        console.log('Service Worker Registrado!', reg);
+      }).catch(err => {
+        console.log('Falha ao registrar Service Worker:', err);
+      });
     });
   }
 </script>
