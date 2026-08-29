@@ -60,6 +60,33 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    /* BANNER DE NOVA VERSÃO DISPONÍVEL */
+    #update-toast {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 10000;
+      font-size: 0.85rem;
+      font-weight: bold;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.03); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+
     #auth-screen {
       display: flex;
       height: 100vh;
@@ -130,7 +157,6 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 10px;
-      cursor: pointer;
     }
 
     .brand-logo-btn {
@@ -148,11 +174,38 @@
       object-fit: contain; 
     }
 
+    .user-info-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
     .user-info-bar { 
       font-size: 0.75rem; 
       color: var(--text-muted); 
       text-align: right;
       word-break: break-all; 
+    }
+
+    .btn-sync-cloud {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-sync-cloud:hover {
+      background: var(--accent-blue);
+      color: #fff;
     }
 
     .nav-btn-group {
@@ -443,6 +496,11 @@
 </head>
 <body>
 
+<!-- BANNER DE NOTIFICAÇÃO DE ATUALIZAÇÃO -->
+<div id="update-toast" onclick="forcarAtualizacaoApp()">
+  🚀 Nova versão disponível! <u>Clique aqui para atualizar</u>
+</div>
+
 <div id="auth-screen">
   <div class="auth-card">
     <img src="logo.png" alt="Logo Radar 10K+" class="auth-logo" onerror="this.style.display='none'">
@@ -463,7 +521,10 @@
         <button class="brand-logo-btn" onclick="goHome(event)" title="Voltar ao Radar de Vendas">
           <img src="logo.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.style.display='none'">
         </button>
-        <div class="user-info-bar" id="display-user-email"></div>
+        <div class="user-info-box">
+          <div class="user-info-bar" id="display-user-email"></div>
+          <button class="btn-sync-cloud" onclick="forcarSincronizacaoManual()" title="Recarregar Dados da Nuvem">🔄 Sincronizar</button>
+        </div>
       </div>
 
       <div class="nav-btn-group" id="nav-container">
@@ -687,7 +748,7 @@
           <div class="tip-card"><h3>Dica 6: O Bônus Condicionado ao Ticket Alto</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor de pedido.</p></div>
           <div class="tip-card"><h3>Dica 7: Edição Limitada / Item Exclusivo</h3><p>Ofereça um item complementar com estoque limitado para gerar desejo imediato.</p></div>
           <div class="tip-card"><h3>Dica 8: Eliminação do Frete/Taxa por Valor</h3><p>Mostre que adicionando mais R$ 50 num produto extra, ele economiza na taxa de envio/serviço.</p></div>
-          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além destes itens, você já tem o [item complementar] para usar junto?".</p></div>
+          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste item, você já tem o [item complementar] para usar junto?".</p></div>
           <div class="tip-card"><h3>Dica 10: Renovação Antecipada com Desconto</h3><p>Para serviços/planos, ofereça desconto para contratação de maior período à vista.</p></div>
         </div>
 
@@ -720,6 +781,7 @@
   let selecionadosMass = new Set();
   let deferredPrompt = null;
   let usuarioEmail = "";
+  let newWorker = null;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -821,12 +883,28 @@
     document.getElementById('data-venda').value = hoje;
     document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
     
+    // Lé do cache local primeiro para carregar instantâneo
     vendas = JSON.parse(localStorage.getItem('vendas_radar_' + usuarioEmail)) || [];
     historicoMeses = JSON.parse(localStorage.getItem('historico_radar_' + usuarioEmail)) || [];
+    render();
+
+    // FORÇAR BUSCA DA NUVEM (PRIORIDADE TOTAL PARA NÃO PERDER VENDAS)
+    carregarVendasNuvem();
+    carregarHistoricoNuvem();
+  }
+
+  function forcarSincronizacaoManual() {
+    if (!usuarioEmail) return;
+    const btn = document.querySelector('.btn-sync-cloud');
+    if (btn) btn.innerText = "⏳ Sincronizando...";
     
     carregarVendasNuvem();
     carregarHistoricoNuvem();
-    render();
+
+    setTimeout(() => {
+      if (btn) btn.innerText = "✓ Sincronizado!";
+      setTimeout(() => { if (btn) btn.innerText = "🔄 Sincronizar"; }, 1500);
+    }, 1000);
   }
 
   function instalarAppPWA() {
@@ -1275,12 +1353,26 @@
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
 
-  // REGISTRO DO SERVICE WORKER
+  function forcarAtualizacaoApp() {
+    if (newWorker) {
+      newWorker.postMessage({ action: 'skipWaiting' });
+    }
+    window.location.reload();
+  }
+
+  // REGISTRO DE SERVICE WORKER COM DETECÇÃO DE NOVA VERSÃO
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then(reg => {
-        reg.update();
-        console.log('Service Worker Registrado e Atualizado!');
+        reg.addEventListener('updatefound', () => {
+          newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              const toast = document.getElementById('update-toast');
+              if (toast) toast.style.display = 'flex';
+            }
+          });
+        });
       }).catch(err => {
         console.log('Falha no SW:', err);
       });
