@@ -350,13 +350,8 @@
       </div>
 
       <div id="tab-historico" class="tab-content">
-        <div class="header-radar-actions">
-          <div>
-            <h1>Histórico de Meses Anteriores</h1>
-            <p class="subtitle" style="margin-bottom:0;">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir os detalhes.</p>
-          </div>
-          <button class="btn-fechar-mes" onclick="forcarAtualizacaoHistorico()">🔄 Atualizar Histórico</button>
-        </div>
+        <h1>Histórico de Meses Anteriores</h1>
+        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir os detalhes.</p>
         <div id="container-historico-accordions" style="margin-top: 20px;"></div>
       </div>
 
@@ -403,23 +398,23 @@
         <div class="security-card">
           <div class="security-info">
             <h3>🔄 Retornar Vendas Mês</h3>
-            <p>Restaura da nuvem estritamente as vendas ativas do mês corrente que ainda não passaram por nenhum fechamento.</p>
+            <p>Retorna para o radar as vendas do mês corrente que estavam com exclusão ativa.</p>
           </div>
-          <button class="btn-security btn-safesync" onclick="executarSafeSync()">Retornar Vendas Mês</button>
+          <button class="btn-security btn-safesync" onclick="executarRetornarVendas()">Retornar Vendas Mês</button>
         </div>
 
         <div class="security-card">
           <div class="security-info">
             <h3>🏛️ Restaurar Histórico Fechado</h3>
-            <p>Puxa da nuvem exclusivamente todos os relatórios consolidados de meses anteriores já fechados.</p>
+            <p>Restaura exclusivamente os relatórios de meses anteriores fechados que estavam ocultos.</p>
           </div>
-          <button class="btn-security btn-hist" onclick="executarRestaurarHistoricoFechado()">Restaurar Histórico Fechado</button>
+          <button class="btn-security btn-hist" onclick="executarRestaurarHistorico()">Restaurar Histórico Fechado</button>
         </div>
 
         <div class="security-card">
           <div class="security-info">
-            <h3>☁️ Restaurar Histórico Completo (Backup Geral)</h3>
-            <p>Puxa da nuvem simultaneamente todas as vendas ativas e todo o histórico de meses fechados.</p>
+            <h3>☁️ Restaurar Histórico Completo</h3>
+            <p>Puxa do Data Center da planilha absolutamente tudo registrado em seu nome.</p>
           </div>
           <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico Completo</button>
         </div>
@@ -552,40 +547,44 @@
     carregarHistoricoNuvemSilencioso();
   }
 
-  // --- BOTÃO 1: RETORNAR VENDAS MÊS (Chama action específica para incluir itens com soft delete recuperado) ---
-  function executarSafeSync() {
+  // --- BOTÃO 1: Retornar Vendas Mês ---
+  function executarRetornarVendas() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja sincronizar e retornar as vendas ativas do mês corrente da nuvem?")) {
-      if (API_NUVEM_URL && usuarioEmail) {
-        fetch(API_NUVEM_URL + '?action=buscar_vendas_com_excluidas&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.vendas) {
-              vendas = data.vendas;
-              localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
-              render();
-              alert("Vendas do mês retornadas com sucesso!");
-            }
-          }).catch(err => {
-            console.log('Erro ao retornar vendas:', err);
-            alert("Erro ao conectar com a nuvem.");
-          });
-      }
+    if (confirm("Deseja retornar para o radar as vendas do mês corrente que estavam com exclusão ativa?")) {
+      fetch(API_NUVEM_URL + '?action=retornar_vendas_excluidas&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.vendas) {
+            vendas = data.vendas;
+            localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
+            render();
+            alert("Vendas retornadas com sucesso!");
+          }
+        }).catch(err => alert("Erro ao conectar com a nuvem."));
     }
   }
 
-  // --- BOTÃO 2: RESTAURAR HISTÓRICO FECHADO (Exclusivo para meses anteriores) ---
-  function executarRestaurarHistoricoFechado() {
+  // --- BOTÃO 2: Restaurar Histórico Fechado ---
+  function executarRestaurarHistorico() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar exclusivamente o histórico de meses fechados da nuvem?")) {
-      carregarHistoricoNuvemSilencioso(() => alert("Histórico de meses fechados restaurado com sucesso!"));
+    if (confirm("Deseja restaurar para o aplicativo os relatórios de meses anteriores excluídos?")) {
+      fetch(API_NUVEM_URL + '?action=restaurar_historico_excluido&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.historico) {
+            historicoMeses = data.historico;
+            localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
+            renderHistorico();
+            alert("Histórico de meses fechados restaurado com sucesso!");
+          }
+        }).catch(err => alert("Erro ao conectar com a nuvem."));
     }
   }
 
-  // --- BOTÃO 3: RESTAURAR HISTÓRICO COMPLETO (Backup Geral) ---
+  // --- BOTÃO 3: Restaurar Histórico Completo (Backup Geral) ---
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar todo o histórico de meses fechados e as vendas ativas da nuvem?")) {
+    if (confirm("Deseja restaurar absolutamente tudo o que está registrado em seu nome no Data Center?")) {
       carregarHistoricoNuvemSilencioso(() => {
         carregarVendasNuvemSilencioso(() => alert("Backup completo restaurado com sucesso!"));
       });
@@ -641,10 +640,6 @@
           }
         }).catch(err => console.log('Erro ao buscar historico nuvem'));
     }
-  }
-
-  function forcarAtualizacaoHistorico() {
-    carregarHistoricoNuvemSilencioso(() => alert("Histórico atualizado com sucesso!"));
   }
 
   function fecharMesAtual() {
@@ -804,11 +799,11 @@
 
   function excluirSelecionados() {
     if (selecionadosMass.size === 0) return;
-    if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas do seu radar? (ℹ️ Elas permanecerão seguras no Data Center da planilha para fins de auditoria)')) {
-      vendas = vendas.map(v => selecionadosMass.has(v.id) ? { ...v, status: 'Excluído' } : v);
+    if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas do seu radar?')) {
+      vendas = vendas.map(v => selecionadosMass.has(v.id) ? { ...v, excluidoApp: true } : v);
       sincronizarNuvem(vendas);
 
-      vendas = vendas.filter(v => v.status !== 'Excluído');
+      vendas = vendas.filter(v => !v.excluidoApp);
       localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
 
       selecionadosMass.clear(); document.getElementById('check-all').checked = false;
@@ -874,11 +869,11 @@
     const comissao = valor * (porcentagem / 100);
 
     if (editId) {
-      vendas = vendas.map(v => v.id == editId ? { id: Number(editId), dataVenda, cliente, valor, porcentagem, comissao, status } : v);
+      vendas = vendas.map(v => v.id == editId ? { id: Number(editId), dataVenda, cliente, valor, porcentagem, comissao, status, excluidoApp: false } : v);
       document.getElementById('edit-id').value = '';
       document.getElementById('btn-salvar-venda').innerText = '+ Registrar Venda';
     } else {
-      vendas.push({ id: Date.now(), dataVenda, cliente, valor, porcentagem, comissao, status });
+      vendas.push({ id: Date.now(), dataVenda, cliente, valor, porcentagem, comissao, status, excluidoApp: false });
     }
 
     sincronizarNuvem();
@@ -900,8 +895,8 @@
   }
 
   function excluirVenda(id) {
-    if (confirm('Deseja excluir esta venda do radar? (ℹ️ O registro permanecerá seguro no Data Center da planilha para fins de auditoria)')) {
-      vendas = vendas.map(v => v.id === id ? { ...v, status: 'Excluído' } : v);
+    if (confirm('Deseja excluir esta venda do radar?')) {
+      vendas = vendas.map(v => v.id === id ? { ...v, excluidoApp: true } : v);
       sincronizarNuvem(vendas);
 
       vendas = vendas.filter(v => v.id !== id);
