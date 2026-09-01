@@ -88,15 +88,26 @@
     }
     .nav-btn:hover, .nav-btn.active { background-color: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
 
+    /* BANNER DE UPGRADE DO CURSO MINIMIZÁVEL */
     .banner-cta-course {
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(59, 130, 246, 0.12));
       border: 1px solid var(--accent-orange); padding: 16px; border-radius: 12px; text-align: center; margin-top: 10px;
+      position: relative;
     }
-    .banner-cta-course h4 { margin: 0 0 6px 0; color: var(--accent-orange); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; }
-    .banner-cta-course p { font-size: 0.78rem; color: var(--text-main); margin: 0 0 12px 0; line-height: 1.35; font-weight: 500; }
+    .banner-cta-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .banner-cta-course h4 { margin: 0; color: var(--accent-orange); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; text-align: left; }
+    .btn-minimize-cta {
+      background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-muted); width: 22px; height: 22px;
+      border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;
+    }
+    .banner-cta-course p { font-size: 0.78rem; color: var(--text-main); margin: 0 0 12px 0; line-height: 1.35; font-weight: 500; text-align: left; }
     .btn-course-upgrade {
       display: block; background: var(--accent-orange); color: #fff; text-decoration: none; font-weight: 800; font-size: 0.82rem;
-      padding: 12px 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+      padding: 12px 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3); text-align: center;
+    }
+    .btn-minimized-upgrade {
+      display: none; background: var(--accent-orange); color: #fff; border: none; padding: 10px; border-radius: 20px;
+      font-weight: 800; font-size: 0.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4); margin-top: 10px; width: 100%; text-align: center;
     }
 
     .sidebar-bottom { display: flex; flex-direction: column; gap: 10px; padding-top: 15px; border-top: 1px solid var(--border-color); }
@@ -146,21 +157,18 @@
     .badge-pago { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
     .badge-pendente { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
 
-    /* ESTILOS ESPECÍFICOS PARA HISTÓRICO EXPANSÍVEL (ACCORDION) */
     .historico-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
     .historico-header { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(255,255,255,0.02); transition: background 0.2s; }
     .historico-header:hover { background: rgba(249, 115, 22, 0.05); }
     .historico-body { display: none; padding: 20px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.1); }
 
-    /* ESTILOS DA ABA DE SEGURANÇA & DADOS */
     .security-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     .security-info { flex: 1; min-width: 280px; }
     .security-info h3 { margin: 0 0 8px 0; color: var(--text-main); font-size: 1.1rem; }
     .security-info p { margin: 0; color: var(--text-muted); font-size: 0.88rem; line-height: 1.4; }
-    .btn-security { padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; white-space: nowrap; transition: opacity 0.2s; }
+    .btn-security { padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; white-space: nowrap; }
     .btn-safesync { background: var(--accent-blue); color: #fff; }
     .btn-restoreall { background: var(--accent-orange); color: #fff; }
-    .btn-security:hover { opacity: 0.9; }
 
     .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
     .sub-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 200px; text-align: center; }
@@ -187,7 +195,7 @@
 </head>
 <body>
 
-<div id="update-toast" onclick="forcarAtualizacaoApp()">🚀 Nova versão disponível! <u>Clique aqui para atualizar</u></div>
+<div id="update-toast" onclick="_0x5a2b()">🚀 Nova versão disponível! <u>Clique aqui para atualizar</u></div>
 
 <div id="auth-screen">
   <div class="auth-card">
@@ -224,10 +232,17 @@
         <button class="nav-btn" onclick="switchTab('seguranca', event)">⚙️ Dados & Segurança</button>
       </div>
 
-      <div class="banner-cta-course">
-        <h4>🔥 QUER MULTIPLICAR SEUS RESULTADOS?</h4>
-        <p>Aprenda a dominar o processo comercial, fechar contratos de alto valor e acelerar sua receita com o método <strong>Vendas Movem Negócios</strong>.</p>
-        <a href="https://sun.eduzz.com/7WXGQ4Y20A" class="btn-course-upgrade">🔥 QUERO DOMINAR VENDAS</a>
+      <!-- BANNER DE UPGRADE DO CURSO MINIMIZÁVEL -->
+      <div>
+        <div class="banner-cta-course" id="box-banner-course">
+          <div class="banner-cta-header">
+            <h4>🔥 Vendas Movem Negócios</h4>
+            <button class="btn-minimize-cta" onclick="minimizarCursoCTA()">✕</button>
+          </div>
+          <p>Domine o processo comercial e feche contratos de alto valor.</p>
+          <a href="https://sun.eduzz.com/7WXGQ4Y20A" class="btn-course-upgrade" target="_blank">🔥 QUERO DOMINAR VENDAS</a>
+        </div>
+        <button class="btn-minimized-upgrade" id="btn-minimized-course" onclick="expandirCursoCTA()">🔥 Dominar Vendas (Curso)</button>
       </div>
     </div>
 
@@ -240,7 +255,6 @@
   <div class="main-content">
     <div class="content-body">
       
-      <!-- ABA 1: RADAR DE VENDAS -->
       <div id="tab-radar" class="tab-content active">
         <div class="header-radar-actions">
           <div>
@@ -289,7 +303,6 @@
         </div>
       </div>
 
-      <!-- ABA 2: METAS -->
       <div id="tab-metas" class="tab-content">
         <h1>Mapeador de Metas & Taxa de Conversão</h1>
         <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
@@ -309,7 +322,6 @@
         </div>
       </div>
 
-      <!-- ABA 3: SIMULADOR -->
       <div id="tab-calculadora" class="tab-content">
         <h1>Calculadora & Simulador de Desconto</h1>
         <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
@@ -327,7 +339,6 @@
         </div>
       </div>
 
-      <!-- ABA 4: PENDENTES -->
       <div id="tab-checklist" class="tab-content">
         <h1>Comissões Pendentes</h1>
         <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento.</p>
@@ -339,14 +350,12 @@
         </div>
       </div>
 
-      <!-- ABA 5: HISTÓRICO COM RESUMO E ACCORDION DE DETALHES -->
       <div id="tab-historico" class="tab-content">
         <h1>Histórico de Meses Anteriores</h1>
         <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir a lista completa de vendas daquele período.</p>
         <div id="container-historico-accordions"></div>
       </div>
 
-      <!-- ABA 6: ACELERADOR -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
@@ -363,7 +372,6 @@
         </div>
       </div>
 
-      <!-- ABA 7: CONFIGURAÇÕES, DADOS & SEGURANÇA (NOVA ABA) -->
       <div id="tab-seguranca" class="tab-content">
         <h1>⚙️ Dados, Backup & Segurança</h1>
         <p class="subtitle">Gerencie a recuperação de dados e o espelhamento com a nuvem de forma segura.</p>
@@ -371,7 +379,7 @@
         <div class="security-card">
           <div class="security-info">
             <h3>🔄 Sincronizar Mês Atual (Safe Sync)</h3>
-            <p>Restaura da nuvem estritamente as vendas ativas do mês corrente que ainda não passaram por nenhum fechamento. Use se limpou o navegador por acidente. Garante que nenhuma venda excluída seja duplicada.</p>
+            <p>Restaura da nuvem estritamente as vendas ativas do mês corrente que ainda não passaram por nenhum fechamento. Garante que nenhuma venda excluída seja duplicada.</p>
           </div>
           <button class="btn-security btn-safesync" onclick="executarSafeSync()">Executar Safe Sync</button>
         </div>
@@ -394,14 +402,26 @@
   </div>
 </div>
 
+<!-- SCRIPT OFUSCADO SEGURO (NOME DE FUNÇÕES GLOBAIS PRESERVADAS PARA O DOM) -->
 <script>
-  const API_NUVEM_URL = "https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec"; 
+  var _0x3a2b = ["https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec", "radar_user_email", "vendas_radar_", "historico_radar_", "radar_theme"];
+  const API_NUVEM_URL = _0x3a2b[0]; 
   let vendas = [];
   let historicoMeses = [];
   let selecionadosMass = new Set();
   let deferredPrompt = null;
   let usuarioEmail = "";
   let newWorker = null;
+
+  function minimizarCursoCTA() {
+    document.getElementById('box-banner-course').style.display = 'none';
+    document.getElementById('btn-minimized-course').style.display = 'block';
+  }
+
+  function expandirCursoCTA() {
+    document.getElementById('box-banner-course').style.display = 'block';
+    document.getElementById('btn-minimized-course').style.display = 'none';
+  }
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -418,7 +438,7 @@
     if (emailUrl && emailUrl.trim() !== '' && !emailUrl.includes('#')) {
       usuarioEmail = emailUrl.trim().toLowerCase();
     } else {
-      usuarioEmail = localStorage.getItem('radar_user_email') || "";
+      usuarioEmail = localStorage.getItem(_0x3a2b[1]) || "";
     }
 
     if (usuarioEmail && usuarioEmail.includes('@')) {
@@ -429,7 +449,7 @@
   });
 
   function bloquearAcesso() {
-    localStorage.removeItem('radar_user_email');
+    localStorage.removeItem(_0x3a2b[1]);
     usuarioEmail = "";
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('app-main-content').style.display = 'none';
@@ -453,7 +473,7 @@
       .then(data => {
         if (data && data.autorizado === true) {
           usuarioEmail = email;
-          localStorage.setItem('radar_user_email', usuarioEmail);
+          localStorage.setItem(_0x3a2b[1], usuarioEmail);
           document.getElementById('auth-screen').style.display = 'none';
           document.getElementById('app-main-content').style.display = 'flex';
           document.getElementById('display-user-email').innerText = usuarioEmail;
@@ -478,15 +498,14 @@
     document.getElementById('data-venda').value = new Date().toISOString().split('T')[0];
     document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
     
-    vendas = JSON.parse(localStorage.getItem('vendas_radar_' + usuarioEmail)) || [];
-    historicoMeses = JSON.parse(localStorage.getItem('historico_radar_' + usuarioEmail)) || [];
+    vendas = JSON.parse(localStorage.getItem(_0x3a2b[2] + usuarioEmail)) || [];
+    historicoMeses = JSON.parse(localStorage.getItem(_0x3a2b[3] + usuarioEmail)) || [];
     render();
 
     carregarVendasNuvemSilencioso();
     carregarHistoricoNuvemSilencioso();
   }
 
-  // --- BOTÕES DE SEGURANÇA NA NOVA ABA ---
   function executarSafeSync() {
     if (!usuarioEmail) return;
     if (confirm("Deseja restaurar as vendas ativas do mês corrente diretamente da nuvem?")) {
@@ -505,7 +524,7 @@
 
   function sincronizarNuvem() {
     if (!usuarioEmail) return;
-    localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
+    localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
     if (API_NUVEM_URL) {
       fetch(API_NUVEM_URL, {
         method: 'POST',
@@ -523,7 +542,7 @@
         .then(data => {
           if (data && data.vendas) {
             vendas = data.vendas;
-            localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
+            localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
             render();
             if (callback) callback();
           }
@@ -538,7 +557,7 @@
         .then(data => {
           if (data && data.historico) {
             historicoMeses = data.historico;
-            localStorage.setItem('historico_radar_' + usuarioEmail, JSON.stringify(historicoMeses));
+            localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
             renderHistorico();
             if (callback) callback();
           }
@@ -567,7 +586,7 @@
       totalVendas: qtdVendas,
       ticketMedio: ticketMedio,
       taxaConversao: taxaConversao,
-      vendasDetalhes: [...vendas] // Empacota a lista completa detalhada para consulta futura!
+      vendasDetalhes: [...vendas]
     };
 
     if (confirm('Confirma o fechamento do mês ' + mesReferencia + '? As vendas ativas serão arquivadas no histórico com total consultabilidade.')) {
@@ -585,7 +604,6 @@
     }
   }
 
-  // --- RENDERIZAÇÃO DO HISTÓRICO EXPANSÍVEL (ACCORDION) ---
   function renderHistorico() {
     const container = document.getElementById('container-historico-accordions');
     if (!container) return;
@@ -878,24 +896,24 @@
   function goHome(ev) {
     if (ev) ev.preventDefault();
     switchTab('radar', { currentTarget: document.getElementById('nav-btn-radar') });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: { behavior: 'smooth' } });
   }
 
   function toggleTheme() {
     document.body.classList.toggle('light-theme');
     const isLight = document.body.classList.contains('light-theme');
-    localStorage.setItem('radar_theme', isLight ? 'light' : 'dark');
+    localStorage.setItem(_0x3a2b[4], isLight ? 'light' : 'dark');
     document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Tema Escuro' : '☀️ Tema Claro';
   }
 
   function carregarTemaSalvo() {
-    if (localStorage.getItem('radar_theme') === 'light') {
+    if (localStorage.getItem(_0x3a2b[4]) === 'light') {
       document.body.classList.add('light-theme');
       document.getElementById('btn-theme-text').innerText = '🌙 Tema Escuro';
     }
   }
 
-  function forcarAtualizacaoApp() {
+  function _0x5a2b() {
     if (newWorker) newWorker.postMessage({ action: 'skipWaiting' });
     window.location.reload();
   }
