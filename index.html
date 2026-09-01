@@ -43,7 +43,6 @@
       background-color: var(--bg-dark); color: var(--text-main); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Checkbox com tamanho padrão ergonômico */
     input[type="checkbox"] {
       width: 18px;
       height: 18px;
@@ -587,12 +586,34 @@
     }
   }
 
+  // --- RESTAURAR HISTÓRICO COMPLETO (Backup Geral Unificado) ---
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar absolutamente tudo o que está registrado em seu nome no Data Center?")) {
-      carregarHistoricoNuvemSilencioso(() => {
-        carregarVendasNuvemSilencioso(() => alert("Backup completo restaurado com sucesso!"));
-      });
+    if (confirm("Deseja restaurar absolutamente tudo (vendas ativas e histórico completo) do Data Center?")) {
+      // Executa em paralelo/sequência a busca de vendas ativas e histórico para restaurar ambos sem falhas
+      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
+        .then(res => res.json())
+        .then(vData => {
+          if (vData && vData.vendas) {
+            vendas = vData.vendas;
+            localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
+            render();
+          }
+          return fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' });
+        })
+        .then(res => res.json())
+        .then(hData => {
+          if (hData && hData.historico) {
+            historicoMeses = hData.historico;
+            localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
+            renderHistorico();
+          }
+          alert("Backup completo restaurado com sucesso!");
+        })
+        .catch(err => {
+          console.log('Erro no restore completo:', err);
+          alert("Erro ao conectar com a nuvem para restaurar o backup.");
+        });
     }
   }
 
