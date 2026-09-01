@@ -348,7 +348,7 @@
         </div>
       </div>
 
-      <!-- HISTÓRICO COM BOTÃO DE ATUALIZAÇÃO MANUAL, LIXEIRA E NOME CUSTOMIZADO -->
+      <!-- HISTÓRICO COM SOFT DELETE SEGURO E NOME LIMPO -->
       <div id="tab-historico" class="tab-content">
         <div class="header-radar-actions">
           <div>
@@ -654,7 +654,6 @@
     if (confirm('Confirma o fechamento do mês ' + mesReferencia + '?')) {
       vendas = [...vendasPendentes];
       
-      // Atualiza o array local imediatamente para renderizar sem precisar F5
       historicoMeses.unshift({
         refMes: mesReferencia.trim(),
         totalComissao: totalComissao,
@@ -773,16 +772,26 @@
 
   function excluirSelecionados() {
     if (selecionadosMass.size === 0) return;
-    if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas?')) {
-      vendas = vendas.filter(v => !selecionadosMass.has(v.id));
+    if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas do seu radar? (ℹ️ Elas permanecerão seguras no Data Center da planilha para fins de auditoria)')) {
+      // Soft Delete local: marca como Excluído antes de sincronizar para a nuvem não apagar da planilha
+      vendas = vendas.map(v => selecionadosMass.has(v.id) ? { ...v, status: 'Excluído' } : v);
+      
+      // Envia para a nuvem mantendo as linhas intactas na planilha com status Excluído
+      sincronizarNuvem(vendas);
+
+      // Remove da interface ativa do radar
+      vendas = vendas.filter(v => v.status !== 'Excluído');
+      localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
+
       selecionadosMass.clear(); document.getElementById('check-all').checked = false;
-      atualizarBotaoExclusaoMassa(); sincronizarNuvem(); render();
+      atualizarBotaoExclusaoMassa();
+      render();
     }
   }
 
   function formatarDataBR(dataIso) {
     if (!dataIso) return '-';
-    if (!dataIso.includes('T') && !dataIso.includes('-')) return dataIso; // Se já for string customizada ex: "agosto 2026"
+    if (!dataIso.includes('T') && !dataIso.includes('-')) return dataIso;
     const partes = (dataIso + "").split('T')[0].split('-');
     if (partes.length < 3) return dataIso;
     return partes[2] + '/' + partes[1] + '/' + partes[0];
@@ -863,11 +872,17 @@
   }
 
   function excluirVenda(id) {
-    if (confirm('Deseja excluir esta venda?')) {
+    if (confirm('Deseja excluir esta venda do radar? (ℹ️ O registro permanecerá seguro no Data Center da planilha para fins de auditoria)')) {
+      // Soft Delete: Marca o status como Excluído localmente e envia para a nuvem preservar na planilha
+      vendas = vendas.map(v => v.id === id ? { ...v, status: 'Excluído' } : v);
+      sincronizarNuvem(vendas);
+
+      // Remove da visualização ativa no radar
       vendas = vendas.filter(v => v.id !== id);
+      localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
+
       selecionadosMass.delete(id);
       atualizarBotaoExclusaoMassa();
-      sincronizarNuvem();
       render();
     }
   }
