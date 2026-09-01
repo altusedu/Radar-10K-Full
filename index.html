@@ -237,7 +237,7 @@
             <h4>🔥 Vendas Movem Negócios</h4>
             <button class="btn-minimize-cta" onclick="minimizarCursoCTA()">✕</button>
           </div>
-          <p>Domine o processo comercial e feche contratos de alto valor.</p>
+          <p>Domine as técnicas de venda, aumente seu ticket médio e sua taxa de conversão!</p>
           <a href="https://sun.eduzz.com/7WXGQ4Y20A" class="btn-course-upgrade" target="_blank">🔥 QUERO DOMINAR VENDAS</a>
         </div>
         <button class="btn-minimized-upgrade" id="btn-minimized-course" onclick="expandirCursoCTA()">🔥 Dominar Vendas (Curso)</button>
@@ -348,45 +348,51 @@
         </div>
       </div>
 
-      <!-- HISTÓRICO COM BOTÃO DE EXCLUSÃO DE MÊS (LIXEIRA) E ALERTA -->
+      <!-- HISTÓRICO COM BOTÃO DE ATUALIZAÇÃO MANUAL, LIXEIRA E NOME CUSTOMIZADO -->
       <div id="tab-historico" class="tab-content">
-        <h1>Histórico de Meses Anteriores</h1>
-        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir a lista completa de vendas.</p>
-        <div id="container-historico-accordions"></div>
+        <div class="header-radar-actions">
+          <div>
+            <h1>Histórico de Meses Anteriores</h1>
+            <p class="subtitle" style="margin-bottom:0;">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir os detalhes.</p>
+          </div>
+          <button class="btn-fechar-mes" onclick="forcarAtualizacaoHistorico()">🔄 Atualizar Histórico</button>
+        </div>
+        <div id="container-historico-accordions" style="margin-top: 20px;"></div>
       </div>
 
+      <!-- ACELERADOR COM AS 20 DICAS OFICIAIS EXATAS -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
         <div class="sub-nav">
-          <button class="sub-btn active" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Ticket Médio (10 Dicas)</button>
-          <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Conversão (10 Dicas)</button>
+          <button class="sub-btn active" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Aumentar Ticket Médio (10 Dicas)</button>
+          <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Aumentar Taxa de Conversão (10 Dicas)</button>
         </div>
 
         <div id="sub-dicas-ticket" class="sub-dica-content">
-          <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Ofereça a versão superior destacando a pequena diferença de preço.</p></div>
-          <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM'.</p></div>
-          <div class="tip-card"><h3>Dica 3: Ancoragem com 3 Pacotes</h3><p>Apresente Básico, Alvo e Premium. O cliente tenderá à opção do meio.</p></div>
-          <div class="tip-card"><h3>Dica 4: Combo de Proteção/Garantia</h3><p>Adicione suporte exclusivo ou garantia estendida como opcional pago.</p></div>
-          <div class="tip-card"><h3>Dica 5: Pacote em Equipe / Família</h3><p>Incentive compra de mais unidades com desconto progressivo.</p></div>
-          <div class="tip-card"><h3>Dica 6: Bônus por Ticket Mínimo</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor.</p></div>
-          <div class="tip-card"><h3>Dica 7: Edição Limitada / Exclusividade</h3><p>Ofereça um item complementar com estoque limitado.</p></div>
-          <div class="tip-card"><h3>Dica 8: Isenção de Taxa por Valor</h3><p>Mostre que adicionando um item extra, ele economiza na taxa de envio/serviço.</p></div>
-          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste, você já tem o complemento para usar junto?"</p></div>
-          <div class="tip-card"><h3>Dica 10: Renovação Antecipada</h3><p>Ofereça desconto para contratação de maior período à vista.</p></div>
+          <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Quando o cliente decidir a compra básica, ofereça a versão superior destacando apenas a pequena diferença de preço.</p></div>
+          <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM', antes de mandar a chave PIX.</p></div>
+          <div class="tip-card"><h3>Dica 3: Ancoragem com 3 Pacotes</h3><p>Apresente as opções Básico, Alvo e Premium. O cliente tenderá instintivamente a escolher a opção do meio.</p></div>
+          <div class="tip-card"><h3>Dica 4: Combo de Proteção/Garantia</h3><p>Adicione um serviço extra de suporte exclusivo ou garantia estendida como opcional pago.</p></div>
+          <div class="tip-card"><h3>Dica 5: O Pacote Familiar/Equipe</h3><p>Incentive a compra de mais unidades com desconto progressivo para presentear ou usar em equipe.</p></div>
+          <div class="tip-card"><h3>Dica 6: O Bônus Condicionado ao Ticket Alto</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor de pedido.</p></div>
+          <div class="tip-card"><h3>Dica 7: Edição Limitada / Item Exclusivo</h3><p>Ofereça um item complementar com estoque limitado para gerar desejo imediato.</p></div>
+          <div class="tip-card"><h3>Dica 8: Eliminação do Frete/Taxa por Valor</h3><p>Mostre que adicionando mais R$ 50 num produto extra, ele economiza na taxa de envio/serviço.</p></div>
+          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste item, você já tem o [item complementar] para usar junto?".</p></div>
+          <div class="tip-card"><h3>Dica 10: Renovação Antecipada com Desconto</h3><p>Para serviços/planos, ofereça desconto para contratação de maior período à vista.</p></div>
         </div>
 
         <div id="sub-dicas-conversao" class="sub-dica-content" style="display: none;">
-          <div class="tip-card"><h3>Dica 1: Regra dos 5 Minutos</h3><p>Responda o primeiro 'Oi' imediatamente no WhatsApp.</p></div>
-          <div class="tip-card"><h3>Dica 2: Fechamento por Dupla Escolha</h3><p>Pergunte: "Prefere PIX ou Cartão?" em vez de "Vai fechar?"</p></div>
-          <div class="tip-card"><h3>Dica 3: A Trava do "Vou Pensar"</h3><p>Questione qual dúvida exata ainda impede o fechamento agora.</p></div>
-          <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após o preço.</p></div>
-          <div class="tip-card"><h3>Dica 5: Escassez Real de Horário/Estoque</h3><p>Comunique que a condição dura apenas até determinado horário.</p></div>
-          <div class="tip-card"><h3>Dica 6: Áudio Personalizado</h3><p>Envie um áudio chamando pelo nome para gerar conexão humana.</p></div>
-          <div class="tip-card"><h3>Dica 7: Reativação de Orçamentos</h3><p>Aborde orçamentos abertos oferecendo o empurrãozinho final.</p></div>
-          <div class="tip-card"><h3>Dica 8: Garantia Incondicional</h3><p>Destaque a segurança da compra no momento da decisão.</p></div>
-          <div class="tip-card"><h3>Dica 9: Reserva Temporária</h3><p>Ofereça segurar a condição por poucas horas no sistema.</p></div>
-          <div class="tip-card"><h3>Dica 10: Resgate de Fim de Mês</h3><p>Fale com todos os contatos quentes para bater a meta do ciclo.</p></div>
+          <div class="tip-card"><h3>Dica 1: Regra dos 5 Minutos no WhatsApp</h3><p>Responda o primeiro 'Oi' imediatamente. Rapidez inicial aumenta a conversão em até 400%.</p></div>
+          <div class="tip-card"><h3>Dica 2: Fechamento por Dupla Escolha</h3><p>Pergunte: "Prefere acerto via PIX ou cartão?" em vez de "Vai querer fechar?".</p></div>
+          <div class="tip-card"><h3>Dica 3: A Trava do "Vou Pensar"</h3><p>Pergunte qual dúvida em relação ao produto ou pagamento ainda impede o fechamento agora.</p></div>
+          <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após apresentar o preço.</p></div>
+          <div class="tip-card"><h3>Dica 5: Escassez Real de Agendamento/Estoque</h3><p>Comunique que a condição especial dura apenas para pedidos confirmados até as 18h.</p></div>
+          <div class="tip-card"><h3>Dica 6: Chamada de Vídeo/Áudio Personalizado</h3><p>Envie um áudio chamando o cliente pelo nome para gerar conexão humana imediata.</p></div>
+          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play aqui?".</p></div>
+          <div class="tip-card"><h3>Dica 8: Eliminação de Risco (Garantia)</h3><p>Destaque a garantia incondicional no exato momento da trava de decisão.</p></div>
+          <div class="tip-card"><h3>Dica 9: A Técnica da Reserva do Pedido</h3><p>Pergunte se pode deixar o pedido reservado por 2 horas no sistema enquanto ele decide.</p></div>
+          <div class="tip-card"><h3>Dica 10: O Script de Resgate no Fim do Mês</h3><p>Aborde todos os orçamentos abertos do mês oferecendo um incentivo final para bater meta.</p></div>
         </div>
       </div>
 
@@ -605,6 +611,10 @@
     }
   }
 
+  function forcarAtualizacaoHistorico() {
+    carregarHistoricoNuvemSilencioso(() => alert("Histórico atualizado com sucesso!"));
+  }
+
   function fecharMesAtual() {
     if (vendas.length === 0) {
       alert('Não há vendas no Radar para fechar o mês!');
@@ -643,22 +653,34 @@
 
     if (confirm('Confirma o fechamento do mês ' + mesReferencia + '?')) {
       vendas = [...vendasPendentes];
+      
+      // Atualiza o array local imediatamente para renderizar sem precisar F5
+      historicoMeses.unshift({
+        refMes: mesReferencia.trim(),
+        totalComissao: totalComissao,
+        totalVendas: qtdVendas,
+        ticketMedio: ticketMedio,
+        taxaConversao: taxaConversao,
+        dataFechamento: new Date().toISOString(),
+        vendasDetalhes: [...vendasPagas]
+      });
+      localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
+
       sincronizarNuvem(vendas, {
         fechar_mes: registroFechamento,
         vendasRestantes: vendas
       });
 
-      carregarHistoricoNuvemSilencioso();
+      renderHistorico();
       render();
       alert('Mês ' + mesReferencia + ' fechado e persistido com sucesso!');
     }
   }
 
-  // --- EXCLUSÃO DE MÊS DO HISTÓRICO COM BOTÃO LIXEIRA E ALERTA ---
   function excluirMesHistorico(refMes, event) {
     if (event) event.stopPropagation();
     
-    if (confirm('Tem certeza que deseja excluir o fechamento do mês "' + refMes + '"?\n\nℹ️ Caso queira recuperar este mês no futuro, basta realizar a restauração do histórico na aba de Segurança.')) {
+    if (confirm('Tem certeza que deseja excluir o fechamento do mês "' + refMes + '"?\n\nℹ️ Caso queira recuperar este mês no futuro, realize a restauração do histórico na aba de Segurança.')) {
       historicoMeses = historicoMeses.filter(h => h.refMes !== refMes);
       localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
       renderHistorico();
@@ -760,7 +782,9 @@
 
   function formatarDataBR(dataIso) {
     if (!dataIso) return '-';
+    if (!dataIso.includes('T') && !dataIso.includes('-')) return dataIso; // Se já for string customizada ex: "agosto 2026"
     const partes = (dataIso + "").split('T')[0].split('-');
+    if (partes.length < 3) return dataIso;
     return partes[2] + '/' + partes[1] + '/' + partes[0];
   }
 
