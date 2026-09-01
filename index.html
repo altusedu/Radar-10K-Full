@@ -176,7 +176,6 @@
     .btn-security { padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; white-space: nowrap; }
     .btn-safesync { background: var(--accent-blue); color: #fff; }
     .btn-hist { background: var(--accent-yellow); color: #0f172a; }
-    .btn-restoreall { background: var(--accent-orange); color: #fff; }
 
     .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
     .sub-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 200px; text-align: center; }
@@ -211,7 +210,7 @@
     <h2>📡 RADAR 10K+ FULL</h2>
     <p>Digite o e-mail cadastrado na sua compra para acessar a aplicação.</p>
     <div class="auth-input-group">
-      <input type="email" id="input-login-email" placeholder="seu-email@exemplo.com" required>
+      <input type="email" id="input-login-email" placeholder="seu-email@exemplo.com" onkeydown="tratarTeclaLogin(event)" required>
       <button class="btn-auth" id="btn-login" onclick="validarEEntrar()">Entrar no Aplicativo</button>
     </div>
     <div id="auth-msg"></div>
@@ -417,14 +416,6 @@
           </div>
           <button class="btn-security btn-hist" onclick="executarRestaurarHistorico()">Restaurar Histórico Fechado</button>
         </div>
-
-        <div class="security-card">
-          <div class="security-info">
-            <h3>☁️ Restaurar Histórico Completo</h3>
-            <p>Puxa do Data Center da planilha absolutamente tudo registrado em seu nome.</p>
-          </div>
-          <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico Completo</button>
-        </div>
       </div>
 
     </div>
@@ -495,6 +486,13 @@
       bloquearAcesso();
     }
   });
+
+  function tratarTeclaLogin(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      validarEEntrar();
+    }
+  }
 
   function bloquearAcesso() {
     localStorage.removeItem(_0x3a2b[1]);
@@ -583,37 +581,6 @@
             alert("Histórico de meses fechados restaurado com sucesso!");
           }
         }).catch(err => alert("Erro ao conectar com a nuvem."));
-    }
-  }
-
-  // --- RESTAURAR HISTÓRICO COMPLETO (Backup Geral Unificado) ---
-  function executarRestoreCompleto() {
-    if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar absolutamente tudo (vendas ativas e histórico completo) do Data Center?")) {
-      // Executa em paralelo/sequência a busca de vendas ativas e histórico para restaurar ambos sem falhas
-      fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
-        .then(res => res.json())
-        .then(vData => {
-          if (vData && vData.vendas) {
-            vendas = vData.vendas;
-            localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
-            render();
-          }
-          return fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' });
-        })
-        .then(res => res.json())
-        .then(hData => {
-          if (hData && hData.historico) {
-            historicoMeses = hData.historico;
-            localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
-            renderHistorico();
-          }
-          alert("Backup completo restaurado com sucesso!");
-        })
-        .catch(err => {
-          console.log('Erro no restore completo:', err);
-          alert("Erro ao conectar com a nuvem para restaurar o backup.");
-        });
     }
   }
 
