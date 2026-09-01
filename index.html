@@ -167,6 +167,7 @@
     .security-info p { margin: 0; color: var(--text-muted); font-size: 0.88rem; line-height: 1.4; }
     .btn-security { padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; white-space: nowrap; }
     .btn-safesync { background: var(--accent-blue); color: #fff; }
+    .btn-hist { background: var(--accent-yellow); color: #0f172a; }
     .btn-restoreall { background: var(--accent-orange); color: #fff; }
 
     .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
@@ -394,6 +395,7 @@
         </div>
       </div>
 
+      <!-- ABA DE SEGURANÇA COM OS TRÊS BOTÕES ISOLADOS -->
       <div id="tab-seguranca" class="tab-content">
         <h1>⚙️ Dados & Segurança</h1>
         <p class="subtitle">Gerencie o backup e a restauração de dados de forma simples e segura.</p>
@@ -408,10 +410,18 @@
 
         <div class="security-card">
           <div class="security-info">
-            <h3>☁️ Restaurar Histórico</h3>
-            <p>Puxa da nuvem todos os meses já fechados com suas respectivas listas detalhadas.</p>
+            <h3>🏛️ Restaurar Histórico Fechado</h3>
+            <p>Puxa da nuvem exclusivamente todos os relatórios consolidados de meses anteriores já fechados.</p>
           </div>
-          <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico</button>
+          <button class="btn-security btn-hist" onclick="executarRestaurarHistoricoFechado()">Restaurar Histórico Fechado</button>
+        </div>
+
+        <div class="security-card">
+          <div class="security-info">
+            <h3>☁️ Restaurar Histórico Completo (Backup Geral)</h3>
+            <p>Puxa da nuvem simultaneamente todas as vendas ativas e todo o histórico de meses fechados.</p>
+          </div>
+          <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico Completo</button>
         </div>
       </div>
 
@@ -542,20 +552,42 @@
     carregarHistoricoNuvemSilencioso();
   }
 
-  // --- RETORNAR VENDAS MÊS (FORÇA REIDRATAÇÃO LOCAL) ---
+  // --- BOTÃO 1: RETORNAR VENDAS MÊS (Chama action específica para incluir itens com soft delete recuperado) ---
   function executarSafeSync() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja sincronizar e retornar as vendas do mês corrente da nuvem?")) {
-      carregarVendasNuvemSilencioso(() => alert("Vendas do mês retornadas com sucesso!"));
+    if (confirm("Deseja sincronizar e retornar as vendas ativas do mês corrente da nuvem?")) {
+      if (API_NUVEM_URL && usuarioEmail) {
+        fetch(API_NUVEM_URL + '?action=buscar_vendas_com_excluidas&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.vendas) {
+              vendas = data.vendas;
+              localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
+              render();
+              alert("Vendas do mês retornadas com sucesso!");
+            }
+          }).catch(err => {
+            console.log('Erro ao retornar vendas:', err);
+            alert("Erro ao conectar com a nuvem.");
+          });
+      }
     }
   }
 
-  // --- RESTAURAR HISTÓRICO COMPLETO (FORÇA REIDRATAÇÃO LOCAL) ---
+  // --- BOTÃO 2: RESTAURAR HISTÓRICO FECHADO (Exclusivo para meses anteriores) ---
+  function executarRestaurarHistoricoFechado() {
+    if (!usuarioEmail) return;
+    if (confirm("Deseja restaurar exclusivamente o histórico de meses fechados da nuvem?")) {
+      carregarHistoricoNuvemSilencioso(() => alert("Histórico de meses fechados restaurado com sucesso!"));
+    }
+  }
+
+  // --- BOTÃO 3: RESTAURAR HISTÓRICO COMPLETO (Backup Geral) ---
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar todo o histórico de meses e vendas ativas da nuvem?")) {
+    if (confirm("Deseja restaurar todo o histórico de meses fechados e as vendas ativas da nuvem?")) {
       carregarHistoricoNuvemSilencioso(() => {
-        carregarVendasNuvemSilencioso(() => alert("Histórico e vendas restaurados com sucesso!"));
+        carregarVendasNuvemSilencioso(() => alert("Backup completo restaurado com sucesso!"));
       });
     }
   }
@@ -679,7 +711,7 @@
   function excluirMesHistorico(refMes, event) {
     if (event) event.stopPropagation();
     
-    if (confirm('Tem certeza que deseja excluir o fechamento do mês "' + refMes + '"?\n\nℹ️ Caso queira recuperar este mês no futuro, realize a restauração do histórico na aba de Segurança.')) {
+    if (confirm('Tem certeza que deseja excluir o fechamento do mês "' + refMes + '"?\n\nℹ️ Caso queira recuperar este mês no futuro, utilize a restauração de histórico na aba de Segurança.')) {
       historicoMeses = historicoMeses.filter(h => h.refMes !== refMes);
       localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
       renderHistorico();
@@ -734,7 +766,7 @@
         '</div>' +
         '</div>' +
         '<div class="historico-body" id="acc-body-' + index + '">' +
-        '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Periodo:</h4>' +
+        '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Período:</h4>' +
         htmlTabelaVendas +
         '</div>';
       container.appendChild(card);
