@@ -348,13 +348,13 @@
         </div>
       </div>
 
+      <!-- HISTÓRICO COM BOTÃO DE EXCLUSÃO DE MÊS (LIXEIRA) E ALERTA -->
       <div id="tab-historico" class="tab-content">
         <h1>Histórico de Meses Anteriores</h1>
-        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir a lista completa de vendas daquele período.</p>
+        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir a lista completa de vendas.</p>
         <div id="container-historico-accordions"></div>
       </div>
 
-      <!-- ACELERADOR COM 10 DICAS COMPLETAS EM CADA ABA -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
@@ -440,7 +440,6 @@
     document.getElementById('btn-minimized-course').style.display = 'none';
   }
 
-  // --- CORREÇÃO DO BOTÃO INSTALAR PWA ---
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -452,16 +451,13 @@
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const choiceResult = await deferredPrompt.userChoice;
-      if (choiceResult.outcome === 'accepted') {
-        console.log('Usuário aceitou a instalação.');
-      }
       deferredPrompt = null;
     } else {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       if (isIOS) {
-        alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque no botão "Compartilhar" (ícone do quadrado com a seta pra cima no Safari).\n2. Role para baixo e selecione "Adicionar à Tela de Início".');
+        alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque em "Compartilhar" no Safari.\n2. Selecione "Adicionar à Tela de Início".');
       } else {
-        alert('📲 Para instalar no Android ou Computador:\n\n1. Toque no menu do navegador (3 pontinhos no canto superior direito).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
+        alert('📲 Para instalar:\n\n1. Abra o menu do navegador (3 pontinhos).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
       }
     }
   }
@@ -545,13 +541,13 @@
   function executarSafeSync() {
     if (!usuarioEmail) return;
     if (confirm("Deseja restaurar as vendas ativas do mês corrente diretamente da nuvem?")) {
-      carregarVendasNuvemSilencioso(() => alert("Safe Sync executado com sucesso! Vendas correntes sincronizadas."));
+      carregarVendasNuvemSilencioso(() => alert("Safe Sync executado com sucesso!"));
     }
   }
 
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar todo o histórico de meses anteriores e vendas ativas da nuvem?")) {
+    if (confirm("Deseja restaurar todo o histórico e vendas ativas da nuvem?")) {
       carregarHistoricoNuvemSilencioso(() => {
         carregarVendasNuvemSilencioso(() => alert("Histórico completo restaurado com sucesso!"));
       });
@@ -609,7 +605,6 @@
     }
   }
 
-  // --- REGRA INTELIGENTE DE FECHAMENTO (MANTÉM PENDENTES) ---
   function fecharMesAtual() {
     if (vendas.length === 0) {
       alert('Não há vendas no Radar para fechar o mês!');
@@ -620,15 +615,15 @@
     const vendasPendentes = vendas.filter(v => v.status === 'Pendente');
 
     if (vendasPagas.length === 0) {
-      alert('Você não possui nenhuma venda com status "Pago" para realizar o fechamento do mês!');
+      alert('Você não possui nenhuma venda com status "Pago" para fechar o mês!');
       return;
     }
 
     if (vendasPendentes.length > 0) {
-      alert('⚠️ Atenção: Existem ' + vendasPendentes.length + ' venda(s) com status "Pendente" de pagamento.\n\nEstas vendas pendentes NÃO serão fechadas agora e permanecerão disponíveis no seu radar ativo até que sejam pagas!');
+      alert('⚠️ Atenção: Existem ' + vendasPendentes.length + ' venda(s) com status "Pendente". Elas permanecerão ativas no radar até serem pagas!');
     }
 
-    const mesReferencia = prompt('Digite o Mês/Ano de referência deste fechamento (ex: Agosto/2026):');
+    const mesReferencia = prompt('Digite o Mês/Ano de referência (ex: Agosto/2026):');
     if (!mesReferencia || mesReferencia.trim() === '') return;
 
     let totalComissao = vendasPagas.reduce((acc, v) => acc + v.comissao, 0);
@@ -646,11 +641,8 @@
       vendasDetalhes: [...vendasPagas]
     };
 
-    if (confirm('Confirma o fechamento do mês ' + mesReferencia + '? As vendas pagas serão arquivadas e as pendentes continuarão no radar.')) {
-      // O restante que fica ativo são apenas as vendas pendentes
+    if (confirm('Confirma o fechamento do mês ' + mesReferencia + '?')) {
       vendas = [...vendasPendentes];
-      
-      // Sincroniza enviando o fechamento para a planilha e atualizando as ativas com as pendentes restritas
       sincronizarNuvem(vendas, {
         fechar_mes: registroFechamento,
         vendasRestantes: vendas
@@ -658,7 +650,27 @@
 
       carregarHistoricoNuvemSilencioso();
       render();
-      alert('Mês ' + mesReferencia + ' fechado com sucesso e persistido na planilha!');
+      alert('Mês ' + mesReferencia + ' fechado e persistido com sucesso!');
+    }
+  }
+
+  // --- EXCLUSÃO DE MÊS DO HISTÓRICO COM BOTÃO LIXEIRA E ALERTA ---
+  function excluirMesHistorico(refMes, event) {
+    if (event) event.stopPropagation();
+    
+    if (confirm('Tem certeza que deseja excluir o fechamento do mês "' + refMes + '"?\n\nℹ️ Caso queira recuperar este mês no futuro, basta realizar a restauração do histórico na aba de Segurança.')) {
+      historicoMeses = historicoMeses.filter(h => h.refMes !== refMes);
+      localStorage.setItem(_0x3a2b[3] + usuarioEmail, JSON.stringify(historicoMeses));
+      renderHistorico();
+
+      if (API_NUVEM_URL && usuarioEmail) {
+        fetch(API_NUVEM_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ excluir_mes_ref: refMes, usuario_id: usuarioEmail }),
+          redirect: 'follow'
+        }).catch(err => console.log('Erro ao excluir mês da nuvem:', err));
+      }
     }
   }
 
@@ -695,7 +707,10 @@
       card.className = 'historico-card';
       card.innerHTML = '<div class="historico-header" onclick="toggleAccordion(' + index + ')">' +
         '<div><h3 style="margin:0 0 4px 0; color:var(--accent-orange);">' + h.refMes + '</h3><small style="color:var(--text-muted);">Fechado em: ' + (h.dataFechamento ? formatarDataBR(h.dataFechamento) : '-') + '</small></div>' +
+        '<div style="display:flex; align-items:center; gap:15px;">' +
         '<div style="text-align:right;"><div style="font-size:1.2rem; font-weight:bold; color:var(--text-main);">' + formatarMoeda(h.totalComissao) + '</div><small style="color:var(--text-muted);">' + h.totalVendas + ' vendas | Conv: ' + h.taxaConversao + '</small></div>' +
+        '<button class="icon-btn btn-delete" title="Excluir Fechamento" onclick="excluirMesHistorico(\'' + h.refMes + '\', event)">🗑️</button>' +
+        '</div>' +
         '</div>' +
         '<div class="historico-body" id="acc-body-' + index + '">' +
         '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Período (Reabordagem & Histórico):</h4>' +
