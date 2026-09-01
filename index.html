@@ -348,7 +348,6 @@
         </div>
       </div>
 
-      <!-- HISTÓRICO COM SOFT DELETE SEGURO E NOME LIMPO -->
       <div id="tab-historico" class="tab-content">
         <div class="header-radar-actions">
           <div>
@@ -360,7 +359,6 @@
         <div id="container-historico-accordions" style="margin-top: 20px;"></div>
       </div>
 
-      <!-- ACELERADOR COM AS 20 DICAS OFICIAIS EXATAS -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
@@ -397,20 +395,20 @@
       </div>
 
       <div id="tab-seguranca" class="tab-content">
-        <h1>⚙️ Dados, Backup & Segurança</h1>
-        <p class="subtitle">Gerencie a recuperação de dados e o espelhamento com a nuvem de forma segura.</p>
+        <h1>⚙️ Dados & Segurança</h1>
+        <p class="subtitle">Gerencie o backup e a restauração de dados de forma simples e segura.</p>
 
         <div class="security-card">
           <div class="security-info">
-            <h3>🔄 Sincronizar Mês Atual (Safe Sync)</h3>
+            <h3>🔄 Retornar Vendas Mês</h3>
             <p>Restaura da nuvem estritamente as vendas ativas do mês corrente que ainda não passaram por nenhum fechamento.</p>
           </div>
-          <button class="btn-security btn-safesync" onclick="executarSafeSync()">Executar Safe Sync</button>
+          <button class="btn-security btn-safesync" onclick="executarSafeSync()">Retornar Vendas Mês</button>
         </div>
 
         <div class="security-card">
           <div class="security-info">
-            <h3>☁️ Restaurar Histórico Completo (Soft Delete Recovery)</h3>
+            <h3>☁️ Restaurar Histórico</h3>
             <p>Puxa da nuvem todos os meses já fechados com suas respectivas listas detalhadas.</p>
           </div>
           <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico</button>
@@ -544,18 +542,20 @@
     carregarHistoricoNuvemSilencioso();
   }
 
+  // --- RETORNAR VENDAS MÊS (FORÇA REIDRATAÇÃO LOCAL) ---
   function executarSafeSync() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar as vendas ativas do mês corrente diretamente da nuvem?")) {
-      carregarVendasNuvemSilencioso(() => alert("Safe Sync executado com sucesso!"));
+    if (confirm("Deseja sincronizar e retornar as vendas do mês corrente da nuvem?")) {
+      carregarVendasNuvemSilencioso(() => alert("Vendas do mês retornadas com sucesso!"));
     }
   }
 
+  // --- RESTAURAR HISTÓRICO COMPLETO (FORÇA REIDRATAÇÃO LOCAL) ---
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
-    if (confirm("Deseja restaurar todo o histórico e vendas ativas da nuvem?")) {
+    if (confirm("Deseja restaurar todo o histórico de meses e vendas ativas da nuvem?")) {
       carregarHistoricoNuvemSilencioso(() => {
-        carregarVendasNuvemSilencioso(() => alert("Histórico completo restaurado com sucesso!"));
+        carregarVendasNuvemSilencioso(() => alert("Histórico e vendas restaurados com sucesso!"));
       });
     }
   }
@@ -734,7 +734,7 @@
         '</div>' +
         '</div>' +
         '<div class="historico-body" id="acc-body-' + index + '">' +
-        '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Período (Reabordagem & Histórico):</h4>' +
+        '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Periodo:</h4>' +
         htmlTabelaVendas +
         '</div>';
       container.appendChild(card);
@@ -773,13 +773,9 @@
   function excluirSelecionados() {
     if (selecionadosMass.size === 0) return;
     if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas do seu radar? (ℹ️ Elas permanecerão seguras no Data Center da planilha para fins de auditoria)')) {
-      // Soft Delete local: marca como Excluído antes de sincronizar para a nuvem não apagar da planilha
       vendas = vendas.map(v => selecionadosMass.has(v.id) ? { ...v, status: 'Excluído' } : v);
-      
-      // Envia para a nuvem mantendo as linhas intactas na planilha com status Excluído
       sincronizarNuvem(vendas);
 
-      // Remove da interface ativa do radar
       vendas = vendas.filter(v => v.status !== 'Excluído');
       localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
 
@@ -873,11 +869,9 @@
 
   function excluirVenda(id) {
     if (confirm('Deseja excluir esta venda do radar? (ℹ️ O registro permanecerá seguro no Data Center da planilha para fins de auditoria)')) {
-      // Soft Delete: Marca o status como Excluído localmente e envia para a nuvem preservar na planilha
       vendas = vendas.map(v => v.id === id ? { ...v, status: 'Excluído' } : v);
       sincronizarNuvem(vendas);
 
-      // Remove da visualização ativa no radar
       vendas = vendas.filter(v => v.id !== id);
       localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
 
