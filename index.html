@@ -43,6 +43,15 @@
       background-color: var(--bg-dark); color: var(--text-main); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    /* Checkbox com tamanho padrão ergonômico */
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--accent-orange);
+      vertical-align: middle;
+    }
+
     #update-toast {
       display: none; position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
       background: linear-gradient(135deg, var(--accent-orange), #ea580c); color: #fff;
@@ -390,7 +399,6 @@
         </div>
       </div>
 
-      <!-- ABA DE SEGURANÇA COM OS TRÊS BOTÕES ISOLADOS -->
       <div id="tab-seguranca" class="tab-content">
         <h1>⚙️ Dados & Segurança</h1>
         <p class="subtitle">Gerencie o backup e a restauração de dados de forma simples e segura.</p>
@@ -547,7 +555,6 @@
     carregarHistoricoNuvemSilencioso();
   }
 
-  // --- BOTÃO 1: Retornar Vendas Mês ---
   function executarRetornarVendas() {
     if (!usuarioEmail) return;
     if (confirm("Deseja retornar para o radar as vendas do mês corrente que estavam com exclusão ativa?")) {
@@ -564,7 +571,6 @@
     }
   }
 
-  // --- BOTÃO 2: Restaurar Histórico Fechado ---
   function executarRestaurarHistorico() {
     if (!usuarioEmail) return;
     if (confirm("Deseja restaurar para o aplicativo os relatórios de meses anteriores excluídos?")) {
@@ -581,7 +587,6 @@
     }
   }
 
-  // --- BOTÃO 3: Restaurar Histórico Completo (Backup Geral) ---
   function executarRestoreCompleto() {
     if (!usuarioEmail) return;
     if (confirm("Deseja restaurar absolutamente tudo o que está registrado em seu nome no Data Center?")) {
