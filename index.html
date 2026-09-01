@@ -35,361 +35,101 @@
       --border-color: #cbd5e1;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    input, select, textarea {
-      -webkit-user-select: text !important;
-      -moz-user-select: text !important;
-      -ms-user-select: text !important;
-      user-select: text !important;
-    }
+    * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+    input, select, textarea { -webkit-user-select: text !important; user-select: text !important; }
 
     html, body {
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0 !important; padding: 0 !important; width: 100% !important; height: 100% !important;
+      background-color: var(--bg-dark); color: var(--text-main); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* BANNER DE NOVA VERSÃO DISPONÍVEL */
     #update-toast {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--accent-orange), #ea580c);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      z-index: 10000;
-      font-size: 0.85rem;
-      font-weight: bold;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.03); }
-      100% { transform: translateX(-50%) scale(1); }
+      display: none; position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent-orange), #ea580c); color: #fff;
+      padding: 12px 20px; border-radius: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); z-index: 10000;
+      font-size: 0.85rem; font-weight: bold; align-items: center; gap: 12px; cursor: pointer;
     }
 
     #auth-screen {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 9999;
+      display: flex; height: 100vh; width: 100vw; background-color: var(--bg-dark); color: var(--text-main);
+      flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: fixed; top: 0; left: 0; z-index: 9999;
     }
 
     .auth-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 35px 25px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+      padding: 35px 25px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
-
-    .auth-logo {
-      max-height: 80px;
-      margin-bottom: 15px;
-      object-fit: contain;
-    }
-
+    .auth-logo { max-height: 80px; margin-bottom: 15px; object-fit: contain; }
     .auth-card h2 { color: var(--accent-orange); font-size: 1.5rem; margin-bottom: 8px; }
     .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4; }
     .auth-input-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
     .auth-input-group input { text-align: center; font-size: 1rem; }
-
     .btn-auth { background-color: var(--accent-orange); color: #fff; font-weight: 700; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 1rem; width: 100%; }
     #auth-msg { margin-top: 15px; font-size: 0.85rem; font-weight: 600; display: none; }
     .msg-error { color: var(--accent-red); }
 
-    .app-container {
-      display: none;
-      min-height: 100vh;
-      width: 100vw;
-      flex-direction: row;
-    }
+    .app-container { display: none; min-height: 100vh; width: 100vw; flex-direction: row; }
 
     .sidebar { 
-      width: 280px; 
-      background-color: var(--card-bg); 
-      border-right: 1px solid var(--border-color); 
-      padding: 24px 20px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 16px; 
-      flex-shrink: 0; 
-      justify-content: space-between;
-      transition: background-color 0.3s; 
+      width: 280px; background-color: var(--card-bg); border-right: 1px solid var(--border-color); 
+      padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0; justify-content: space-between; 
     }
-
     .sidebar-top { display: flex; flex-direction: column; gap: 10px; }
+    .brand-container { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .brand-logo-btn { background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; }
+    .brand-logo { max-height: 52px; width: auto; object-fit: contain; }
+    .user-info-box { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .user-info-bar { font-size: 0.75rem; color: var(--text-muted); text-align: right; word-break: break-all; }
 
-    .brand-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .brand-logo-btn {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-    }
-
-    .brand-logo { 
-      max-height: 52px; 
-      width: auto; 
-      object-fit: contain; 
-    }
-
-    .user-info-box {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .user-info-bar { 
-      font-size: 0.75rem; 
-      color: var(--text-muted); 
-      text-align: right;
-      word-break: break-all; 
-    }
-
-    .btn-sync-cloud {
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid var(--accent-blue);
-      color: var(--accent-blue);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.7rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s;
-    }
-
-    .btn-sync-cloud:hover {
-      background: var(--accent-blue);
-      color: #fff;
-    }
-
-    .nav-btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
+    .nav-btn-group { display: flex; flex-direction: column; gap: 8px; }
     .nav-btn { 
-      background: none; 
-      border: none; 
-      color: var(--text-muted); 
-      padding: 12px 16px; 
-      text-align: left; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-weight: 600; 
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
-      transition: all 0.2s; 
-      white-space: nowrap; 
+      background: none; border: none; color: var(--text-muted); padding: 12px 16px; text-align: left; 
+      border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; white-space: nowrap; 
     }
-    
-    .nav-btn:hover, .nav-btn.active { 
-      background-color: rgba(249, 115, 22, 0.15); 
-      color: var(--accent-orange); 
-    }
+    .nav-btn:hover, .nav-btn.active { background-color: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
 
-    /* BANNER CTA TREINAMENTO MASTER */
     .banner-cta-course {
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(59, 130, 246, 0.12));
-      border: 1px solid var(--accent-orange);
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 10px;
+      border: 1px solid var(--accent-orange); padding: 16px; border-radius: 12px; text-align: center; margin-top: 10px;
     }
-
-    .banner-cta-course h4 {
-      margin: 0 0 6px 0;
-      color: var(--accent-orange);
-      font-size: 0.95rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .banner-cta-course p {
-      font-size: 0.78rem;
-      color: var(--text-main);
-      margin: 0 0 12px 0;
-      line-height: 1.35;
-      font-weight: 500;
-    }
-
+    .banner-cta-course h4 { margin: 0 0 6px 0; color: var(--accent-orange); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; }
+    .banner-cta-course p { font-size: 0.78rem; color: var(--text-main); margin: 0 0 12px 0; line-height: 1.35; font-weight: 500; }
     .btn-course-upgrade {
-      display: block;
-      background: var(--accent-orange);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 0.82rem;
-      padding: 12px 10px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-      transition: transform 0.2s, background-color 0.2s;
+      display: block; background: var(--accent-orange); color: #fff; text-decoration: none; font-weight: 800; font-size: 0.82rem;
+      padding: 12px 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
     }
 
-    .btn-course-upgrade:hover {
-      transform: translateY(-2px);
-      background-color: #ea580c;
-    }
+    .sidebar-bottom { display: flex; flex-direction: column; gap: 10px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+    .row-btn { background: rgba(249, 115, 22, 0.1); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 12px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
+    .btn-install-footer { background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.5); color: var(--accent-yellow); padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
 
-    .sidebar-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .row-btn {
-      background: rgba(249, 115, 22, 0.1);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 10px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 100%;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .btn-install-footer {
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(234, 179, 8, 0.5);
-      color: var(--accent-yellow);
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 100%;
-    }
-
-    .main-content { 
-      flex: 1; 
-      padding: 30px; 
-      overflow-y: auto; 
-      width: 100%; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
-    }
-    
+    .main-content { flex: 1; padding: 30px; overflow-y: auto; width: 100%; display: flex; flex-direction: column; justify-content: space-between; }
     .content-body { flex: 1; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     .subtitle { color: var(--text-muted); margin-bottom: 25px; }
 
-    .header-radar-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .btn-fechar-mes {
-      background: rgba(249, 115, 22, 0.15);
-      border: 1px solid var(--accent-orange);
-      color: var(--accent-orange);
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .header-radar-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .btn-fechar-mes { background: rgba(249, 115, 22, 0.15); border: 1px solid var(--accent-orange); color: var(--accent-orange); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
 
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-    .card { background-color: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); transition: background-color 0.3s; }
+    .card { background-color: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); }
     .card h4 { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 6px; }
     .card .val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
     .card .val.orange { color: var(--accent-orange); }
     .card .val.red { color: var(--accent-red); }
     .card .val.yellow { color: var(--accent-yellow); }
 
-    .form-container { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 25px; transition: background-color 0.3s; }
+    .form-container { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 25px; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 15px; }
     .input-field { display: flex; flex-direction: column; gap: 6px; }
     .input-field label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
-
     input, select { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); font-size: 1rem; width: 100%; min-height: 48px; }
     button.btn-primary { background-color: var(--accent-orange); color: #fff; font-weight: 700; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; height: 48px; align-self: flex-end; width: 100%; }
-    
+
     .table-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
     .search-input { flex: 1; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-main); font-size: 0.95rem; min-width: 250px; }
-    
-    .btn-delete-mass {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid var(--accent-red);
-      color: var(--accent-red);
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.85rem;
-      display: none;
-    }
+    .btn-delete-mass { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--accent-red); color: var(--accent-red); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; display: none; }
 
     .table-responsive { width: 100%; overflow-x: auto; background-color: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
     table { width: 100%; border-collapse: collapse; min-width: 700px; }
@@ -406,6 +146,22 @@
     .badge-pago { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
     .badge-pendente { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
 
+    /* ESTILOS ESPECÍFICOS PARA HISTÓRICO EXPANSÍVEL (ACCORDION) */
+    .historico-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+    .historico-header { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(255,255,255,0.02); transition: background 0.2s; }
+    .historico-header:hover { background: rgba(249, 115, 22, 0.05); }
+    .historico-body { display: none; padding: 20px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.1); }
+
+    /* ESTILOS DA ABA DE SEGURANÇA & DADOS */
+    .security-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .security-info { flex: 1; min-width: 280px; }
+    .security-info h3 { margin: 0 0 8px 0; color: var(--text-main); font-size: 1.1rem; }
+    .security-info p { margin: 0; color: var(--text-muted); font-size: 0.88rem; line-height: 1.4; }
+    .btn-security { padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; white-space: nowrap; transition: opacity 0.2s; }
+    .btn-safesync { background: var(--accent-blue); color: #fff; }
+    .btn-restoreall { background: var(--accent-orange); color: #fff; }
+    .btn-security:hover { opacity: 0.9; }
+
     .sub-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
     .sub-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; flex: 1; min-width: 200px; text-align: center; }
     .sub-btn.active { background: var(--accent-orange); color: #fff; border-color: var(--accent-orange); }
@@ -416,90 +172,22 @@
 
     .app-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
-    /* --- ADAPTAÇÃO MOBILE --- */
     @media (max-width: 768px) {
-      .app-container { 
-        flex-direction: column; 
-      }
-
-      .sidebar { 
-        width: 100%; 
-        border-right: none; 
-        border-bottom: 1px solid var(--border-color); 
-        padding: 12px 15px; 
-        flex-direction: column; 
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background-color: var(--card-bg);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      }
-
-      .brand-container {
-        margin-bottom: 10px;
-      }
-
-      .brand-logo { 
-        max-height: 48px; 
-      }
-
-      .nav-btn-group {
-        flex-direction: row;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 6px;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .nav-btn-group::-webkit-scrollbar {
-        height: 3px;
-      }
-      .nav-btn-group::-webkit-scrollbar-thumb {
-        background: var(--accent-orange);
-        border-radius: 3px;
-      }
-
-      .nav-btn {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-        flex-shrink: 0;
-      }
-
-      .sidebar-bottom {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-        padding-top: 8px;
-        border-top: 1px solid var(--border-color);
-      }
-
-      .row-btn, .btn-install-footer {
-        padding: 8px 10px;
-        font-size: 0.75rem;
-      }
-
-      .main-content { 
-        padding: 15px; 
-      }
-
-      .grid-cards { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 10px; 
-      }
-
-      .form-grid { 
-        grid-template-columns: 1fr; 
-      }
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; background-color: var(--card-bg); }
+      .nav-btn-group { flex-direction: row; overflow-x: auto; white-space: nowrap; padding-bottom: 6px; }
+      .nav-btn { padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; }
+      .sidebar-bottom { flex-direction: row; gap: 8px; padding-top: 8px; }
+      .main-content { padding: 15px; }
+      .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .security-card { flex-direction: column; align-items: flex-start; }
+      .btn-security { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<!-- BANNER DE NOTIFICAÇÃO DE ATUALIZAÇÃO -->
-<div id="update-toast" onclick="forcarAtualizacaoApp()">
-  🚀 Nova versão disponível! <u>Clique aqui para atualizar</u>
-</div>
+<div id="update-toast" onclick="forcarAtualizacaoApp()">🚀 Nova versão disponível! <u>Clique aqui para atualizar</u></div>
 
 <div id="auth-screen">
   <div class="auth-card">
@@ -523,7 +211,6 @@
         </button>
         <div class="user-info-box">
           <div class="user-info-bar" id="display-user-email"></div>
-          <button class="btn-sync-cloud" onclick="forcarSincronizacaoManual()" title="Recarregar Dados da Nuvem">🔄 Sincronizar</button>
         </div>
       </div>
 
@@ -534,9 +221,9 @@
         <button class="nav-btn" onclick="switchTab('checklist', event)">📋 Comissões Pendentes</button>
         <button class="nav-btn" onclick="switchTab('historico', event)">🏛️ Meses Anteriores</button>
         <button class="nav-btn" onclick="switchTab('dicas', event)">🚀 Acelerador de Comissão</button>
+        <button class="nav-btn" onclick="switchTab('seguranca', event)">⚙️ Dados & Segurança</button>
       </div>
 
-      <!-- CTA CURSO MASTER: VENDAS MOVEM NEGÓCIOS -->
       <div class="banner-cta-course">
         <h4>🔥 QUER MULTIPLICAR SEUS RESULTADOS?</h4>
         <p>Aprenda a dominar o processo comercial, fechar contratos de alto valor e acelerar sua receita com o método <strong>Vendas Movem Negócios</strong>.</p>
@@ -552,6 +239,8 @@
 
   <div class="main-content">
     <div class="content-body">
+      
+      <!-- ABA 1: RADAR DE VENDAS -->
       <div id="tab-radar" class="tab-content active">
         <div class="header-radar-actions">
           <div>
@@ -572,29 +261,11 @@
           <form id="form-venda-radar" onsubmit="return false;">
             <input type="hidden" id="edit-id">
             <div class="form-grid">
-              <div class="input-field">
-                <label for="data-venda">Data da Venda</label>
-                <input type="date" id="data-venda" required>
-              </div>
-              <div class="input-field">
-                <label for="cliente">Nome do Cliente</label>
-                <input type="text" id="cliente" placeholder="Ex: João Silva" required>
-              </div>
-              <div class="input-field">
-                <label for="valor">Valor da Venda (R$)</label>
-                <input type="text" id="valor" inputmode="decimal" placeholder="R$ 0,00" oninput="mascaraMoedaInput(this)" required>
-              </div>
-              <div class="input-field">
-                <label for="porcentagem">Sua Comissão (%)</label>
-                <input type="number" id="porcentagem" inputmode="decimal" value="10" step="any" required>
-              </div>
-              <div class="input-field">
-                <label for="status">Status</label>
-                <select id="status">
-                  <option value="Pago">Pago / Confirmado</option>
-                  <option value="Pendente">Pendente / Aguardando</option>
-                </select>
-              </div>
+              <div class="input-field"><label for="data-venda">Data da Venda</label><input type="date" id="data-venda" required></div>
+              <div class="input-field"><label for="cliente">Nome do Cliente</label><input type="text" id="cliente" placeholder="Ex: João Silva" required></div>
+              <div class="input-field"><label for="valor">Valor da Venda (R$)</label><input type="text" id="valor" inputmode="decimal" placeholder="R$ 0,00" oninput="mascaraMoedaInput(this)" required></div>
+              <div class="input-field"><label for="porcentagem">Sua Comissão (%)</label><input type="number" id="porcentagem" inputmode="decimal" value="10" step="any" required></div>
+              <div class="input-field"><label for="status">Status</label><select id="status"><option value="Pago">Pago / Confirmado</option><option value="Pendente">Pendente / Aguardando</option></select></div>
               <button type="button" onclick="salvarVenda(event)" class="btn-primary" id="btn-salvar-venda">+ Registrar Venda</button>
             </div>
           </form>
@@ -610,13 +281,7 @@
             <thead>
               <tr>
                 <th style="width: 40px; text-align: center;"><input type="checkbox" id="check-all" onchange="toggleSelectAll(this)"></th>
-                <th>Data</th>
-                <th>Cliente</th>
-                <th>Valor da Venda</th>
-                <th>% Comissão</th>
-                <th>Sua Comissão</th>
-                <th>Status</th>
-                <th>Ações</th>
+                <th>Data</th><th>Cliente</th><th>Valor da Venda</th><th>% Comissão</th><th>Sua Comissão</th><th>Status</th><th>Ações</th>
               </tr>
             </thead>
             <tbody id="lista-vendas"></tbody>
@@ -624,44 +289,15 @@
         </div>
       </div>
 
-      <div id="tab-historico" class="tab-content">
-        <h1>Histórico de Meses Anteriores</h1>
-        <p class="subtitle">Consulte o relatório consolidado dos meses que você já fechou.</p>
-
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Mês / Referência</th>
-                <th>Comissão no Bolso</th>
-                <th>Total de Vendas</th>
-                <th>Ticket Médio</th>
-                <th>Taxa de Conversão</th>
-                <th>Data do Fechamento</th>
-              </tr>
-            </thead>
-            <tbody id="lista-historico"></tbody>
-          </table>
-        </div>
-      </div>
-
+      <!-- ABA 2: METAS -->
       <div id="tab-metas" class="tab-content">
         <h1>Mapeador de Metas & Taxa de Conversão</h1>
         <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
         <div class="form-container">
           <div class="form-grid">
-            <div class="input-field">
-              <label for="meta-mensal">Meta de Comissão no Bolso (R$)</label>
-              <input type="text" id="meta-mensal" inputmode="decimal" value="R$ 10.000,00" oninput="mascaraMoedaInput(this); calcularMeta()">
-            </div>
-            <div class="input-field">
-              <label for="dias-uteis">Dias Úteis Restantes</label>
-              <input type="number" id="dias-uteis" inputmode="numeric" value="20" oninput="calcularMeta()">
-            </div>
-            <div class="input-field">
-              <label for="atendimentos-totais">Total de Leads Atendidos no Mês</label>
-              <input type="number" id="atendimentos-totais" inputmode="numeric" value="100" oninput="calcularMeta()" placeholder="Ex: 100">
-            </div>
+            <div class="input-field"><label for="meta-mensal">Meta de Comissão no Bolso (R$)</label><input type="text" id="meta-mensal" inputmode="decimal" value="R$ 10.000,00" oninput="mascaraMoedaInput(this); calcularMeta()"></div>
+            <div class="input-field"><label for="dias-uteis">Dias Úteis Restantes</label><input type="number" id="dias-uteis" inputmode="numeric" value="20" oninput="calcularMeta()"></div>
+            <div class="input-field"><label for="atendimentos-totais">Total de Leads Atendidos no Mês</label><input type="number" id="atendimentos-totais" inputmode="numeric" value="100" oninput="calcularMeta()"></div>
           </div>
         </div>
         <div class="grid-cards">
@@ -673,103 +309,87 @@
         </div>
       </div>
 
+      <!-- ABA 3: SIMULADOR -->
       <div id="tab-calculadora" class="tab-content">
         <h1>Calculadora & Simulador de Desconto</h1>
         <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
         <div class="form-container">
           <div class="form-grid">
-            <div class="input-field">
-              <label for="val-original">Valor Original do Produto (R$)</label>
-              <input type="text" id="val-original" inputmode="decimal" value="R$ 1.000,00" oninput="mascaraMoedaInput(this); calcularDesconto()">
-            </div>
-            <div class="input-field">
-              <label for="comissao-padrao">% de Comissão Padrão</label>
-              <input type="number" id="comissao-padrao" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()">
-            </div>
-            <div class="input-field">
-              <label for="desc-porcent">Desconto Solicitado pelo Cliente (%)</label>
-              <input type="number" id="desc-porcent" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()">
-            </div>
+            <div class="input-field"><label for="val-original">Valor Original do Produto (R$)</label><input type="text" id="val-original" inputmode="decimal" value="R$ 1.000,00" oninput="mascaraMoedaInput(this); calcularDesconto()"></div>
+            <div class="input-field"><label for="comissao-padrao">% de Comissão Padrão</label><input type="number" id="comissao-padrao" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()"></div>
+            <div class="input-field"><label for="desc-porcent">Desconto Solicitado (%)</label><input type="number" id="desc-porcent" inputmode="decimal" value="10" step="any" oninput="calcularDesconto()"></div>
           </div>
         </div>
         <div class="grid-cards">
-          <div class="card">
-            <h4>Cenário Padrão (Sem Desconto)</h4>
-            <p style="color: var(--text-muted); font-size: 0.8rem;">Venda: <span id="venda-normal">R$ 0,00</span></p>
-            <div class="val" id="comissao-normal">R$ 0,00</div>
-          </div>
-          <div class="card">
-            <h4>Cenário Simulado (Com Desconto)</h4>
-            <p style="color: var(--text-muted); font-size: 0.8rem;">Venda: <span id="venda-simulada">R$ 0,00</span></p>
-            <div class="val orange" id="comissao-simulada">R$ 0,00</div>
-          </div>
-          <div class="card" style="grid-column: span 2; border-color: var(--accent-red);">
-            <h4>Sua Perda por esse Desconto</h4>
-            <p style="color: var(--text-muted); font-size: 0.8rem;">Diferença no seu bolso:</p>
-            <div class="val red" id="perda-comissao">- R$ 0,00</div>
-          </div>
+          <div class="card"><h4>Cenário Padrão</h4><p style="color:var(--text-muted); font-size:0.8rem;">Venda: <span id="venda-normal">R$ 0,00</span></p><div class="val" id="comissao-normal">R$ 0,00</div></div>
+          <div class="card"><h4>Cenário Simulado</h4><p style="color:var(--text-muted); font-size:0.8rem;">Venda: <span id="venda-simulada">R$ 0,00</span></p><div class="val orange" id="comissao-simulada">R$ 0,00</div></div>
+          <div class="card" style="grid-column: span 2; border-color:var(--accent-red);"><h4>Sua Perda</h4><p style="color:var(--text-muted); font-size:0.8rem;">Diferença:</p><div class="val red" id="perda-comissao">- R$ 0,00</div></div>
         </div>
       </div>
 
+      <!-- ABA 4: PENDENTES -->
       <div id="tab-checklist" class="tab-content">
         <h1>Comissões Pendentes</h1>
-        <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento. Não deixe dinheiro na mesa!</p>
+        <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento.</p>
         <div class="table-responsive">
           <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Cliente</th>
-                <th>Valor da Venda</th>
-                <th>Comissão a Receber</th>
-                <th>Ação Rápida</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Data</th><th>Cliente</th><th>Valor da Venda</th><th>Comissão a Receber</th><th>Ação Rápida</th></tr></thead>
             <tbody id="lista-pendentes"></tbody>
           </table>
         </div>
       </div>
 
+      <!-- ABA 5: HISTÓRICO COM RESUMO E ACCORDION DE DETALHES -->
+      <div id="tab-historico" class="tab-content">
+        <h1>Histórico de Meses Anteriores</h1>
+        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir a lista completa de vendas daquele período.</p>
+        <div id="container-historico-accordions"></div>
+      </div>
+
+      <!-- ABA 6: ACELERADOR -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
-        <p class="subtitle">Clique no módulo desejado para desbloquear as estratégias práticas da dica.</p>
-
+        <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
         <div class="sub-nav">
-          <button class="sub-btn active" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Aumentar Ticket Médio (10 Dicas)</button>
-          <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Aumentar Taxa de Conversão (10 Dicas)</button>
+          <button class="sub-btn active" id="btn-mod-ticket" onclick="switchDicaSub('ticket', event)">🚀 Módulo 1: Ticket Médio</button>
+          <button class="sub-btn" id="btn-mod-conversao" onclick="switchDicaSub('conversao', event)">🎯 Módulo 2: Conversão</button>
         </div>
-
         <div id="sub-dicas-ticket" class="sub-dica-content">
-          <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Quando o cliente decidir a compra básica, ofereça a versão superior destacando apenas a pequena diferença de preço.</p></div>
-          <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM', antes de mandar a chave PIX.</p></div>
-          <div class="tip-card"><h3>Dica 3: Ancoragem com 3 Pacotes</h3><p>Apresente as opções Básico, Alvo e Premium. O cliente tenderá instintivamente a escolher a opção do meio.</p></div>
-          <div class="tip-card"><h3>Dica 4: Combo de Proteção/Garantia</h3><p>Adicione um serviço extra de suporte exclusivo ou garantia estendida como opcional pago.</p></div>
-          <div class="tip-card"><h3>Dica 5: O Pacote Familiar/Equipe</h3><p>Incentive a compra de mais unidades com desconto progressivo para presentear ou usar em equipe.</p></div>
-          <div class="tip-card"><h3>Dica 6: O Bônus Condicionado ao Ticket Alto</h3><p>Crie um bônus que o cliente só ganha se atingir determinado valor de pedido.</p></div>
-          <div class="tip-card"><h3>Dica 7: Edição Limitada / Item Exclusivo</h3><p>Ofereça um item complementar com estoque limitado para gerar desejo imediato.</p></div>
-          <div class="tip-card"><h3>Dica 8: Eliminação do Frete/Taxa por Valor</h3><p>Mostre que adicionando mais R$ 50 num produto extra, ele economiza na taxa de envio/serviço.</p></div>
-          <div class="tip-card"><h3>Dica 9: A Pergunta da Necessidade Oculta</h3><p>Pergunte: "Além deste item, você já tem o [item complementar] para usar junto?".</p></div>
-          <div class="tip-card"><h3>Dica 10: Renovação Antecipada com Desconto</h3><p>Para serviços/planos, ofereça desconto para contratação de maior período à vista.</p></div>
+          <div class="tip-card"><h3>Dica 1: A Regra do "Por Apenas Mais..."</h3><p>Ofereça a versão superior destacando a pequena diferença de preço.</p></div>
+          <div class="tip-card"><h3>Dica 2: Cross-Sell Pré-Checkout</h3><p>Ofereça o produto complementar no exato momento do 'SIM'.</p></div>
         </div>
-
         <div id="sub-dicas-conversao" class="sub-dica-content" style="display: none;">
-          <div class="tip-card"><h3>Dica 1: Regra dos 5 Minutos no WhatsApp</h3><p>Responda o primeiro 'Oi' imediatamente. Rapidez inicial aumenta a conversão em até 400%.</p></div>
-          <div class="tip-card"><h3>Dica 2: Fechamento por Dupla Escolha</h3><p>Pergunte: "Prefere acerto via PIX ou cartão?" em vez de "Vai querer fechar?".</p></div>
-          <div class="tip-card"><h3>Dica 3: A Trava do "Vou Pensar"</h3><p>Pergunte qual dúvida em relação ao produto ou pagamento ainda impede o fechamento agora.</p></div>
-          <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após apresentar o preço.</p></div>
-          <div class="tip-card"><h3>Dica 5: Escassez Real de Agendamento/Estoque</h3><p>Comunique que a condição especial dura apenas para pedidos confirmados até as 18h.</p></div>
-          <div class="tip-card"><h3>Dica 6: Chamada de Vídeo/Áudio Personalizado</h3><p>Envie um áudio chamando o cliente pelo nome para gerar conexão humana imediata.</p></div>
-          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play aqui?".</p></div>
-          <div class="tip-card"><h3>Dica 8: Eliminação de Risco (Garantia)</h3><p>Destaque a garantia incondicional no exato momento da trava de decisão.</p></div>
-          <div class="tip-card"><h3>Dica 9: A Técnica da Reserva do Pedido</h3><p>Pergunte se pode deixar o pedido reservado por 2 horas no sistema enquanto ele decide.</p></div>
-          <div class="tip-card"><h3>Dica 10: O Script de Resgate no Fim do Mês</h3><p>Aborde todos os orçamentos abertos do mês oferecendo um incentivo final para bater meta.</p></div>
+          <div class="tip-card"><h3>Dica 1: Regra dos 5 Minutos</h3><p>Responda o primeiro 'Oi' imediatamente no WhatsApp.</p></div>
         </div>
       </div>
+
+      <!-- ABA 7: CONFIGURAÇÕES, DADOS & SEGURANÇA (NOVA ABA) -->
+      <div id="tab-seguranca" class="tab-content">
+        <h1>⚙️ Dados, Backup & Segurança</h1>
+        <p class="subtitle">Gerencie a recuperação de dados e o espelhamento com a nuvem de forma segura.</p>
+
+        <div class="security-card">
+          <div class="security-info">
+            <h3>🔄 Sincronizar Mês Atual (Safe Sync)</h3>
+            <p>Restaura da nuvem estritamente as vendas ativas do mês corrente que ainda não passaram por nenhum fechamento. Use se limpou o navegador por acidente. Garante que nenhuma venda excluída seja duplicada.</p>
+          </div>
+          <button class="btn-security btn-safesync" onclick="executarSafeSync()">Executar Safe Sync</button>
+        </div>
+
+        <div class="security-card">
+          <div class="security-info">
+            <h3>☁️ Restaurar Histórico Completo (Soft Delete Recovery)</h3>
+            <p>Puxa da nuvem todos os meses já fechados com suas respectivas listas detalhadas de vendas, reidratando seu histórico completo ao trocar de aparelho.</p>
+          </div>
+          <button class="btn-security btn-restoreall" onclick="executarRestoreCompleto()">Restaurar Histórico</button>
+        </div>
+      </div>
+
     </div>
 
     <footer class="app-footer">
       <p>© 2026 <strong>Grupo Altus Educacional</strong>. Todos os direitos reservados.</p>
-      <p style="font-size: 0.72rem; margin-top: 4px; opacity: 0.75;">Tecnologia e Inteligência em Vendas. Proibida a reprodução parcial ou total do software.</p>
+      <p style="font-size: 0.72rem; margin-top: 4px; opacity: 0.75;">Tecnologia e Inteligência em Vendas.</p>
     </footer>
   </div>
 </div>
@@ -787,14 +407,11 @@
     e.preventDefault();
     deferredPrompt = e;
     const btnInstal = document.getElementById('btn-install-pwa');
-    if (btnInstal) {
-      btnInstal.style.display = 'flex';
-    }
+    if (btnInstal) btnInstal.style.display = 'flex';
   });
 
   document.addEventListener("DOMContentLoaded", () => {
     carregarTemaSalvo();
-
     const urlParams = new URLSearchParams(window.location.search);
     const emailUrl = urlParams.get('aluno_id') || urlParams.get('user_id') || urlParams.get('email');
 
@@ -816,21 +433,17 @@
     usuarioEmail = "";
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('app-main-content').style.display = 'none';
-    resetaBotaoLogin();
   }
 
   function validarEEntrar() {
     const input = document.getElementById('input-login-email');
     const emailTyped = input.value.trim().toLowerCase();
-    
     if (!emailTyped || !emailTyped.includes('@')) {
-      exibirMensagemAuth("Por favor, digite um e-mail válido.", "msg-error");
+      exibirMensagemAuth("Digite um e-mail válido.", "msg-error");
       return;
     }
-
     document.getElementById('btn-login').innerText = "Validando...";
     document.getElementById('btn-login').disabled = true;
-
     validarEmailNuvem(emailTyped, false);
   }
 
@@ -841,144 +454,69 @@
         if (data && data.autorizado === true) {
           usuarioEmail = email;
           localStorage.setItem('radar_user_email', usuarioEmail);
-          
           document.getElementById('auth-screen').style.display = 'none';
           document.getElementById('app-main-content').style.display = 'flex';
           document.getElementById('display-user-email').innerText = usuarioEmail;
-
           inicializarApp();
         } else {
           bloquearAcesso();
-          if (!ehAutoLogin) {
-            exibirMensagemAuth("E-mail não autorizado ou assinatura inativa.", "msg-error");
-          }
+          if (!ehAutoLogin) exibirMensagemAuth("E-mail não autorizado.", "msg-error");
         }
       })
       .catch(err => {
-        console.log('Erro de validação:', err);
         bloquearAcesso();
-        if (!ehAutoLogin) {
-          exibirMensagemAuth("Erro ao conectar à API. Tente novamente.", "msg-error");
-        }
+        if (!ehAutoLogin) exibirMensagemAuth("Erro ao conectar à API.", "msg-error");
       });
-  }
-
-  function resetaBotaoLogin() {
-    const btn = document.getElementById('btn-login');
-    if (btn) {
-      btn.innerText = "Entrar no Aplicativo";
-      btn.disabled = false;
-    }
   }
 
   function exibirMensagemAuth(msg, classe) {
     const el = document.getElementById('auth-msg');
-    el.innerText = msg;
-    el.className = classe;
-    el.style.display = 'block';
+    el.innerText = msg; el.className = classe; el.style.display = 'block';
   }
 
   function inicializarApp() {
-    const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-venda').value = hoje;
+    document.getElementById('data-venda').value = new Date().toISOString().split('T')[0];
     document.getElementById('dias-uteis').value = calcularDiasUteisRestantesAutomatico();
     
-    // Lé do cache local primeiro para carregar instantâneo
     vendas = JSON.parse(localStorage.getItem('vendas_radar_' + usuarioEmail)) || [];
     historicoMeses = JSON.parse(localStorage.getItem('historico_radar_' + usuarioEmail)) || [];
     render();
 
-    // FORÇAR BUSCA DA NUVEM (PRIORIDADE TOTAL PARA NÃO PERDER VENDAS)
-    carregarVendasNuvem();
-    carregarHistoricoNuvem();
+    carregarVendasNuvemSilencioso();
+    carregarHistoricoNuvemSilencioso();
   }
 
-  function forcarSincronizacaoManual() {
+  // --- BOTÕES DE SEGURANÇA NA NOVA ABA ---
+  function executarSafeSync() {
     if (!usuarioEmail) return;
-    const btn = document.querySelector('.btn-sync-cloud');
-    if (btn) btn.innerText = "⏳ Sincronizando...";
-    
-    carregarVendasNuvem();
-    carregarHistoricoNuvem();
-
-    setTimeout(() => {
-      if (btn) btn.innerText = "✓ Sincronizado!";
-      setTimeout(() => { if (btn) btn.innerText = "🔄 Sincronizar"; }, 1500);
-    }, 1000);
+    if (confirm("Deseja restaurar as vendas ativas do mês corrente diretamente da nuvem?")) {
+      carregarVendasNuvemSilencioso(() => alert("Safe Sync executado com sucesso! Vendas correntes sincronizadas."));
+    }
   }
 
-  function instalarAppPWA() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('Usuário aceitou a instalação.');
-        }
-        deferredPrompt = null;
+  function executarRestoreCompleto() {
+    if (!usuarioEmail) return;
+    if (confirm("Deseja restaurar todo o histórico de meses anteriores e vendas ativas da nuvem?")) {
+      carregarHistoricoNuvemSilencioso(() => {
+        carregarVendasNuvemSilencioso(() => alert("Histórico completo restaurado com sucesso!"));
       });
-    } else {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      if (isIOS) {
-        alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque no botão "Compartilhar" (ícone do quadrado com a seta pra cima no Safari).\n2. Role para baixo e selecione "Adicionar à Tela de Início".');
-      } else {
-        alert('📲 Para instalar no Android ou Computador:\n\n1. Toque no menu do navegador (3 pontinhos no canto superior direito).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
-      }
     }
-  }
-
-  function goHome(ev) {
-    if (ev) ev.preventDefault();
-    const btnRadar = document.getElementById('nav-btn-radar');
-    switchTab('radar', { currentTarget: btnRadar });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    const isLight = document.body.classList.contains('light-theme');
-    localStorage.setItem('radar_theme', isLight ? 'light' : 'dark');
-    document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Tema Escuro' : '☀️ Tema Claro';
-  }
-
-  function carregarTemaSalvo() {
-    const temaSalvo = localStorage.getItem('radar_theme');
-    if (temaSalvo === 'light') {
-      document.body.classList.add('light-theme');
-      document.getElementById('btn-theme-text').innerText = '🌙 Tema Escuro';
-    }
-  }
-
-  function calcularDiasUteisRestantesAutomatico() {
-    const hoje = new Date();
-    const ano = hoje.getFullYear();
-    const mes = hoje.getMonth();
-    const ultimoDiaMes = new Date(ano, mes + 1, 0).getDate();
-    
-    let diasUteis = 0;
-    for (let dia = hoje.getDate(); dia <= ultimoDiaMes; dia++) {
-      const dataTemp = new Date(ano, mes, dia);
-      const diaSemana = dataTemp.getDay();
-      if (diaSemana !== 0 && diaSemana !== 6) {
-        diasUteis++;
-      }
-    }
-    return diasUteis || 1;
   }
 
   function sincronizarNuvem() {
     if (!usuarioEmail) return;
     localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
-    if (API_NUVEM_URL && usuarioEmail) {
+    if (API_NUVEM_URL) {
       fetch(API_NUVEM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ vendas: vendas, usuario_id: usuarioEmail }),
         redirect: 'follow'
-      }).catch(err => console.log('Erro de sincronização:', err));
+      }).catch(err => console.log('Erro sync:', err));
     }
   }
 
-  function carregarVendasNuvem() {
+  function carregarVendasNuvemSilencioso(callback) {
     if (API_NUVEM_URL && usuarioEmail) {
       fetch(API_NUVEM_URL + '?usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
         .then(res => res.json())
@@ -987,13 +525,13 @@
             vendas = data.vendas;
             localStorage.setItem('vendas_radar_' + usuarioEmail, JSON.stringify(vendas));
             render();
+            if (callback) callback();
           }
-        })
-        .catch(err => console.log('Usando dados locais armazenados.'));
+        }).catch(err => console.log('Erro ao buscar vendas nuvem'));
     }
   }
 
-  function carregarHistoricoNuvem() {
+  function carregarHistoricoNuvemSilencioso(callback) {
     if (API_NUVEM_URL && usuarioEmail) {
       fetch(API_NUVEM_URL + '?action=buscar_historico&usuario_id=' + encodeURIComponent(usuarioEmail), { redirect: 'follow' })
         .then(res => res.json())
@@ -1002,19 +540,18 @@
             historicoMeses = data.historico;
             localStorage.setItem('historico_radar_' + usuarioEmail, JSON.stringify(historicoMeses));
             renderHistorico();
+            if (callback) callback();
           }
-        })
-        .catch(err => console.log('Usando histórico local.'));
+        }).catch(err => console.log('Erro ao buscar historico nuvem'));
     }
   }
 
   function fecharMesAtual() {
     if (vendas.length === 0) {
-      alert('Não há vendas registradas no Radar para fechar o mês!');
+      alert('Não há vendas no Radar para fechar o mês!');
       return;
     }
-
-    const mesReferencia = prompt('Digite o Mês/Ano de referência deste fechamento (ex: Agosto/2026):');
+    const mesReferencia = prompt('Digite o Mês/Ano de referência (ex: Agosto/2026):');
     if (!mesReferencia || mesReferencia.trim() === '') return;
 
     const vendasPagas = vendas.filter(v => v.status === 'Pago');
@@ -1029,28 +566,79 @@
       totalComissao: totalComissao,
       totalVendas: qtdVendas,
       ticketMedio: ticketMedio,
-      taxaConversao: taxaConversao
+      taxaConversao: taxaConversao,
+      vendasDetalhes: [...vendas] // Empacota a lista completa detalhada para consulta futura!
     };
 
-    if (confirm('Confirma o fechamento do mês ' + mesReferencia + '? As vendas ativas do Radar serão limpas e salvas no histórico.')) {
+    if (confirm('Confirma o fechamento do mês ' + mesReferencia + '? As vendas ativas serão arquivadas no histórico com total consultabilidade.')) {
       fetch(API_NUVEM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ fechar_mes: registroFechamento, usuario_id: usuarioEmail }),
         redirect: 'follow'
-      }).then(() => carregarHistoricoNuvem());
+      }).then(() => carregarHistoricoNuvemSilencioso());
 
       vendas = [];
       sincronizarNuvem();
       render();
-      alert('Mês ' + mesReferencia + ' fechado com sucesso e arquivado em Meses Anteriores!');
+      alert('Mês ' + mesReferencia + ' fechado com sucesso!');
+    }
+  }
+
+  // --- RENDERIZAÇÃO DO HISTÓRICO EXPANSÍVEL (ACCORDION) ---
+  function renderHistorico() {
+    const container = document.getElementById('container-historico-accordions');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (historicoMeses.length === 0) {
+      container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Nenhum mês fechado anteriormente.</p>';
+      return;
+    }
+
+    historicoMeses.forEach((h, index) => {
+      let htmlTabelaVendas = '';
+      if (h.vendasDetalhes && h.vendasDetalhes.length > 0) {
+        htmlTabelaVendas = '<div class="table-responsive"><table><thead><tr><th>Data</th><th>Cliente</th><th>Valor</th><th>%</th><th>Comissão</th><th>Status</th></tr></thead><tbody>';
+        h.vendasDetalhes.forEach(vd => {
+          htmlTabelaVendas += '<tr>' +
+            '<td>' + formatarDataBR(vd.dataVenda) + '</td>' +
+            '<td><b>' + vd.cliente + '</b></td>' +
+            '<td>' + formatarMoeda(vd.valor) + '</td>' +
+            '<td>' + vd.porcentagem + '%</td>' +
+            '<td style="color:var(--accent-orange); font-weight:bold;">' + formatarMoeda(vd.comissao) + '</td>' +
+            '<td><span class="badge ' + (vd.status === 'Pago' ? 'badge-pago' : 'badge-pendente') + '">' + vd.status + '</span></td>' +
+            '</tr>';
+        });
+        htmlTabelaVendas += '</tbody></table></div>';
+      } else {
+        htmlTabelaVendas = '<p style="color:var(--text-muted); font-size:0.85rem;">Nenhum detalhe de venda registrado neste fechamento.</p>';
+      }
+
+      const card = document.createElement('div');
+      card.className = 'historico-card';
+      card.innerHTML = '<div class="historico-header" onclick="toggleAccordion(' + index + ')">' +
+        '<div><h3 style="margin:0 0 4px 0; color:var(--accent-orange);">' + h.refMes + '</h3><small style="color:var(--text-muted);">Fechado em: ' + (h.dataFechamento ? formatarDataBR(h.dataFechamento) : '-') + '</small></div>' +
+        '<div style="text-align:right;"><div style="font-size:1.2rem; font-weight:bold; color:var(--text-main);">' + formatarMoeda(h.totalComissao) + '</div><small style="color:var(--text-muted);">' + h.totalVendas + ' vendas | Conv: ' + h.taxaConversao + '</small></div>' +
+        '</div>' +
+        '<div class="historico-body" id="acc-body-' + index + '">' +
+        '<h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-muted);">Vendas Detalhadas do Período (Reabordagem & Histórico):</h4>' +
+        htmlTabelaVendas +
+        '</div>';
+      container.appendChild(card);
+    });
+  }
+
+  function toggleAccordion(index) {
+    const body = document.getElementById('acc-body-' + index);
+    if (body) {
+      body.style.display = body.style.display === 'block' ? 'none' : 'block';
     }
   }
 
   function toggleSelectAll(master) {
     selecionadosMass.clear();
-    const checks = document.querySelectorAll('.check-venda');
-    checks.forEach(chk => {
+    document.querySelectorAll('.check-venda').forEach(chk => {
       chk.checked = master.checked;
       if (master.checked) selecionadosMass.add(Number(chk.value));
     });
@@ -1058,36 +646,24 @@
   }
 
   function toggleSelectVenda(id, chk) {
-    if (chk.checked) {
-      selecionadosMass.add(id);
-    } else {
-      selecionadosMass.delete(id);
-      document.getElementById('check-all').checked = false;
-    }
+    if (chk.checked) selecionadosMass.add(id);
+    else { selecionadosMass.delete(id); document.getElementById('check-all').checked = false; }
     atualizarBotaoExclusaoMassa();
   }
 
   function atualizarBotaoExclusaoMassa() {
     const btn = document.getElementById('btn-delete-mass');
     const countSpan = document.getElementById('count-mass');
-    if (selecionadosMass.size > 0) {
-      btn.style.display = 'inline-block';
-      countSpan.innerText = selecionadosMass.size;
-    } else {
-      btn.style.display = 'none';
-      countSpan.innerText = '0';
-    }
+    if (selecionadosMass.size > 0) { btn.style.display = 'inline-block'; countSpan.innerText = selecionadosMass.size; }
+    else { btn.style.display = 'none'; countSpan.innerText = '0'; }
   }
 
   function excluirSelecionados() {
     if (selecionadosMass.size === 0) return;
-    if (confirm('Tem certeza que deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas?')) {
+    if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas?')) {
       vendas = vendas.filter(v => !selecionadosMass.has(v.id));
-      selecionadosMass.clear();
-      document.getElementById('check-all').checked = false;
-      atualizarBotaoExclusaoMassa();
-      sincronizarNuvem();
-      render();
+      selecionadosMass.clear(); document.getElementById('check-all').checked = false;
+      atualizarBotaoExclusaoMassa(); sincronizarNuvem(); render();
     }
   }
 
@@ -1119,12 +695,10 @@
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + tabId).classList.add('active');
-    
     if (ev && ev.currentTarget) {
       ev.currentTarget.classList.add('active');
       ev.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
-
     if (tabId === 'historico') renderHistorico();
   }
 
@@ -1137,7 +711,6 @@
 
   function salvarVenda(e) {
     if (e) e.preventDefault();
-    
     const editId = document.getElementById('edit-id').value;
     const dataVenda = document.getElementById('data-venda').value;
     const cliente = document.getElementById('cliente').value;
@@ -1145,11 +718,7 @@
     const porcentagem = parseFloat(document.getElementById('porcentagem').value);
     const status = document.getElementById('status').value;
 
-    if (!cliente || valor <= 0) {
-      alert('Por favor, preencha o nome do cliente e o valor da venda.');
-      return;
-    }
-
+    if (!cliente || valor <= 0) { alert('Preencha o cliente e o valor.'); return; }
     const comissao = valor * (porcentagem / 100);
 
     if (editId) {
@@ -1163,7 +732,6 @@
     sincronizarNuvem();
     document.getElementById('cliente').value = '';
     document.getElementById('valor').value = '';
-
     render();
   }
 
@@ -1171,7 +739,7 @@
     const v = vendas.find(item => item.id === id);
     if (!v) return;
     document.getElementById('edit-id').value = v.id;
-    document.getElementById('data-venda').value = v.dataVenda || new Date().toISOString().split('T')[0];
+    document.getElementById('data-venda').value = v.dataVenda;
     document.getElementById('cliente').value = v.cliente;
     document.getElementById('valor').value = formatarMoeda(v.valor);
     document.getElementById('porcentagem').value = v.porcentagem;
@@ -1180,7 +748,7 @@
   }
 
   function excluirVenda(id) {
-    if (confirm('Tem certeza que deseja excluir esta venda do Radar?')) {
+    if (confirm('Deseja excluir esta venda?')) {
       vendas = vendas.filter(v => v.id !== id);
       selecionadosMass.delete(id);
       atualizarBotaoExclusaoMassa();
@@ -1201,88 +769,59 @@
     const termoBusca = (document.getElementById('busca-venda') ? document.getElementById('busca-venda').value : '').toLowerCase().trim();
 
     if (!lista || !listaPendentes) return;
+    lista.innerHTML = ''; listaPendentes.innerHTML = '';
 
-    lista.innerHTML = '';
-    listaPendentes.innerHTML = '';
-
-    let totalComissao = 0;
-    let totalVendasVal = 0;
-    let pendentesCount = 0;
-
+    let totalComissao = 0; let totalVendasVal = 0; let pendentesCount = 0;
     vendas.sort((a, b) => new Date(b.dataVenda) - new Date(a.dataVenda));
 
     vendas.forEach(v => {
-      if (v.status === 'Pago') {
-        totalComissao += v.comissao;
-        totalVendasVal += v.valor;
-      }
-
+      if (v.status === 'Pago') { totalComissao += v.comissao; totalVendasVal += v.valor; }
       const textoBuscaAlvo = (formatarDataBR(v.dataVenda) + ' ' + v.cliente + ' ' + v.valor + ' ' + v.porcentagem + '% ' + v.comissao + ' ' + v.status).toLowerCase();
 
       if (!termoBusca || textoBuscaAlvo.includes(termoBusca)) {
         const isChecked = selecionadosMass.has(v.id) ? 'checked' : '';
         const tr = document.createElement('tr');
         tr.innerHTML = '<td style="text-align: center;"><input type="checkbox" class="check-venda" value="' + v.id + '" ' + isChecked + ' onchange="toggleSelectVenda(' + v.id + ', this)"></td>' +
-          '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
-          '<td><b>' + v.cliente + '</b></td>' +
-          '<td>' + formatarMoeda(v.valor) + '</td>' +
-          '<td>' + v.porcentagem + '%</td>' +
-          '<td style="color: var(--accent-orange); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
+          '<td>' + formatarDataBR(v.dataVenda) + '</td><td><b>' + v.cliente + '</b></td><td>' + formatarMoeda(v.valor) + '</td>' +
+          '<td>' + v.porcentagem + '%</td><td style="color: var(--accent-orange); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
           '<td><span class="badge ' + (v.status === 'Pago' ? 'badge-pago' : 'badge-pendente') + '">' + v.status + '</span></td>' +
           '<td><div class="action-btn-group">' +
-          (v.status === 'Pendente' ? '<button class="icon-btn btn-pay" title="Confirmar Pagamento" onclick="darBaixa(' + v.id + ')">✓</button>' : '') +
-          '<button class="icon-btn btn-edit" title="Editar Venda" onclick="editarVenda(' + v.id + ')">✏️</button>' +
-          '<button class="icon-btn btn-delete" title="Excluir Venda" onclick="excluirVenda(' + v.id + ')">🗑️</button>' +
-          '</div></td>';
+          (v.status === 'Pendente' ? '<button class="icon-btn btn-pay" title="Baixa" onclick="darBaixa(' + v.id + ')">✓</button>' : '') +
+          '<button class="icon-btn btn-edit" title="Editar" onclick="editarVenda(' + v.id + ')">✏️</button>' +
+          '<button class="icon-btn btn-delete" title="Excluir" onclick="excluirVenda(' + v.id + ')">🗑️</button></div></td>';
         lista.appendChild(tr);
       }
 
       if (v.status === 'Pendente') {
         pendentesCount++;
         const trP = document.createElement('tr');
-        trP.innerHTML = '<td>' + formatarDataBR(v.dataVenda) + '</td>' +
-          '<td><b>' + v.cliente + '</b></td>' +
-          '<td>' + formatarMoeda(v.valor) + '</td>' +
+        trP.innerHTML = '<td>' + formatarDataBR(v.dataVenda) + '</td><td><b>' + v.cliente + '</b></td><td>' + formatarMoeda(v.valor) + '</td>' +
           '<td style="color: var(--accent-yellow); font-weight: bold;">' + formatarMoeda(v.comissao) + '</td>' +
-          '<td><button class="icon-btn btn-pay" style="padding: 8px 16px; font-size: 0.9rem;" onclick="darBaixa(' + v.id + ')">✓ Confirmar</button></td>';
+          '<td><button class="icon-btn btn-pay" style="padding: 8px 16px;" onclick="darBaixa(' + v.id + ')">✓ Confirmar</button></td>';
         listaPendentes.appendChild(trP);
       }
     });
 
-    if (pendentesCount === 0) {
-      listaPendentes.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma comissão pendente no momento!</td></tr>';
-    }
+    if (pendentesCount === 0) listaPendentes.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma comissão pendente!</td></tr>';
 
     const vendasPagasCount = vendas.filter(v => v.status === 'Pago').length;
-
     document.getElementById('total-comissao').innerText = formatarMoeda(totalComissao);
     document.getElementById('total-vendas').innerText = vendasPagasCount;
     document.getElementById('ticket-medio').innerText = vendasPagasCount ? formatarMoeda(totalVendasVal / vendasPagasCount) : formatarMoeda(0);
 
-    calcularMeta();
-    calcularDesconto();
+    calcularMeta(); calcularDesconto();
   }
 
-  function renderHistorico() {
-    const listaH = document.getElementById('lista-historico');
-    if (!listaH) return;
-    listaH.innerHTML = '';
-
-    if (historicoMeses.length === 0) {
-      listaH.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhum mês fechado anteriormente.</td></tr>';
-      return;
+  function calcularDiasUteisRestantesAutomatico() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear(); const mes = hoje.getMonth();
+    const ultimoDiaMes = new Date(ano, mes + 1, 0).getDate();
+    let diasUteis = 0;
+    for (let dia = hoje.getDate(); dia <= ultimoDiaMes; dia++) {
+      const d = new Date(ano, mes, dia).getDay();
+      if (d !== 0 && d !== 6) diasUteis++;
     }
-
-    historicoMeses.forEach(h => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = '<td><b>' + h.refMes + '</b></td>' +
-        '<td style="color: var(--accent-orange); font-weight: bold;">' + formatarMoeda(h.totalComissao) + '</td>' +
-        '<td>' + h.totalVendas + ' vendas</td>' +
-        '<td>' + formatarMoeda(h.ticketMedio) + '</td>' +
-        '<td style="color: var(--accent-yellow); font-weight: bold;">' + h.taxaConversao + '</td>' +
-        '<td>' + (h.dataFechamento ? formatarDataBR(h.dataFechamento) : '-') + '</td>';
-      listaH.appendChild(tr);
-    });
+    return diasUteis || 1;
   }
 
   function calcularMeta() {
@@ -1296,49 +835,34 @@
 
     let faltaMeta = meta - totalComissaoRealizada;
     if (faltaMeta < 0) faltaMeta = 0;
-
     let metaDiariaVal = faltaMeta / dias;
 
-    let taxaConversaoDecimal = (atendimentosTotais > 0 && qtdVendasRealizadas > 0)
-      ? (qtdVendasRealizadas / atendimentosTotais)
-      : 0;
-
-    let comissaoMediaPorVenda = qtdVendasRealizadas > 0
-      ? (totalComissaoRealizada / qtdVendasRealizadas)
-      : 0;
-
+    let taxaConversaoDecimal = (atendimentosTotais > 0 && qtdVendasRealizadas > 0) ? (qtdVendasRealizadas / atendimentosTotais) : 0;
+    let comissaoMediaPorVenda = qtdVendasRealizadas > 0 ? (totalComissaoRealizada / qtdVendasRealizadas) : 0;
     let leadsDiariosNecessarios = 0;
 
     if (faltaMeta > 0 && comissaoMediaPorVenda > 0 && taxaConversaoDecimal > 0 && dias > 0) {
       let vendasFaltantes = faltaMeta / comissaoMediaPorVenda;
-      let leadsTotaisNecessarios = vendasFaltantes / taxaConversaoDecimal;
-      leadsDiariosNecessarios = Math.ceil(leadsTotaisNecessarios / dias);
+      leadsDiariosNecessarios = Math.ceil((vendasFaltantes / taxaConversaoDecimal) / dias);
     }
 
     const taxaExibicao = (taxaConversaoDecimal * 100).toFixed(1) + '%';
     document.getElementById('radar-taxa-conversao').innerText = taxaExibicao;
     document.getElementById('taxa-conversao').innerText = taxaExibicao;
-
     document.getElementById('meta-realizada').innerText = formatarMoeda(totalComissaoRealizada);
     document.getElementById('falta-meta').innerText = formatarMoeda(faltaMeta);
     document.getElementById('meta-diaria').innerText = formatarMoeda(metaDiariaVal);
 
-    if (faltaMeta === 0 && qtdVendasRealizadas > 0) {
-      document.getElementById('leads-diarios').innerText = 'Meta Atingida!';
-    } else if (qtdVendasRealizadas === 0) {
-      document.getElementById('leads-diarios').innerText = 'Registre 1ª venda';
-    } else if (atendimentosTotais === 0) {
-      document.getElementById('leads-diarios').innerText = 'Informe os leads';
-    } else {
-      document.getElementById('leads-diarios').innerText = leadsDiariosNecessarios + ' leads/dia';
-    }
+    if (faltaMeta === 0 && qtdVendasRealizadas > 0) document.getElementById('leads-diarios').innerText = 'Meta Atingida!';
+    else if (qtdVendasRealizadas === 0) document.getElementById('leads-diarios').innerText = 'Registre 1ª venda';
+    else if (atendimentosTotais === 0) document.getElementById('leads-diarios').innerText = 'Informe os leads';
+    else document.getElementById('leads-diarios').innerText = leadsDiariosNecessarios + ' leads/dia';
   }
 
   function calcularDesconto() {
     const orig = parseMoedaFloat(document.getElementById('val-original').value);
     const desc = parseFloat(document.getElementById('desc-porcent').value) || 0;
     const comissaoPadrao = parseFloat(document.getElementById('comissao-padrao').value) || 0;
-
     const comissaoNormal = orig * (comissaoPadrao / 100);
     const precoSimulado = orig * (1 - (desc / 100));
     const comissaoSimulada = precoSimulado * (comissaoPadrao / 100);
@@ -1346,21 +870,36 @@
 
     document.getElementById('venda-normal').innerText = formatarMoeda(orig);
     document.getElementById('comissao-normal').innerText = formatarMoeda(comissaoNormal);
-
     document.getElementById('venda-simulada').innerText = formatarMoeda(precoSimulado);
     document.getElementById('comissao-simulada').innerText = formatarMoeda(comissaoSimulada);
-
     document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
   }
 
-  function forcarAtualizacaoApp() {
-    if (newWorker) {
-      newWorker.postMessage({ action: 'skipWaiting' });
+  function goHome(ev) {
+    if (ev) ev.preventDefault();
+    switchTab('radar', { currentTarget: document.getElementById('nav-btn-radar') });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('radar_theme', isLight ? 'light' : 'dark');
+    document.getElementById('btn-theme-text').innerText = isLight ? '🌙 Tema Escuro' : '☀️ Tema Claro';
+  }
+
+  function carregarTemaSalvo() {
+    if (localStorage.getItem('radar_theme') === 'light') {
+      document.body.classList.add('light-theme');
+      document.getElementById('btn-theme-text').innerText = '🌙 Tema Escuro';
     }
+  }
+
+  function forcarAtualizacaoApp() {
+    if (newWorker) newWorker.postMessage({ action: 'skipWaiting' });
     window.location.reload();
   }
 
-  // REGISTRO DE SERVICE WORKER COM DETECÇÃO DE NOVA VERSÃO
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then(reg => {
@@ -1368,14 +907,11 @@
           newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              const toast = document.getElementById('update-toast');
-              if (toast) toast.style.display = 'flex';
+              document.getElementById('update-toast').style.display = 'flex';
             }
           });
         });
-      }).catch(err => {
-        console.log('Falha no SW:', err);
-      });
+      }).catch(err => console.log('SW err:', err));
     });
   }
 </script>
