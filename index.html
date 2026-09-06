@@ -1,20 +1,281 @@
-{
-  "name": "Radar de Vendas",
-  "short_name": "Radar",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar 10K+ Full</title>
+  
+  <!-- Configuração do PWA (Manifest) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-sidebar: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --border-color: #334155;
+      --success: #4ade80;
     }
-  ]
-}
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Barra Lateral */
+    aside {
+      width: 280px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Container da Logo Personalizável pelo ADM (Proporção 400x150 adaptável) */
+    .logo-container {
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .logo-container img {
+      width: 100%;
+      max-height: 70px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links li.active a, .nav-links li a:hover {
+      background-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    /* Rodapé da Barra Lateral (E-mail, Status Online e Controles) */
+    .sidebar-footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-info-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    .user-profile-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--success);
+      border-radius: 50%;
+      border: 2px solid var(--bg-sidebar);
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      background: var(--border-color);
+      border: none;
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* Conteúdo Principal */
+    main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .main-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .main-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: var(--bg-sidebar);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 600px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Lateral -->
+  <aside>
+    <div class="sidebar-top">
+      <!-- Container da Logo (Gerenciada pelo ADM) -->
+      <div class="logo-container" onclick="alterarLogoAdm()" title="Clique para atualizar a logo (Área do ADM)">
+        <img id="radar-logo-img" src="icon-512.png" alt="Logo Radar">
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#">📡 Radar de Vendas</a></li>
+        <li><a href="#">📊 Metas & Conversão</a></li>
+        <li class="active"><a href="#">🔒 Simulador Desconto</a></li>
+        <li><a href="#">📄 Comissões Pendentes</a></li>
+      </ul>
+    </div>
+
+    <!-- Rodapé da Barra Lateral: E-mail, Status Online e Ferramentas -->
+    <div class="sidebar-footer">
+      <div class="user-info-box">
+        <span id="user-email-display" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 190px;">rafaelcechin@gmail.com</span>
+        <div class="user-profile-wrapper" title="Usuário Online">
+          <!-- Ícone de Perfil -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="status-dot"></span>
+        </div>
+      </div>
+      
+      <div class="footer-actions">
+        <button class="btn-action" onclick="alert('Funcionalidade de PWA instalada!')">Instalar App</button>
+        <button class="btn-action" onclick="alert('Tema alternado!')">Tema Claro/Escuro</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main>
+    <div class="main-header">
+      <h1>Calculadora & Simulador de Desconto</h1>
+      <p>Simule o impacto real do desconto no seu bolso antes de apertar a mão do seu cliente!</p>
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label>Valor Original do Produto (R$)</label>
+        <input type="text" class="form-control" value="R$ 1.000,00">
+      </div>
+      <div class="form-group">
+        <label>% de Comissão Padrão</label>
+        <input type="text" class="form-control" value="10">
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Lógica para o ADM alterar a logo dinamicamente (Salva no navegador)
+    function alterarLogoAdm() {
+      let novaUrl = prompt("Cole o link da nova imagem da logo (Recomendado proporção 400x150px):");
+      if (novaUrl && novaUrl.trim() !== "") {
+        document.getElementById('radar-logo-img').src = novaUrl;
+        localStorage.setItem('radar_custom_logo', novaUrl);
+      }
+    }
+
+    // Carregar a logo personalizada salva ao iniciar a aplicação
+    window.addEventListener('DOMContentLoaded', () => {
+      let logoSalva = localStorage.getItem('radar_custom_logo');
+      if (logoSalva) {
+        document.getElementById('radar-logo-img').src = logoSalva;
+      }
+    });
+  </script>
+
+</body>
+</html>
