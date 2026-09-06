@@ -1,9 +1,11 @@
-const CACHE_NAME = 'radar-10k-v1';
+const CACHE_NAME = 'radar-10k-v2';
 const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json',
-  './logo.png'
+  '/Radar-10K-Full/',
+  '/Radar-10K-Full/index.html',
+  '/Radar-10K-Full/manifest.json',
+  '/Radar-10K-Full/logo-customizada.png',
+  '/Radar-10K-Full/icon-192.png',
+  '/Radar-10K-Full/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
