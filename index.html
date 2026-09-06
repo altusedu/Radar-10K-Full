@@ -6,7 +6,6 @@
   <title>Radar 10K+ Full — Altus Edu</title>
   
   <link rel="manifest" href="manifest.json">
-  <!-- Removidos os links estáticos antigos de logo.png para evitar conflito com o PWA dedicados -->
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-512.png">
   <meta name="theme-color" content="#0f172a">
@@ -85,12 +84,12 @@
     }
     .sidebar-top { display: flex; flex-direction: column; gap: 10px; }
     
-    /* Ajuste para a Logo Customizável pelo ADM (Proporção 400x150 adaptável) */
+    /* Container da Logo Customizada (Proporção 400x150 px adaptável funcionando como Home) */
     .brand-container { display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px; }
     .brand-logo-btn { background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; width: 100%; }
     .brand-logo { width: 100%; max-height: 70px; object-fit: contain; border-radius: 6px; }
 
-    /* Rodapé da Sidebar atualizado: E-mail, Status Online e Controles unificados embaixo */
+    /* Rodapé da Sidebar: E-mail, Status Online e Controles unificados embaixo */
     .sidebar-bottom { display: flex; flex-direction: column; gap: 10px; padding-top: 15px; border-top: 1px solid var(--border-color); }
     
     .user-info-box {
@@ -238,7 +237,7 @@
 
 <div id="auth-screen">
   <div class="auth-card">
-    <img src="icon-512.png" alt="Logo Radar 10K+" class="auth-logo" onerror="this.style.display='none'">
+    <img src="logo-customizada.png" alt="Logo Radar 10K+" class="auth-logo" onerror="this.style.display='none'">
     <h2>📡 RADAR 10K+ FULL</h2>
     <p>Digite o e-mail cadastrado na sua compra para acessar a aplicação.</p>
     <div class="auth-input-group">
@@ -252,10 +251,10 @@
 <div class="app-container" id="app-main-content">
   <div class="sidebar">
     <div class="sidebar-top">
-      <!-- Logo Personalizável pelo ADM (Proporção 400x150 px adaptável) -->
+      <!-- Logo Personalizada Fixa (logo-customizada.png) funcionando como Botão Home -->
       <div class="brand-container">
-        <button class="brand-logo-btn" onclick="alterarLogoAdm()" title="Clique para atualizar a logo horizontal (Área do ADM)">
-          <img id="radar-logo-img" src="icon-512.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.src='icon-512.png'">
+        <button class="brand-logo-btn" onclick="goHome(event)" title="Voltar ao Radar de Vendas">
+          <img src="logo-customizada.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.src='icon-512.png'">
         </button>
       </div>
 
@@ -434,7 +433,7 @@
           <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após apresentar o preço.</p></div>
           <div class="tip-card"><h3>Dica 5: Escassez Real de Agendamento/Estoque</h3><p>Comunique que a condição especial dura apenas para pedidos confirmados até as 18h.</p></div>
           <div class="tip-card"><h3>Dica 6: Chamada de Vídeo/Áudio Personalizado</h3><p>Envie um áudio chamando o cliente pelo nome para gerar conexão humana imediata.</p></div>
-          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play hier?".</p></div>
+          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play aqui?".</p></div>
           <div class="tip-card"><h3>Dica 8: Eliminação de Risco (Garantia)</h3><p>Destaque a garantia incondicional no exato momento da trava de decisão.</p></div>
           <div class="tip-card"><h3>Dica 9: A Técnica da Reserva do Pedido</h3><p>Pergunte se pode deixar o pedido reservado por 2 horas no sistema enquanto ele decide.</p></div>
           <div class="tip-card"><h3>Dica 10: O Script de Resgate no Fim do Mês</h3><p>Aborde todos os orçamentos abertos do mês oferecendo um incentivo final para bater meta.</p></div>
@@ -472,7 +471,7 @@
 </div>
 
 <script>
-  var _0x3a2b = ["https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec", "radar_user_email", "vendas_radar_", "historico_radar_", "radar_theme", "radar_custom_logo"];
+  var _0x3a2b = ["https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec", "radar_user_email", "vendas_radar_", "historico_radar_", "radar_theme"];
   const API_NUVEM_URL = _0x3a2b[0]; 
   let vendas = [];
   let historicoMeses = [];
@@ -515,7 +514,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     carregarTemaSalvo();
-    carregarLogoSalva();
     const urlParams = new URLSearchParams(window.location.search);
     const emailUrl = urlParams.get('aluno_id') || urlParams.get('user_id') || urlParams.get('email');
 
@@ -595,23 +593,6 @@
 
     carregarVendasNuvemSilencioso();
     carregarHistoricoNuvemSilencioso();
-  }
-
-  // Função ADM para alterar dinamicamente a logo horizontal (400x150px)
-  function alterarLogoAdm() {
-    let novaUrl = prompt("Cole o link da nova imagem da logo (Recomendado proporção 400x150px):");
-    if (novaUrl && novaUrl.trim() !== "") {
-      document.getElementById('radar-logo-img').src = novaUrl;
-      localStorage.setItem(_0x3a2b[5], novaUrl.trim());
-    }
-  }
-
-  function carregarLogoSalva() {
-    let logoSalva = localStorage.getItem(_0x3a2b[5]);
-    if (logoSalva) {
-      const imgEl = document.getElementById('radar-logo-img');
-      if (imgEl) imgEl.src = logoSalva;
-    }
   }
 
   function executarRetornarVendas() {
@@ -1123,4 +1104,3 @@
 </script>
 </body>
 </html>
-```[cite: 1]
