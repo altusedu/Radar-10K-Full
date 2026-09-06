@@ -58,7 +58,6 @@
       font-size: 0.85rem; font-weight: bold; align-items: center; gap: 12px; cursor: pointer;
     }
 
-    /* Tela de Autenticação & Senhas */
     #auth-screen {
       display: flex; height: 100vh; width: 100vw; background-color: var(--bg-dark); color: var(--text-main);
       flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: fixed; top: 0; left: 0; z-index: 9999;
@@ -158,7 +157,6 @@
     }
     .vmn-popup-checkbox-area { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; }
 
-    /* Modal de Onboarding (Pesquisa de R$ 47) */
     .modal-overlay-onboarding {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(8px);
@@ -270,7 +268,7 @@
   </div>
 </div>
 
-<!-- Modal de Pesquisa Inicial de Onboarding (R$ 47) -->
+<!-- Modal de Pesquisa Inicial de Onboarding (R$ 47) com Todos os Segmentos -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
     <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
@@ -279,40 +277,58 @@
     <form id="form-onboarding" onsubmit="salvarOnboardingFrontend(event)" style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px;">
       <div class="input-field">
         <label for="ob-nome">Nome Completo *</label>
-        <input type="text" id="ob-nome" required placeholder="Seu nome completo" style="height: 44px;">
+        <input type="text" id="ob-nome" required placeholder="Seu nome completo" style="height: 42px;">
       </div>
 
       <div class="modal-grid">
         <div class="input-field">
           <label for="ob-cidade">Cidade *</label>
-          <input type="text" id="ob-cidade" required placeholder="Ex: São Paulo" style="height: 44px;">
+          <input type="text" id="ob-cidade" required placeholder="Ex: São Paulo" style="height: 42px;">
         </div>
         <div class="input-field">
           <label for="ob-estado">Estado *</label>
-          <select id="ob-estado" required style="height: 44px;">
+          <select id="ob-estado" required style="height: 42px;">
             <option value="">UF</option>
-            <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+            <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+            <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+            <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+            <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+            <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+            <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+            <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+            <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+            <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
           </select>
         </div>
       </div>
 
       <div class="input-field">
         <label for="ob-segmento">Segmento Comercial de Atuação *</label>
-        <select id="ob-segmento" required style="height: 44px;">
+        <select id="ob-segmento" required onchange="checarSegmentoOutro(this)" style="height: 42px;">
           <option value="">Selecione seu segmento...</option>
-          <option value="Servicos Financeiros">Serviços Financeiros, Seguros & Consórcios</option>
-          <option value="Mercado Imobiliario">Mercado Imobiliário & Construção Civil</option>
-          <option value="Automotivo">Automotivo & Concessionárias</option>
-          <option value="Tecnologia">Tecnologia, Software (SaaS) & Telecom</option>
-          <option value="Varejo">Varejo, Atacado & Bens de Consumo</option>
+          <option value="Servicos Financeiros, Seguros & Consorcios">Serviços Financeiros, Seguros & Consórcios</option>
+          <option value="Mercado Imobiliario & Construcao Civil">Mercado Imobiliário & Construção Civil</option>
+          <option value="Automotivo & Concessionarias">Automotivo & Concessionárias</option>
+          <option value="Tecnologia, Software (SaaS) & Telecom">Tecnologia, Software (SaaS) & Telecom</option>
+          <option value="Varejo, Atacado & Bens de Consumo">Varejo, Atacado & Bens de Consumo</option>
+          <option value="Agronegocio, Maquinas & Equipamentos">Agronegócio, Máquinas & Equipamentos</option>
+          <option value="Saude, Estetica & Farmaceutica">Saúde, Estética & Farmacêutica</option>
+          <option value="Educacao, Cursos & Infoprodutos">Educação, Cursos & Infoprodutos</option>
+          <option value="Energia Solar & Solucoes Sustentaveis">Energia Solar & Soluções Sustentáveis</option>
+          <option value="Industria & Maquinas Industriais">Indústria & Máquinas Industriais</option>
           <option value="Outros">Outros</option>
         </select>
+      </div>
+
+      <div class="input-field" id="box-segmento-outro" style="display: none;">
+        <label for="ob-segmento-outro">Especifique seu segmento (máx. 100 caracteres)</label>
+        <input type="text" id="ob-segmento-outro" maxlength="100" placeholder="Digite seu segmento comercial" style="height: 42px;">
       </div>
 
       <div class="modal-grid">
         <div class="input-field">
           <label for="ob-faixa-renda">Faixa de Renda Desejada *</label>
-          <select id="ob-faixa-renda" required style="height: 44px;">
+          <select id="ob-faixa-renda" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Ate R$ 3.000">Até R$ 3.000,00</option>
             <option value="De 3k a 5k">De R$ 3.000,01 a R$ 5.000,00</option>
@@ -322,7 +338,7 @@
         </div>
         <div class="input-field">
           <label for="ob-comissao">Comissão Média *</label>
-          <select id="ob-comissao" required style="height: 44px;">
+          <select id="ob-comissao" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Menos que 1%">Menos que 1%</option>
             <option value="Entre 1% e 5%">Entre 1% e 5%</option>
@@ -349,17 +365,21 @@
       <input type="email" id="input-login-email" placeholder="seu-email@exemplo.com" required>
       <input type="password" id="input-login-senha" placeholder="Sua senha de acesso" onkeydown="tratarTeclaLogin(event)" required>
       <button class="btn-auth" id="btn-login" onclick="validarEEntrar()">Entrar no Aplicativo</button>
-      <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 0.8rem;">
-        <a href="#" onclick="abrirEsqueciSenha(event)" style="color: var(--accent-orange); text-decoration: none;">Esqueci minha senha</a>
+      
+      <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem;">
+        <a href="#" onclick="abrirEsqueciSenha(event)" style="color: var(--text-muted); text-decoration: none;">Esqueci minha senha</a>
+        <a href="#" onclick="abrirCadastro(event)" style="color: var(--accent-orange); font-weight: bold; text-decoration: none;">Novo por aqui? <i>Cadastre-se</i></a>
       </div>
     </div>
 
-    <!-- Bloco de Criação de Senha (Primeiro Acesso) -->
+    <!-- Bloco de Criação de Senha (Novo Cadastro / Primeiro Acesso) -->
     <div class="auth-input-group" id="group-criacao-senha" style="display: none;">
-      <p style="font-size: 0.82rem; color: var(--accent-yellow); margin-bottom: 5px;">Primeiro acesso! Cadastre sua nova senha de segurança:</p>
-      <input type="password" id="input-nova-senha" placeholder="Nova senha (mín. 6 dígitos)">
+      <p style="font-size: 0.82rem; color: var(--accent-yellow); margin-bottom: 5px;">Informe seu e-mail de compra na Eduzz e crie sua senha:</p>
+      <input type="email" id="input-cad-email" placeholder="Seu e-mail da Eduzz">
+      <input type="password" id="input-nova-senha" placeholder="Crie sua senha (mín. 6 dígitos)">
       <input type="password" id="input-confirma-senha" placeholder="Confirme a nova senha">
-      <button class="btn-auth" onclick="salvarPrimeiraSenha()">Cadastrar Senha e Entrar</button>
+      <button class="btn-auth" onclick="salvarPrimeiraSenha()">Cadastrar e Entrar</button>
+      <a href="#" onclick="voltarLogin(event)" style="color: var(--text-muted); font-size: 0.78rem; text-decoration: underline; margin-top: 5px; display:inline-block;">Já tenho cadastro</a>
     </div>
 
     <!-- Bloco de Recuperação de Senha -->
@@ -367,10 +387,13 @@
       <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 5px;">Enviaremos um token temporário pelo e-mail oficial <b>suporte.rp@altusedu.com.br</b>.</p>
       <input type="email" id="input-recup-email" placeholder="Confirme seu e-mail">
       <button class="btn-auth" onclick="enviarSolicitacaoRecuperacao()">Enviar Código de Recuperação</button>
-      <a href="#" onclick="voltarLogin(event)" style="color: var(--text-muted); font-size: 0.78rem; text-decoration: underline; margin-top: 8px; display:inline-block;">Voltar ao Login</a>
+      <a href="#" onclick="voltarLogin(event)" style="color: var(--text-muted); font-size: 0.78rem; text-decoration: underline; margin-top: 5px; display:inline-block;">Voltar ao Login</a>
     </div>
 
-    <div id="auth-msg"></div>
+    <div id="auth-msg" style="margin-top: 15px; font-size: 0.85rem; display: none;"></div>
+    <div id="checkout-eduzz-box" style="display: none; margin-top: 12px;">
+      <a href="https://sun.eduzz.com/8WPND45N0P" target="_blank" class="btn-auth" style="background: var(--accent-blue); font-size: 0.85rem; padding: 10px; text-decoration: none; display: block;">🛒 Adquirir Radar Full na Eduzz</a>
+    </div>
   </div>
 </div>
 
@@ -696,7 +719,7 @@
     const senha = document.getElementById('input-login-senha').value;
 
     if (!email || !email.includes('@') || !senha) {
-      exibirMensagemAuth("Preencha e-mail e senha válidos.", "msg-error");
+      exibirMensagemAuth("Preencha e-mail e senha válidos.", "msg-error", false);
       return;
     }
 
@@ -726,33 +749,72 @@
           concluirLoginSucesso();
         }
       } else {
-        exibirMensagemAuth(data.erro || "Credenciais inválidas.", "msg-error");
+        exibirMensagemAuth(data.erro || "Credenciais inválidas.", "msg-error", true);
       }
     })
     .catch(err => {
       document.getElementById('btn-login').innerText = "Entrar no Aplicativo";
       document.getElementById('btn-login').disabled = false;
-      exibirMensagemAuth("Erro ao conectar à API.", "msg-error");
+      exibirMensagemAuth("Erro ao conectar à API.", "msg-error", false);
     });
   }
 
+  function abrirCadastro(e) {
+    e.preventDefault();
+    document.getElementById('group-login').style.display = 'none';
+    document.getElementById('group-recuperacao').style.display = 'none';
+    document.getElementById('group-criacao-senha').style.display = 'flex';
+    document.getElementById('auth-subtitle').innerText = "Cadastre sua senha informando seu e-mail da Eduzz:";
+    esconderErroAuth();
+  }
+
+  function abrirEsqueciSenha(e) {
+    e.preventDefault();
+    document.getElementById('group-login').style.display = 'none';
+    document.getElementById('group-criacao-senha').style.display = 'none';
+    document.getElementById('group-recuperacao').style.display = 'flex';
+    document.getElementById('auth-subtitle').innerText = "Recuperação de Acesso";
+    esconderErroAuth();
+  }
+
+  function voltarLogin(e) {
+    e.preventDefault();
+    document.getElementById('group-criacao-senha').style.display = 'none';
+    document.getElementById('group-recuperacao').style.display = 'none';
+    document.getElementById('group-login').style.display = 'flex';
+    document.getElementById('auth-subtitle').innerText = "Digite seu e-mail e senha de acesso para entrar.";
+    esconderErroAuth();
+  }
+
+  function checarSegmentoOutro(select) {
+    const box = document.getElementById('box-segmento-outro');
+    box.style.display = select.value === "Outros" ? "flex" : "none";
+  }
+
   function salvarPrimeiraSenha() {
+    const email = document.getElementById('input-cad-email').value.trim().toLowerCase();
     const senha = document.getElementById('input-nova-senha').value;
     const confirma = document.getElementById('input-confirma-senha').value;
 
+    if (!email || !email.includes('@')) {
+      exibirMensagemAuth("Digite um e-mail válido da Eduzz.", "msg-error", false);
+      return;
+    }
     if (!senha || senha.length < 6) {
-      exibirMensagemAuth("A senha deve ter pelo menos 6 dígitos.", "msg-error");
+      exibirMensagemAuth("A senha deve ter pelo menos 6 dígitos.", "msg-error", false);
       return;
     }
     if (senha !== confirma) {
-      exibirMensagemAuth("As senhas não coincidem.", "msg-error");
+      exibirMensagemAuth("As senhas não coincidem.", "msg-error", false);
       return;
     }
+
+    usuarioEmail = email;
 
     fetch(API_NUVEM_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: "cadastrar_senha", email: usuarioEmail, senha: senha }),
+      body: JSON.stringify({ action: "cadastrar_senha", email: email, senha: senha }),
       redirect: 'follow'
     })
     .then(res => res.json())
@@ -760,29 +822,18 @@
       if (data.status === "sucesso") {
         concluirLoginSucesso();
       } else {
-        exibirMensagemAuth("Erro ao cadastrar senha.", "msg-error");
+        exibirMensagemAuth(data.mensagem || "Usuário não localizado na base da Eduzz.", "msg-error", true);
       }
+    })
+    .catch(() => {
+      exibirMensagemAuth("Erro ao conectar com o servidor.", "msg-error", false);
     });
-  }
-
-  function abrirEsqueciSenha(e) {
-    e.preventDefault();
-    document.getElementById('group-login').style.display = 'none';
-    document.getElementById('group-recuperacao').style.display = 'flex';
-    document.getElementById('auth-subtitle').innerText = "Recuperação de Acesso";
-  }
-
-  function voltarLogin(e) {
-    e.preventDefault();
-    document.getElementById('group-recuperacao').style.display = 'none';
-    document.getElementById('group-login').style.display = 'flex';
-    document.getElementById('auth-subtitle').innerText = "Digite seu e-mail e senha de acesso para entrar.";
   }
 
   function enviarSolicitacaoRecuperacao() {
     const email = document.getElementById('input-recup-email').value.trim().toLowerCase();
     if (!email || !email.includes('@')) {
-      exibirMensagemAuth("Digite seu e-mail cadastrado.", "msg-error");
+      exibirMensagemAuth("Digite seu e-mail cadastrado.", "msg-error", false);
       return;
     }
     
@@ -798,7 +849,7 @@
         alert("Código de recuperação enviado com sucesso pelo e-mail suporte.rp@altusedu.com.br!");
         voltarLogin(event);
       } else {
-        exibirMensagemAuth(data.mensagem || "E-mail não encontrado.", "msg-error");
+        exibirMensagemAuth(data.mensagem || "E-mail não encontrado.", "msg-error", true);
       }
     });
   }
@@ -821,12 +872,12 @@
           }
         } else {
           bloquearAcesso();
-          if (!ehAutoLogin) exibirMensagemAuth("E-mail não autorizado.", "msg-error");
+          if (!ehAutoLogin) exibirMensagemAuth("Usuário não localizado na base da Eduzz.", "msg-error", true);
         }
       })
       .catch(err => {
         bloquearAcesso();
-        if (!ehAutoLogin) exibirMensagemAuth("Erro ao conectar à API.", "msg-error");
+        if (!ehAutoLogin) exibirMensagemAuth("Erro ao conectar à API.", "msg-error", false);
       });
   }
 
@@ -851,13 +902,16 @@
     btn.disabled = true;
     btn.innerText = "⏳ SALVANDO...";
 
+    const segmentoVal = document.getElementById('ob-segmento').value;
+    const segmentoFinal = segmentoVal === "Outros" ? document.getElementById('ob-segmento-outro').value : segmentoVal;
+
     const payload = {
       action: "salvar_onboarding",
       email: usuarioEmail,
       nome: document.getElementById('ob-nome').value,
       cidade: document.getElementById('ob-cidade').value,
       estado: document.getElementById('ob-estado').value,
-      segmento: document.getElementById('ob-segmento').value,
+      segmento: segmentoFinal,
       faixa_renda: document.getElementById('ob-faixa-renda').value,
       comissao: document.getElementById('ob-comissao').value
     };
@@ -873,9 +927,23 @@
     });
   }
 
-  function exibirMensagemAuth(msg, classe) {
+  function exibirMensagemAuth(msg, classe, mostrarCheckout) {
     const el = document.getElementById('auth-msg');
-    el.innerText = msg; el.className = classe; el.style.display = 'block';
+    const boxCheckout = document.getElementById('checkout-eduzz-box');
+    el.innerText = msg; 
+    el.className = classe; 
+    el.style.display = 'block';
+
+    if (mostrarCheckout) {
+      boxCheckout.style.display = 'block';
+    } else {
+      boxCheckout.style.display = 'none';
+    }
+  }
+
+  function esconderErroAuth() {
+    document.getElementById('auth-msg').style.display = 'none';
+    document.getElementById('checkout-eduzz-box').style.display = 'none';
   }
 
   function inicializarApp() {
