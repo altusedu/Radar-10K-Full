@@ -44,11 +44,7 @@
     }
 
     input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: var(--accent-orange);
-      vertical-align: middle;
+      width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent-orange); vertical-align: middle;
     }
 
     #update-toast {
@@ -268,7 +264,7 @@
   </div>
 </div>
 
-<!-- Modal de Pesquisa Inicial de Onboarding (R$ 47) com Todos os Segmentos -->
+<!-- Modal de Pesquisa Inicial de Onboarding (R$ 47) -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
     <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
@@ -629,6 +625,7 @@
   let deferredPrompt = null;
   let usuarioEmail = "";
   let newWorker = null;
+  let tentativasSenha = 0; // Contador de tentativas incorretas
 
   function toggleSidebarMobile() {
     const sidebar = document.getElementById('sidebar-menu');
@@ -651,11 +648,8 @@
   }
 
   function toggleNaoMostrarNovamente(checkbox) {
-    if (checkbox.checked) {
-      localStorage.setItem('vmn_popup_nao_mostrar', 'true');
-    } else {
-      localStorage.removeItem('vmn_popup_nao_mostrar');
-    }
+    if (checkbox.checked) localStorage.setItem('vmn_popup_nao_mostrar', 'true');
+    else localStorage.removeItem('vmn_popup_nao_mostrar');
   }
 
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -672,11 +666,8 @@
       deferredPrompt = null;
     } else {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      if (isIOS) {
-        alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque em "Compartilhar" no Safari.\n2. Selecione "Adicionar à Tela de Início".');
-      } else {
-        alert('📲 Para instalar:\n\n1. Abra o menu do navegador (3 pontinhos).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
-      }
+      if (isIOS) alert('📲 Para instalar no iPhone / iPad:\n\n1. Toque em "Compartilhar" no Safari.\n2. Selecione "Adicionar à Tela de Início".');
+      else alert('📲 Para instalar:\n\n1. Abra o menu do navegador (3 pontinhos).\n2. Clique em "Adicionar à Tela inicial" ou "Instalar Aplicativo".');
     }
   }
 
@@ -738,18 +729,26 @@
       document.getElementById('btn-login').disabled = false;
 
       if (data.autorizado) {
+        tentativasSenha = 0; // Zera as tentativas em caso de sucesso
         usuarioEmail = email;
         localStorage.setItem(_0x3a2b[1], usuarioEmail);
-
-        if (data.primeiroAcesso) {
-          document.getElementById('group-login').style.display = 'none';
-          document.getElementById('group-criacao-senha').style.display = 'flex';
-          document.getElementById('auth-subtitle').innerText = "Primeiro acesso! Defina sua senha pessoal:";
-        } else {
-          concluirLoginSucesso();
-        }
+        concluirLoginSucesso();
       } else {
-        exibirMensagemAuth(data.erro || "Credenciais inválidas.", "msg-error", true);
+        // Cenário 3: Senha incorreta ou usuário não cadastrado
+        if (data.erro === "Senha incorreta.") {
+          tentativasSenha++;
+          if (tentativasSenha >= 6) {
+            // Na 6ª tentativa, abre a tela de recuperação automaticamente
+            alert("Muitas tentativas incorretas. Vamos enviar instruções de recuperação para o seu e-mail.");
+            abrirEsqueciSenha(new Event('click'));
+            document.getElementById('input-recup-email').value = email;
+            tentativasSenha = 0;
+            return;
+          }
+          exibirMensagemAuth(`Senha incorreta. Tentativa ${tentativasSenha} de 5.`, "msg-error", false);
+        } else {
+          exibirMensagemAuth(data.erro || "Credenciais inválidas.", "msg-error", true);
+        }
       }
     })
     .catch(err => {
@@ -764,7 +763,7 @@
     document.getElementById('group-login').style.display = 'none';
     document.getElementById('group-recuperacao').style.display = 'none';
     document.getElementById('group-criacao-senha').style.display = 'flex';
-    document.getElementById('auth-subtitle').innerText = "Cadastre sua senha informando seu e-mail da Eduzz:";
+    document.getElementById('auth-subtitle').innerText = "Informe seu e-mail de compra na Eduzz e crie sua senha:";
     esconderErroAuth();
   }
 
@@ -791,6 +790,7 @@
     box.style.display = select.value === "Outros" ? "flex" : "none";
   }
 
+  // Cenário 1 & 2: Cadastro de novo usuário validando com a base da Eduzz
   function salvarPrimeiraSenha() {
     const email = document.getElementById('input-cad-email').value.trim().toLowerCase();
     const senha = document.getElementById('input-nova-senha').value;
@@ -822,6 +822,7 @@
       if (data.status === "sucesso") {
         concluirLoginSucesso();
       } else {
+        // Se não pagou / não está na base da Eduzz: exibe mensagem e o botão de checkout
         exibirMensagemAuth(data.mensagem || "Usuário não localizado na base da Eduzz.", "msg-error", true);
       }
     })
@@ -846,10 +847,10 @@
     .then(res => res.json())
     .then(data => {
       if (data.status === "sucesso") {
-        alert("Código de recuperação enviado com sucesso pelo e-mail suporte.rp@altusedu.com.br!");
+        alert("Passo a passo de recuperação de senha enviado com sucesso para o seu e-mail!");
         voltarLogin(event);
       } else {
-        exibirMensagemAuth(data.mensagem || "E-mail não encontrado.", "msg-error", true);
+        exibirMensagemAuth(data.mensagem || "E-mail não localizado na base da Eduzz.", "msg-error", true);
       }
     });
   }
@@ -1170,9 +1171,7 @@
 
   function toggleAccordion(index) {
     const body = document.getElementById('acc-body-' + index);
-    if (body) {
-      body.style.display = body.style.display === 'block' ? 'none' : 'block';
-    }
+    if (body) body.style.display = body.style.display === 'block' ? 'none' : 'block';
   }
 
   function toggleSelectAll(master) {
@@ -1202,10 +1201,8 @@
     if (confirm('Deseja excluir as ' + selecionadosMass.size + ' vendas selecionadas do seu radar?')) {
       vendas = vendas.map(v => selecionadosMass.has(v.id) ? { ...v, excluidoApp: true } : v);
       sincronizarNuvem(vendas);
-
       vendas = vendas.filter(v => !v.excluidoApp);
       localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
-
       selecionadosMass.clear(); document.getElementById('check-all').checked = false;
       atualizarBotaoExclusaoMassa();
       render();
@@ -1247,11 +1244,8 @@
       ev.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
     if (tabId === 'historico') renderHistorico();
-
     const sidebar = document.getElementById('sidebar-menu');
-    if (sidebar && window.innerWidth <= 768) {
-      sidebar.classList.remove('open');
-    }
+    if (sidebar && window.innerWidth <= 768) sidebar.classList.remove('open');
   }
 
   function switchDicaSub(type, ev) {
@@ -1303,10 +1297,8 @@
     if (confirm('Deseja excluir esta venda do radar?')) {
       vendas = vendas.map(v => v.id === id ? { ...v, excluidoApp: true } : v);
       sincronizarNuvem(vendas);
-
       vendas = vendas.filter(v => v.id !== id);
       localStorage.setItem(_0x3a2b[2] + usuarioEmail, JSON.stringify(vendas));
-
       selecionadosMass.delete(id);
       atualizarBotaoExclusaoMassa();
       render();
