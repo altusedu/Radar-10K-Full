@@ -264,7 +264,7 @@
   </div>
 </div>
 
-<!-- Modal de Pesquisa Inicial de Onboarding (R$ 47) -->
+<!-- Modal de Pesquisa Inicial de Onboarding -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
     <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
@@ -278,9 +278,16 @@
 
       <div class="modal-grid">
         <div class="input-field">
+          <label for="ob-telefone">Telefone / WhatsApp *</label>
+          <input type="text" id="ob-telefone" required placeholder="(99) 99999-9999" maxlength="15" oninput="mascaraTelefone(this)" style="height: 42px;">
+        </div>
+        <div class="input-field">
           <label for="ob-cidade">Cidade *</label>
           <input type="text" id="ob-cidade" required placeholder="Ex: São Paulo" style="height: 42px;">
         </div>
+      </div>
+
+      <div class="modal-grid">
         <div class="input-field">
           <label for="ob-estado">Estado *</label>
           <select id="ob-estado" required style="height: 42px;">
@@ -296,28 +303,27 @@
             <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
           </select>
         </div>
-      </div>
-
-      <div class="input-field">
-        <label for="ob-segmento">Segmento Comercial de Atuação *</label>
-        <select id="ob-segmento" required onchange="checarSegmentoOutro(this)" style="height: 42px;">
-          <option value="">Selecione seu segmento...</option>
-          <option value="Servicos Financeiros, Seguros & Consorcios">Serviços Financeiros, Seguros & Consórcios</option>
-          <option value="Mercado Imobiliario & Construcao Civil">Mercado Imobiliário & Construção Civil</option>
-          <option value="Automotivo & Concessionarias">Automotivo & Concessionárias</option>
-          <option value="Tecnologia, Software (SaaS) & Telecom">Tecnologia, Software (SaaS) & Telecom</option>
-          <option value="Varejo, Atacado & Bens de Consumo">Varejo, Atacado & Bens de Consumo</option>
-          <option value="Agronegocio, Maquinas & Equipamentos">Agronegócio, Máquinas & Equipamentos</option>
-          <option value="Saude, Estetica & Farmaceutica">Saúde, Estética & Farmacêutica</option>
-          <option value="Educacao, Cursos & Infoprodutos">Educação, Cursos & Infoprodutos</option>
-          <option value="Energia Solar & Solucoes Sustentaveis">Energia Solar & Soluções Sustentáveis</option>
-          <option value="Industria & Maquinas Industriais">Indústria & Máquinas Industriais</option>
-          <option value="Outros">Outros</option>
-        </select>
+        <div class="input-field">
+          <label for="ob-segmento">Segmento Comercial de Atuação *</label>
+          <select id="ob-segmento" required onchange="checarSegmentoOutro(this)" style="height: 42px;">
+            <option value="">Selecione...</option>
+            <option value="Servicos Financeiros, Seguros & Consorcios">Serviços Financeiros, Seguros & Consórcios</option>
+            <option value="Mercado Imobiliario & Construcao Civil">Mercado Imobiliário & Construção Civil</option>
+            <option value="Automotivo & Concessionarias">Automotivo & Concessionárias</option>
+            <option value="Tecnologia, Software (SaaS) & Telecom">Tecnologia, Software (SaaS) & Telecom</option>
+            <option value="Varejo, Atacado & Bens de Consumo">Varejo, Atacado & Bens de Consumo</option>
+            <option value="Agronegocio, Maquinas & Equipamentos">Agronegócio, Máquinas & Equipamentos</option>
+            <option value="Saude, Estetica & Farmaceutica">Saúde, Estética & Farmacêutica</option>
+            <option value="Educacao, Cursos & Infoprodutos">Educação, Cursos & Infoprodutos</option>
+            <option value="Energia Solar & Solucoes Sustentaveis">Energia Solar & Soluções Sustentáveis</option>
+            <option value="Industria & Maquinas Industriais">Indústria & Máquinas Industriais</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
       </div>
 
       <div class="input-field" id="box-segmento-outro" style="display: none;">
-        <label for="ob-segmento-outro">Especifique seu segmento (máx. 100 caracteres)</label>
+        <label for="ob-segmento-outro">Especifique seu segmento * (máx. 100 caracteres)</label>
         <input type="text" id="ob-segmento-outro" maxlength="100" placeholder="Digite seu segmento comercial" style="height: 42px;">
       </div>
 
@@ -344,8 +350,34 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-primary" id="btn-salvar-ob" style="margin-top: 10px;">🚀 CONTROLAR O MEU SALÁRIO!</button>
+      <!-- Checkbox LGPD -->
+      <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 5px; font-size: 0.85rem; color: var(--text-muted);">
+        <input type="checkbox" id="ob-lgpd-check" checked style="margin-top: 2px;">
+        <label for="ob-lgpd-check" style="cursor: pointer; line-height: 1.3; color: var(--text-muted);">
+          Aceito receber comunicados e novidades do Grupo Altus Educacional. (<a href="#" onclick="abrirTermosConsentimento(event)" style="color: var(--accent-orange); text-decoration: underline;">Ler Termo de Consentimento</a>)
+        </label>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btn-salvar-ob" style="margin-top: 5px;">🚀 CONTROLAR O MEU SALÁRIO!</button>
+      <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">* Campo obrigatório</div>
     </form>
+  </div>
+</div>
+
+<!-- Modal de Leitura do Termo de Consentimento (LGPD) -->
+<div class="modal-overlay-onboarding" id="modal-termo" style="display: none; z-index: 100000;">
+  <div class="modal-card-onboarding" style="max-width: 480px;">
+    <h3 style="color: var(--accent-orange); margin-top:0;">📜 Termo de Consentimento (LGPD)</h3>
+    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; max-height: 250px; overflow-y: auto; padding-right: 5px;">
+      <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), ao marcar a opção de aceite, você autoriza o <b>Grupo Altus Educacional</b> a coletar, armazenar e utilizar os dados informados (Nome, E-mail e Telefone) com a finalidade exclusiva de:</p>
+      <ul>
+        <li>Envio de comunicações pedagógicas, avisos de atualizações do aplicativo e conteúdos educacionais de vendas.</li>
+        <li>Envio de convites para participação em comunidades oficiais via <b>WhatsApp de cunho educacional e networking</b>.</li>
+        <li>Contato via canais oficiais para suporte e relacionamento com o aluno.</li>
+      </ul>
+      <p>Seus dados não serão comercializados ou cedidos a terceiros em nenhuma hipótese. Você poderá revogar este consentimento a qualquer momento solicitando o descadastramento através dos nossos canais oficiais.</p>
+    </div>
+    <button type="button" class="btn-auth" onclick="consentirDiretoNoPopup()" style="margin-top: 15px;">Concordar e Fechar</button>
   </div>
 </div>
 
@@ -356,7 +388,6 @@
     <h2>📡 RADAR 10K+ FULL</h2>
     <p id="auth-subtitle">Digite seu e-mail e senha de acesso para entrar.</p>
     
-    <!-- Grupo Login Principal -->
     <div class="auth-input-group" id="group-login">
       <input type="email" id="input-login-email" placeholder="seu-email@exemplo.com" required>
       <input type="password" id="input-login-senha" placeholder="Sua senha de acesso" onkeydown="tratarTeclaLogin(event)" required>
@@ -368,7 +399,6 @@
       </div>
     </div>
 
-    <!-- Bloco de Criação de Senha (Novo Cadastro / Primeiro Acesso) -->
     <div class="auth-input-group" id="group-criacao-senha" style="display: none;">
       <p style="font-size: 0.82rem; color: var(--accent-yellow); margin-bottom: 5px;">Informe seu e-mail de compra na Eduzz e crie sua senha:</p>
       <input type="email" id="input-cad-email" placeholder="Seu e-mail da Eduzz">
@@ -378,7 +408,6 @@
       <a href="#" onclick="voltarLogin(event)" style="color: var(--text-muted); font-size: 0.78rem; text-decoration: underline; margin-top: 5px; display:inline-block;">Já tenho cadastro</a>
     </div>
 
-    <!-- Bloco de Recuperação de Senha -->
     <div class="auth-input-group" id="group-recuperacao" style="display: none;">
       <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 5px;">Enviaremos um token temporário pelo e-mail oficial <b>suporte.rp@altusedu.com.br</b>.</p>
       <input type="email" id="input-recup-email" placeholder="Confirme seu e-mail">
@@ -625,7 +654,7 @@
   let deferredPrompt = null;
   let usuarioEmail = "";
   let newWorker = null;
-  let tentativasSenha = 0; // Contador de tentativas incorretas
+  let tentativasSenha = 0;
 
   function toggleSidebarMobile() {
     const sidebar = document.getElementById('sidebar-menu');
@@ -729,16 +758,14 @@
       document.getElementById('btn-login').disabled = false;
 
       if (data.autorizado) {
-        tentativasSenha = 0; // Zera as tentativas em caso de sucesso
+        tentativasSenha = 0;
         usuarioEmail = email;
         localStorage.setItem(_0x3a2b[1], usuarioEmail);
         concluirLoginSucesso();
       } else {
-        // Cenário 3: Senha incorreta ou usuário não cadastrado
         if (data.erro === "Senha incorreta.") {
           tentativasSenha++;
           if (tentativasSenha >= 6) {
-            // Na 6ª tentativa, abre a tela de recuperação automaticamente
             alert("Muitas tentativas incorretas. Vamos enviar instruções de recuperação para o seu e-mail.");
             abrirEsqueciSenha(new Event('click'));
             document.getElementById('input-recup-email').value = email;
@@ -790,7 +817,29 @@
     box.style.display = select.value === "Outros" ? "flex" : "none";
   }
 
-  // Cenário 1 & 2: Cadastro de novo usuário validando com a base da Eduzz
+  function mascaraTelefone(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.substring(0, 11);
+    if (v.length > 6) {
+      v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+    } else if (v.length > 2) {
+      v = '(' + v.substring(0, 2) + ') ' + v.substring(2);
+    } else if (v.length > 0) {
+      v = '(' + v;
+    }
+    input.value = v;
+  }
+
+  function abrirTermosConsentimento(e) {
+    e.preventDefault();
+    document.getElementById('modal-termo').style.display = 'flex';
+  }
+
+  function consentirDiretoNoPopup() {
+    document.getElementById('ob-lgpd-check').checked = true;
+    document.getElementById('modal-termo').style.display = 'none';
+  }
+
   function salvarPrimeiraSenha() {
     const email = document.getElementById('input-cad-email').value.trim().toLowerCase();
     const senha = document.getElementById('input-nova-senha').value;
@@ -822,7 +871,6 @@
       if (data.status === "sucesso") {
         concluirLoginSucesso();
       } else {
-        // Se não pagou / não está na base da Eduzz: exibe mensagem e o botão de checkout
         exibirMensagemAuth(data.mensagem || "Usuário não localizado na base da Eduzz.", "msg-error", true);
       }
     })
@@ -905,16 +953,19 @@
 
     const segmentoVal = document.getElementById('ob-segmento').value;
     const segmentoFinal = segmentoVal === "Outros" ? document.getElementById('ob-segmento-outro').value : segmentoVal;
+    const lgpdAceite = document.getElementById('ob-lgpd-check').checked ? "Sim" : "Não";
 
     const payload = {
       action: "salvar_onboarding",
       email: usuarioEmail,
       nome: document.getElementById('ob-nome').value,
+      telefone: document.getElementById('ob-telefone').value,
       cidade: document.getElementById('ob-cidade').value,
       estado: document.getElementById('ob-estado').value,
       segmento: segmentoFinal,
       faixa_renda: document.getElementById('ob-faixa-renda').value,
-      comissao: document.getElementById('ob-comissao').value
+      comissao: document.getElementById('ob-comissao').value,
+      lgpd: lgpdAceite
     };
 
     fetch(API_NUVEM_URL, {
@@ -935,11 +986,8 @@
     el.className = classe; 
     el.style.display = 'block';
 
-    if (mostrarCheckout) {
-      boxCheckout.style.display = 'block';
-    } else {
-      boxCheckout.style.display = 'none';
-    }
+    if (mostrarCheckout) boxCheckout.style.display = 'block';
+    else boxCheckout.style.display = 'none';
   }
 
   function esconderErroAuth() {
