@@ -161,9 +161,9 @@
     .modal-card-onboarding {
       background: var(--card-bg); border: 1px solid var(--accent-orange); border-radius: 16px;
       width: 100%; max-width: 540px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-      display: flex; flex-direction: column; gap: 16px; max-height: 90vh; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 14px; max-height: 90vh; overflow-y: auto;
     }
-    .modal-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
     .main-content { flex: 1; padding: 30px; overflow-y: auto; width: 100%; display: flex; flex-direction: column; justify-content: space-between; }
     .content-body { flex: 1; }
@@ -266,13 +266,13 @@
   </div>
 </div>
 
-<!-- Modal de Pesquisa Inicial de Onboarding (E-mail travado) -->
+<!-- Modal de Pesquisa Inicial de Onboarding (E-mail travado e persistente) -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
     <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
     <p style="color: var(--text-muted); font-size: 0.88rem;">Preencha seus dados de perfil uma única vez para liberar suas calculadoras comerciais:</p>
     
-    <form id="form-onboarding" onsubmit="salvarOnboardingFrontend(event)" style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px;">
+    <form id="form-onboarding" onsubmit="salvarOnboardingFrontend(event)" style="display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
       <div class="input-field">
         <label for="ob-nome">Nome Completo *</label>
         <input type="text" id="ob-nome" required placeholder="Seu nome completo" style="height: 42px;">
@@ -291,6 +291,10 @@
 
       <div class="modal-grid">
         <div class="input-field">
+          <label for="ob-cidade">Cidade *</label>
+          <input type="text" id="ob-cidade" required placeholder="Sua cidade" style="height: 42px;">
+        </div>
+        <div class="input-field">
           <label for="ob-estado">Estado *</label>
           <select id="ob-estado" required style="height: 42px;">
             <option value="">UF</option>
@@ -305,23 +309,24 @@
             <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
           </select>
         </div>
-        <div class="input-field">
-          <label for="ob-segmento">Segmento Comercial de Atuação *</label>
-          <select id="ob-segmento" required onchange="checarSegmentoOutro(this)" style="height: 42px;">
-            <option value="">Selecione...</option>
-            <option value="Servicos Financeiros, Seguros & Consorcios">Serviços Financeiros, Seguros & Consórcios</option>
-            <option value="Mercado Imobiliario & Construcao Civil">Mercado Imobiliário & Construção Civil</option>
-            <option value="Automotivo & Concessionarias">Automotivo & Concessionárias</option>
-            <option value="Tecnologia, Software (SaaS) & Telecom">Tecnologia, Software (SaaS) & Telecom</option>
-            <option value="Varejo, Atacado & Bens de Consumo">Varejo, Atacado & Bens de Consumo</option>
-            <option value="Agronegocio, Maquinas & Equipamentos">Agronegócio, Máquinas & Equipamentos</option>
-            <option value="Saude, Estetica & Farmaceutica">Saúde, Estética & Farmacêutica</option>
-            <option value="Educacao, Cursos & Infoprodutos">Educação, Cursos & Infoprodutos</option>
-            <option value="Energia Solar & Solucoes Sustentaveis">Energia Solar & Soluções Sustentáveis</option>
-            <option value="Industria & Maquinas Industriais">Indústria & Máquinas Industriais</option>
-            <option value="Outros">Outros</option>
-          </select>
-        </div>
+      </div>
+
+      <div class="input-field">
+        <label for="ob-segmento">Segmento Comercial de Atuação *</label>
+        <select id="ob-segmento" required onchange="checarSegmentoOutro(this)" style="height: 42px;">
+          <option value="">Selecione...</option>
+          <option value="Servicos Financeiros, Seguros & Consorcios">Serviços Financeiros, Seguros & Consórcios</option>
+          <option value="Mercado Imobiliario & Construcao Civil">Mercado Imobiliário & Construção Civil</option>
+          <option value="Automotivo & Concessionarias">Automotivo & Concessionárias</option>
+          <option value="Tecnologia, Software (SaaS) & Telecom">Tecnologia, Software (SaaS) & Telecom</option>
+          <option value="Varejo, Atacado & Bens de Consumo">Varejo, Atacado & Bens de Consumo</option>
+          <option value="Agronegocio, Maquinas & Equipamentos">Agronegócio, Máquinas & Equipamentos</option>
+          <option value="Saude, Estetica & Farmaceutica">Saúde, Estética & Farmacêutica</option>
+          <option value="Educacao, Cursos & Infoprodutos">Educação, Cursos & Infoprodutos</option>
+          <option value="Energia Solar & Solucoes Sustentaveis">Energia Solar & Soluções Sustentáveis</option>
+          <option value="Industria & Maquinas Industriais">Indústria & Máquinas Industriais</option>
+          <option value="Outros">Outros</option>
+        </select>
       </div>
 
       <div class="input-field" id="box-segmento-outro" style="display: none;">
@@ -329,7 +334,6 @@
         <input type="text" id="ob-segmento-outro" maxlength="100" placeholder="Digite seu segmento comercial" style="height: 42px;">
       </div>
 
-      <!-- Novo campo opcional para Empresa -->
       <div class="input-field">
         <label for="ob-empresa">Empresa / Organização (Opcional)</label>
         <input type="text" id="ob-empresa" placeholder="Ex: Grupo Altus Edu" style="height: 42px;">
@@ -359,15 +363,15 @@
       </div>
 
       <!-- Checkbox LGPD -->
-      <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 5px; font-size: 0.85rem; color: var(--text-muted);">
+      <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 2px; font-size: 0.82rem; color: var(--text-muted);">
         <input type="checkbox" id="ob-lgpd-check" checked style="margin-top: 2px;">
         <label for="ob-lgpd-check" style="cursor: pointer; line-height: 1.3; color: var(--text-muted);">
           Aceito receber comunicados e novidades do Grupo Altus Educacional. (<a href="#" onclick="abrirTermosConsentimento(event)" style="color: var(--accent-orange); text-decoration: underline;">Ler Termo de Consentimento</a>)
         </label>
       </div>
 
-      <button type="submit" class="btn-primary" id="btn-salvar-ob" style="margin-top: 5px;">🚀 CONTROLAR O MEU SALÁRIO!</button>
-      <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">* Campo obrigatório</div>
+      <button type="submit" class="btn-primary" id="btn-salvar-ob" style="margin-top: 2px;">🚀 CONTROLAR O MEU SALÁRIO!</button>
+      <div style="text-align: center; font-size: 0.72rem; color: var(--text-muted);">* Campo obrigatório</div>
     </form>
   </div>
 </div>
@@ -966,7 +970,8 @@
     if (topbar) topbar.style.display = 'flex';
     document.getElementById('display-user-email').innerText = usuarioEmail;
     
-    const onboardingOk = localStorage.getItem('altus_radar_full_ob');
+    // Verifica persistência vinculada estritamente ao e-mail do usuário logado
+    const onboardingOk = localStorage.getItem('altus_radar_full_ob_' + usuarioEmail);
     if (onboardingOk !== 'true') {
       document.getElementById('ob-email-display').value = usuarioEmail;
       document.getElementById('modal-onboarding').style.display = 'flex';
@@ -986,6 +991,7 @@
 
     localStorage.setItem(_0x3a2b[5], usuarioNome);
     localStorage.setItem(_0x3a2b[6], usuarioEmpresa);
+    localStorage.setItem('altus_radar_full_ob_' + usuarioEmail, 'true');
 
     const segmentoVal = document.getElementById('ob-segmento').value;
     const segmentoFinal = segmentoVal === "Outros" ? document.getElementById('ob-segmento-outro').value : segmentoVal;
@@ -996,7 +1002,7 @@
       email: usuarioEmail,
       nome: usuarioNome,
       telefone: document.getElementById('ob-telefone').value,
-      cidade: '',
+      cidade: document.getElementById('ob-cidade').value,
       estado: document.getElementById('ob-estado').value,
       segmento: segmentoFinal,
       faixa_renda: document.getElementById('ob-faixa-renda').value,
@@ -1010,7 +1016,6 @@
       body: JSON.stringify(payload),
       redirect: 'follow'
     }).finally(() => {
-      localStorage.setItem('altus_radar_full_ob', 'true');
       document.getElementById('modal-onboarding').style.display = 'none';
     });
   }
@@ -1531,7 +1536,6 @@
       return;
     }
 
-    // Coleta todas as vendas detalhadas de todos os meses do histórico
     let todasVendasHistorico = [];
     let faturamentoTotalHist = 0;
     let comissaoTotalHist = 0;
