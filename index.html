@@ -329,6 +329,12 @@
         <input type="text" id="ob-segmento-outro" maxlength="100" placeholder="Digite seu segmento comercial" style="height: 42px;">
       </div>
 
+      <!-- Novo campo opcional para Empresa -->
+      <div class="input-field">
+        <label for="ob-empresa">Empresa / Organização (Opcional)</label>
+        <input type="text" id="ob-empresa" placeholder="Ex: Grupo Altus Edu" style="height: 42px;">
+      </div>
+
       <div class="modal-grid">
         <div class="input-field">
           <label for="ob-faixa-renda">Faixa de Renda Desejada *</label>
@@ -664,13 +670,15 @@
 </div>
 
 <script>
-  var _0x3a2b = ["https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec", "radar_user_email", "vendas_radar_", "historico_radar_", "radar_theme"];
+  var _0x3a2b = ["https://script.google.com/macros/s/AKfycbyKawXyJ7mSVy8FvEkhgG7CTGVv2Mo0g51obPw2mK26goglsDBnPfKuKOrBzG65yDmFKw/exec", "radar_user_email", "vendas_radar_", "historico_radar_", "radar_theme", "radar_user_nome", "radar_user_empresa"];
   const API_NUVEM_URL = _0x3a2b[0]; 
   let vendas = [];
   let historicoMeses = [];
   let selecionadosMass = new Set();
   let deferredPrompt = null;
   let usuarioEmail = "";
+  let usuarioNome = "";
+  let usuarioEmpresa = "";
   let newWorker = null;
   let tentativasSenha = 0;
 
@@ -728,6 +736,9 @@
     } else {
       usuarioEmail = localStorage.getItem(_0x3a2b[1]) || "";
     }
+
+    usuarioNome = localStorage.getItem(_0x3a2b[5]) || "Usuário PRO";
+    usuarioEmpresa = localStorage.getItem(_0x3a2b[6]) || "";
 
     if (usuarioEmail && usuarioEmail.includes('@')) {
       validarEmailNuvem(usuarioEmail, true);
@@ -970,6 +981,12 @@
     btn.disabled = true;
     btn.innerText = "⏳ SALVANDO...";
 
+    usuarioNome = document.getElementById('ob-nome').value;
+    usuarioEmpresa = document.getElementById('ob-empresa').value.trim();
+
+    localStorage.setItem(_0x3a2b[5], usuarioNome);
+    localStorage.setItem(_0x3a2b[6], usuarioEmpresa);
+
     const segmentoVal = document.getElementById('ob-segmento').value;
     const segmentoFinal = segmentoVal === "Outros" ? document.getElementById('ob-segmento-outro').value : segmentoVal;
     const lgpdAceite = document.getElementById('ob-lgpd-check').checked ? "Sim" : "Não";
@@ -977,7 +994,7 @@
     const payload = {
       action: "salvar_onboarding",
       email: usuarioEmail,
-      nome: document.getElementById('ob-nome').value,
+      nome: usuarioNome,
       telefone: document.getElementById('ob-telefone').value,
       cidade: '',
       estado: document.getElementById('ob-estado').value,
@@ -1422,7 +1439,7 @@
     calcularMeta(); calcularDesconto();
   }
 
-  // FUNÇÕES DE EXPORTAÇÃO PARA EXCEL (CSV)
+  // FUNÇÕES DE EXPORTAÇÃO PARA EXCEL (CSV) COM O NOVO LAYOUT PADRONIZADO
   function baixarArquivoCSV(nomeArquivo, conteudoCsv) {
     const blob = new Blob(["\uFEFF" + conteudoCsv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
@@ -1435,15 +1452,45 @@
     document.body.removeChild(link);
   }
 
+  function gerarCabecalhoComumCsv(nomeRelatorio) {
+    const dataHoraGeracao = new Date().toLocaleString('pt-BR');
+    let csv = `${nomeRelatorio}\n`;
+    csv += `${usuarioNome};${usuarioEmail}\n`;
+    csv += `${usuarioEmpresa}\n`;
+    csv += `Gerado em:;${dataHoraGeracao}\n\n`;
+    return csv;
+  }
+
   function exportarRelatorioParcialExcel() {
     if (vendas.length === 0) {
       alert("Não há vendas cadastradas para exportar.");
       return;
     }
-    let csv = "Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
+
+    const vendasPagas = vendas.filter(v => v.status === 'Pago');
+    const qtdVendas = vendasPagas.length;
+    const faturamentoTotal = vendasPagas.reduce((acc, v) => acc + v.valor, 0);
+    const comissaoTotal = vendasPagas.reduce((acc, v) => acc + v.comissao, 0);
+    const ticketMedio = qtdVendas > 0 ? faturamentoTotal / qtdVendas : 0;
+    const taxaConv = document.getElementById('radar-taxa-conversao').innerText;
+    
+    let somaPct = vendasPagas.reduce((acc, v) => acc + v.porcentagem, 0);
+    const mediaPctComissao = qtdVendas > 0 ? (somaPct / qtdVendas).toFixed(2) + '%' : '0,0%';
+
+    let csv = gerarCabecalhoComumCsv("Relatório Parcial");
+
+    // Linha 6: KPIs na mesma linha intercalados com colunas vazias
+    csv += `TICKET MEDIO:;${ticketMedio.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;${taxaConv}; ;MEDIA DE COMISSAO (%%):;${mediaPctComissao}\n\n`;
+
+    // Tabela de Dados
+    csv += "Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
     vendas.forEach(v => {
       csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.porcentagem};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
     });
+
+    // Rodapé de Totalizadores (somente valores financeiros / quantitativos)
+    csv += `TOTAL GERAL;;${faturamentoTotal.toFixed(2).replace('.', ',')};;${comissaoTotal.toFixed(2).replace('.', ',')};Qtd Vendas: ${vendas.length}\n`;
+
     baixarArquivoCSV("Relatorio_Parcial_Vendas.csv", csv);
   }
 
@@ -1453,10 +1500,28 @@
       alert("Não há comissões pendentes para exportar.");
       return;
     }
-    let csv = "Data;Cliente;Valor da Venda (R$);Comissao a Receber (R$);Status\n";
+
+    const faturamentoPend = pendentes.reduce((acc, v) => acc + v.valor, 0);
+    const comissaoPendTotal = pendentes.reduce((acc, v) => acc + v.comissao, 0);
+    const ticketPend = pendentes.length > 0 ? faturamentoPend / pendentes.length : 0;
+    
+    let somaPctP = pendentes.reduce((acc, v) => acc + v.porcentagem, 0);
+    const mediaPctPend = pendentes.length > 0 ? (somaPctP / pendentes.length).toFixed(2) + '%' : '0,0%';
+
+    let csv = gerarCabecalhoComumCsv("Relatório de Pendências");
+
+    // Linha 6: KPIs na mesma linha
+    csv += `TICKET MEDIO:;${ticketPend.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;-; ;MEDIA DE COMISSAO (%%):;${mediaPctPend}\n\n`;
+
+    // Tabela de Dados
+    csv += "Data;Cliente;Valor da Venda (R$);Comissao a Receber (R$);Status\n";
     pendentes.forEach(v => {
       csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
     });
+
+    // Rodapé de Totalizadores
+    csv += `TOTAL PENDENTE;;${faturamentoPend.toFixed(2).replace('.', ',')};${comissaoPendTotal.toFixed(2).replace('.', ',')};Itens: ${pendentes.length}\n`;
+
     baixarArquivoCSV("Relatorio_Pendencias.csv", csv);
   }
 
@@ -1465,14 +1530,51 @@
       alert("Não há histórico de meses fechados para exportar.");
       return;
     }
-    let csv = "Mes Referencia;Total Comissao (R$);Qtd Vendas;Ticket Medio (R$);Taxa Conversao;Data Fechamento\n";
+
+    // Coleta todas as vendas detalhadas de todos os meses do histórico
+    let todasVendasHistorico = [];
+    let faturamentoTotalHist = 0;
+    let comissaoTotalHist = 0;
+    let totalQtdVendas = 0;
+
     historicoMeses.forEach(h => {
-      let comissaoVal = Number(h.totalComissao) || 0;
-      let ticketVal = Number(h.ticketMedio) || 0;
-      let dataFech = h.dataFechamento ? formatarDataBR(h.dataFechamento) : "-";
-      csv += `"${h.refMes}";${comissaoVal.toFixed(2).replace('.', ',')};${h.totalVendas};${ticketVal.toFixed(2).replace('.', ',')};"${h.taxaConversao}";${dataFech}\n`;
+      if (h.vendasDetalhes && h.vendasDetalhes.length > 0) {
+        h.vendasDetalhes.forEach(vd => {
+          todasVendasHistorico.push({
+            mesRef: h.refMes,
+            dataVenda: vd.dataVenda,
+            cliente: vd.cliente,
+            valor: Number(vd.valor) || 0,
+            porcentagem: Number(vd.porcentagem) || 0,
+            comissao: Number(vd.comissao) || 0,
+            status: vd.status || 'Pago'
+          });
+          faturamentoTotalHist += Number(vd.valor) || 0;
+          comissaoTotalHist += Number(vd.comissao) || 0;
+          totalQtdVendas++;
+        });
+      }
     });
-    baixarArquivoCSV("Relatorio_Mensal_Historico.csv", csv);
+
+    const ticketMedioHist = totalQtdVendas > 0 ? faturamentoTotalHist / totalQtdVendas : 0;
+    let somaPctHist = todasVendasHistorico.reduce((acc, v) => acc + v.porcentagem, 0);
+    const mediaPctHist = totalQtdVendas > 0 ? (somaPctHist / totalQtdVendas).toFixed(2) + '%' : '0,0%';
+
+    let csv = gerarCabecalhoComumCsv("Relatório Mensal");
+
+    // Linha 6: KPIs na mesma linha
+    csv += `TICKET MEDIO:;${ticketMedioHist.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;Consolidado; ;MEDIA DE COMISSAO (%%):;${mediaPctHist}\n\n`;
+
+    // Tabela de Dados Detalhados
+    csv += "Mes Referencia;Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
+    todasVendasHistorico.forEach(v => {
+      csv += `"${v.mesRef}";${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.porcentagem};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
+    });
+
+    // Rodapé de Totalizadores
+    csv += `TOTAL HISTORICO;;;${faturamentoTotalHist.toFixed(2).replace('.', ',')};;${comissaoTotalHist.toFixed(2).replace('.', ',')};Total Vendas: ${totalQtdVendas}\n`;
+
+    baixarArquivoCSV("Relatorio_Mensal_Historico_Detalhado.csv", csv);
   }
 
   function calcularDiasUteisRestantesAutomatico() {
