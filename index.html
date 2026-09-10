@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Radar 10K+ Full — Altus Edu</title>
+  <title>Radar PRO — Altus Edu</title>
   
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -64,7 +64,7 @@
       padding: 35px 25px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
     .auth-logo { max-height: 80px; margin-bottom: 15px; object-fit: contain; }
-    .auth-card h2 { color: var(--accent-orange); font-size: 1.5rem; margin-bottom: 8px; }
+    .auth-card h2 { color: var(--accent-orange); font-size: 1.4rem; margin-bottom: 8px; }
     .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4; }
     .auth-input-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
     .auth-input-group input { text-align: center; font-size: 1rem; }
@@ -173,6 +173,7 @@
 
     .header-radar-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     .btn-fechar-mes { background: rgba(249, 115, 22, 0.15); border: 1px solid var(--accent-orange); color: var(--accent-orange); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+    .btn-excel { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #22c55e; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
 
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
     .card { background-color: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); }
@@ -187,6 +188,7 @@
     .input-field { display: flex; flex-direction: column; gap: 6px; }
     .input-field label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
     input, select { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); font-size: 1rem; width: 100%; min-height: 48px; }
+    input:disabled { opacity: 0.7; cursor: not-allowed; }
     button.btn-primary { background-color: var(--accent-orange); color: #fff; font-weight: 700; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; height: 48px; align-self: flex-end; width: 100%; }
 
     .table-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
@@ -264,7 +266,7 @@
   </div>
 </div>
 
-<!-- Modal de Pesquisa Inicial de Onboarding -->
+<!-- Modal de Pesquisa Inicial de Onboarding (E-mail travado) -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
     <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
@@ -278,12 +280,12 @@
 
       <div class="modal-grid">
         <div class="input-field">
-          <label for="ob-telefone">Telefone / WhatsApp *</label>
-          <input type="text" id="ob-telefone" required placeholder="(99) 99999-9999" maxlength="15" oninput="mascaraTelefone(this)" style="height: 42px;">
+          <label for="ob-email-display">E-mail Cadastrado (Bloqueado)</label>
+          <input type="email" id="ob-email-display" disabled style="height: 42px; background-color: var(--border-color); color: var(--text-muted);">
         </div>
         <div class="input-field">
-          <label for="ob-cidade">Cidade *</label>
-          <input type="text" id="ob-cidade" required placeholder="Ex: São Paulo" style="height: 42px;">
+          <label for="ob-telefone">Telefone / WhatsApp *</label>
+          <input type="text" id="ob-telefone" required placeholder="(99) 99999-9999" maxlength="15" oninput="mascaraTelefone(this)" style="height: 42px;">
         </div>
       </div>
 
@@ -369,23 +371,22 @@
   <div class="modal-card-onboarding" style="max-width: 480px;">
     <h3 style="color: var(--accent-orange); margin-top:0;">📜 Termo de Consentimento (LGPD)</h3>
     <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; max-height: 250px; overflow-y: auto; padding-right: 5px;">
-      <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), ao marcar a opção de aceite, você autoriza o <b>Grupo Altus Educacional</b> a coletar, armazenar e utilizar os dados informados (Nome, E-mail e Telefone) com a finalidade exclusiva de:</p>
+      <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), ao marcar a opção de aceite, você autoriza o <b>Grupo Altus Educacional</b> a coletar, armazenar e utilizar os dados informados com a finalidade exclusiva de:</p>
       <ul>
-        <li>Envio de comunicações pedagógicas, avisos de atualizações do aplicativo e conteúdos educacionais de vendas.</li>
-        <li>Envio de convites para participação em comunidades oficiais via <b>WhatsApp de cunho educacional e networking</b>.</li>
-        <li>Contato via canais oficiais para suporte e relacionamento com o aluno.</li>
+        <li>Envio de comunicações pedagógicas e conteúdos educacionais de vendas.</li>
+        <li>Envio de convites para participação em comunidades oficiais via WhatsApp.</li>
       </ul>
-      <p>Seus dados não serão comercializados ou cedidos a terceiros em nenhuma hipótese. Você poderá revogar este consentimento a qualquer momento solicitando o descadastramento através dos nossos canais oficiais.</p>
+      <p>Seus dados não serão comercializados ou cedidos a terceiros em nenhuma hipótese.</p>
     </div>
     <button type="button" class="btn-auth" onclick="consentirDiretoNoPopup()" style="margin-top: 15px;">Concordar e Fechar</button>
   </div>
 </div>
 
-<!-- Tela de Autenticação / Senha -->
+<!-- Tela de Autenticação / Senha (Primeira Tela) -->
 <div id="auth-screen">
   <div class="auth-card">
-    <img src="logo-customizada.png" alt="Logo Radar 10K+" class="auth-logo" onerror="this.style.display='none'">
-    <h2>📡 RADAR 10K+ FULL</h2>
+    <img src="logo-customizada.png" alt="Logo Radar PRO" class="auth-logo" onerror="this.style.display='none'">
+    <h2>📡 RADAR PRO</h2>
     <p id="auth-subtitle">Digite seu e-mail e senha de acesso para entrar.</p>
     
     <div class="auth-input-group" id="group-login">
@@ -416,16 +417,13 @@
     </div>
 
     <div id="auth-msg" style="margin-top: 15px; font-size: 0.85rem; display: none;"></div>
-    <div id="checkout-eduzz-box" style="display: none; margin-top: 12px;">
-      <a href="https://sun.eduzz.com/8WPND45N0P" target="_blank" class="btn-auth" style="background: var(--accent-blue); font-size: 0.85rem; padding: 10px; text-decoration: none; display: block;">🛒 Adquirir Radar Full na Eduzz</a>
-    </div>
   </div>
 </div>
 
 <!-- Barra Superior Mobile com Menu Hambúrguer -->
 <div class="mobile-topbar" id="mobile-topbar-header" style="display:none;">
   <button class="hamburger-btn" onclick="toggleSidebarMobile()">☰</button>
-  <span style="font-weight: bold; color: var(--accent-orange); font-size: 0.95rem;">Radar 10K+ Full</span>
+  <span style="font-weight: bold; color: var(--accent-orange); font-size: 0.95rem;">Radar PRO</span>
   <div style="width: 32px;"></div>
 </div>
 
@@ -434,7 +432,7 @@
     <div class="sidebar-top">
       <div class="brand-container">
         <button class="brand-logo-btn" onclick="goHome(event)" title="Voltar ao Radar de Vendas">
-          <img src="logo-customizada.png" alt="Logo Radar 10K+" class="brand-logo" onerror="this.src='icon-512.png'">
+          <img src="logo-customizada.png" alt="Logo Radar PRO" class="brand-logo" onerror="this.src='icon-512.png'">
         </button>
       </div>
 
@@ -479,13 +477,17 @@
   <div class="main-content">
     <div class="content-body">
       
+      <!-- ABA 1: RADAR DE VENDAS + RELATÓRIO PARCIAL -->
       <div id="tab-radar" class="tab-content active">
         <div class="header-radar-actions">
           <div>
             <h1>Radar de Vendas & Comissões</h1>
             <p class="subtitle" style="margin-bottom:0;">Lance aqui as suas vendas para rastrear seu salário em tempo real!</p>
           </div>
-          <button class="btn-fechar-mes" onclick="fecharMesAtual()">🔒 Fechar Mês Atual</button>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn-excel" onclick="exportarRelatorioParcialExcel()">📊 Relatório Parcial (Excel)</button>
+            <button class="btn-fechar-mes" onclick="fecharMesAtual()">🔒 Fechar Mês Atual</button>
+          </div>
         </div>
 
         <div class="grid-cards">
@@ -527,6 +529,7 @@
         </div>
       </div>
 
+      <!-- ABA 2: METAS -->
       <div id="tab-metas" class="tab-content">
         <h1>Mapeador de Metas & Taxa de Conversão</h1>
         <p class="subtitle">Descubra exatamente quantas vendas e quantos atendimentos diários você precisa fazer.</p>
@@ -546,6 +549,7 @@
         </div>
       </div>
 
+      <!-- ABA 3: SIMULADOR DE DESCONTO -->
       <div id="tab-calculadora" class="tab-content">
         <h1>Calculadora & Simulador de Desconto</h1>
         <p class="subtitle">Simule o impacto real do desconto no seu bolso antes de fechar com seu cliente!</p>
@@ -563,10 +567,16 @@
         </div>
       </div>
 
+      <!-- ABA 4: COMISSÕES PENDENTES + RELATÓRIO DE PENDÊNCIAS -->
       <div id="tab-checklist" class="tab-content">
-        <h1>Comissões Pendentes</h1>
-        <p class="subtitle">Rastreie as vendas aguardando confirmação de pagamento.</p>
-        <div class="table-responsive">
+        <div class="header-radar-actions">
+          <div>
+            <h1>Comissões Pendentes</h1>
+            <p class="subtitle" style="margin-bottom:0;">Rastreie as vendas aguardando confirmação de pagamento.</p>
+          </div>
+          <button class="btn-excel" onclick="exportarRelatorioPendenciasExcel()">📊 Relatório de Pendências (Excel)</button>
+        </div>
+        <div class="table-responsive" style="margin-top: 20px;">
           <table>
             <thead><tr><th>Data</th><th>Cliente</th><th>Valor da Venda</th><th>Comissão a Receber</th><th>Ação Rápida</th></tr></thead>
             <tbody id="lista-pendentes"></tbody>
@@ -574,12 +584,19 @@
         </div>
       </div>
 
+      <!-- ABA 5: MESES ANTERIORES + RELATÓRIO MENSAL -->
       <div id="tab-historico" class="tab-content">
-        <h1>Histórico de Meses Anteriores</h1>
-        <p class="subtitle">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir os detalhes.</p>
+        <div class="header-radar-actions">
+          <div>
+            <h1>Histórico de Meses Anteriores</h1>
+            <p class="subtitle" style="margin-bottom:0;">Consulte o relatório consolidado e clique em cima de qualquer mês para abrir os detalhes.</p>
+          </div>
+          <button class="btn-excel" onclick="exportarRelatorioMensalExcel()">📊 Relatório Mensal (Excel)</button>
+        </div>
         <div id="container-historico-accordions" style="margin-top: 20px;"></div>
       </div>
 
+      <!-- ABA 6: DICAS -->
       <div id="tab-dicas" class="tab-content">
         <h1>Acelerador de Comissões — 20 Dicas de Ouro</h1>
         <p class="subtitle">Estratégias práticas para aumentar ticket médio e conversão.</p>
@@ -615,6 +632,7 @@
         </div>
       </div>
 
+      <!-- ABA 7: SEGURANÇA -->
       <div id="tab-seguranca" class="tab-content">
         <h1>⚙️ Dados & Segurança</h1>
         <p class="subtitle">Gerencie o backup e a restauração de dados de forma simples e segura.</p>
@@ -939,6 +957,7 @@
     
     const onboardingOk = localStorage.getItem('altus_radar_full_ob');
     if (onboardingOk !== 'true') {
+      document.getElementById('ob-email-display').value = usuarioEmail;
       document.getElementById('modal-onboarding').style.display = 'flex';
     }
 
@@ -960,7 +979,7 @@
       email: usuarioEmail,
       nome: document.getElementById('ob-nome').value,
       telefone: document.getElementById('ob-telefone').value,
-      cidade: document.getElementById('ob-cidade').value,
+      cidade: '',
       estado: document.getElementById('ob-estado').value,
       segmento: segmentoFinal,
       faixa_renda: document.getElementById('ob-faixa-renda').value,
@@ -981,18 +1000,13 @@
 
   function exibirMensagemAuth(msg, classe, mostrarCheckout) {
     const el = document.getElementById('auth-msg');
-    const boxCheckout = document.getElementById('checkout-eduzz-box');
     el.innerText = msg; 
     el.className = classe; 
     el.style.display = 'block';
-
-    if (mostrarCheckout) boxCheckout.style.display = 'block';
-    else boxCheckout.style.display = 'none';
   }
 
   function esconderErroAuth() {
     document.getElementById('auth-msg').style.display = 'none';
-    document.getElementById('checkout-eduzz-box').style.display = 'none';
   }
 
   function inicializarApp() {
@@ -1406,6 +1420,59 @@
     document.getElementById('ticket-medio').innerText = vendasPagasCount ? formatarMoeda(totalVendasVal / vendasPagasCount) : formatarMoeda(0);
 
     calcularMeta(); calcularDesconto();
+  }
+
+  // FUNÇÕES DE EXPORTAÇÃO PARA EXCEL (CSV)
+  function baixarArquivoCSV(nomeArquivo, conteudoCsv) {
+    const blob = new Blob(["\uFEFF" + conteudoCsv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", nomeArquivo);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function exportarRelatorioParcialExcel() {
+    if (vendas.length === 0) {
+      alert("Não há vendas cadastradas para exportar.");
+      return;
+    }
+    let csv = "Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
+    vendas.forEach(v => {
+      csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.porcentagem};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
+    });
+    baixarArquivoCSV("Relatorio_Parcial_Vendas.csv", csv);
+  }
+
+  function exportarRelatorioPendenciasExcel() {
+    const pendentes = vendas.filter(v => v.status === 'Pendente');
+    if (pendentes.length === 0) {
+      alert("Não há comissões pendentes para exportar.");
+      return;
+    }
+    let csv = "Data;Cliente;Valor da Venda (R$);Comissao a Receber (R$);Status\n";
+    pendentes.forEach(v => {
+      csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
+    });
+    baixarArquivoCSV("Relatorio_Pendencias.csv", csv);
+  }
+
+  function exportarRelatorioMensalExcel() {
+    if (historicoMeses.length === 0) {
+      alert("Não há histórico de meses fechados para exportar.");
+      return;
+    }
+    let csv = "Mes Referencia;Total Comissao (R$);Qtd Vendas;Ticket Medio (R$);Taxa Conversao;Data Fechamento\n";
+    historicoMeses.forEach(h => {
+      let comissaoVal = Number(h.totalComissao) || 0;
+      let ticketVal = Number(h.ticketMedio) || 0;
+      let dataFech = h.dataFechamento ? formatarDataBR(h.dataFechamento) : "-";
+      csv += `"${h.refMes}";${comissaoVal.toFixed(2).replace('.', ',')};${h.totalVendas};${ticketVal.toFixed(2).replace('.', ',')};"${h.taxaConversao}";${dataFech}\n`;
+    });
+    baixarArquivoCSV("Relatorio_Mensal_Historico.csv", csv);
   }
 
   function calcularDiasUteisRestantesAutomatico() {
