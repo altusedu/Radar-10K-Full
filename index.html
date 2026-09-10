@@ -315,7 +315,7 @@
 
       <div class="modal-grid">
         <div class="input-field">
-          <label for="ob-email-display">E-mail Cadastrado</label>
+          <label for="ob-email-display">E-mail Cadastrado (Bloqueado)</label>
           <input type="email" id="ob-email-display" disabled style="height: 42px; background-color: var(--border-color); color: var(--text-muted);">
         </div>
         <div class="input-field">
@@ -370,13 +370,13 @@
       </div>
 
       <div class="input-field">
-        <label for="ob-empresa">Empresa / Organização</label>
-        <input type="text" id="ob-empresa" placeholder="Empresa que você trabalha" style="height: 42px;">
+        <label for="ob-empresa">Empresa / Organização (Opcional)</label>
+        <input type="text" id="ob-empresa" placeholder="Ex: Grupo Altus Edu" style="height: 42px;">
       </div>
 
       <div class="modal-grid">
         <div class="input-field">
-          <label for="ob-faixa-renda">Sua Renda Atual *</label>
+          <label for="ob-faixa-renda">Faixa de Renda Desejada *</label>
           <select id="ob-faixa-renda" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Ate R$ 3.000">Até R$ 3.000,00</option>
@@ -386,7 +386,7 @@
           </select>
         </div>
         <div class="input-field">
-          <label for="ob-comissao">Comissão Média Atual *</label>
+          <label for="ob-comissao">Comissão Média *</label>
           <select id="ob-comissao" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Menos que 1%">Menos que 1%</option>
@@ -675,7 +675,7 @@
           <div class="tip-card"><h3>Dica 4: Prova Social em Áudio/Print</h3><p>Envie o depoimento de um cliente similar logo após apresentar o preço.</p></div>
           <div class="tip-card"><h3>Dica 5: Escassez Real de Agendamento/Estoque</h3><p>Comunique que a condição especial dura apenas para pedidos confirmados até as 18h.</p></div>
           <div class="tip-card"><h3>Dica 6: Chamada de Vídeo/Áudio Personalizado</h3><p>Envie um áudio chamando o cliente pelo nome para gerar conexão humana imediata.</p></div>
-          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play hier?".</p></div>
+          <div class="tip-card"><h3>Dica 7: Reativação de Clientes Sumidos</h3><p>Envie: "João, consegui liberar aquela condição diferenciada que conversamos. Posso apertar o Play aqui?".</p></div>
           <div class="tip-card"><h3>Dica 8: Eliminação de Risco (Garantia)</h3><p>Destaque a garantia incondicional no exato momento da trava de decisão.</p></div>
           <div class="tip-card"><h3>Dica 9: A Técnica da Reserva do Pedido</h3><p>Pergunte se pode deixar o pedido reservado por 2 horas no sistema enquanto ele decide.</p></div>
           <div class="tip-card"><h3>Dica 10: O Script de Resgate no Fim do Mês</h3><p>Aborde todos os orçamentos abertos do mês oferecendo um incentivo final para bater meta.</p></div>
@@ -1527,7 +1527,7 @@
     calcularMeta(); calcularDesconto();
   }
 
-  // FUNÇÕES DE EXPORTAÇÃO PARA EXCEL (CSV) COM O NOVO LAYOUT PADRONIZADO E FILTROS NA LINHA 8
+  // FUNÇÕES DE EXPORTAÇÃO PARA EXCEL (CSV) COM O NOVO LAYOUT PADRONIZADO E VÍRGULA EM PERCENTUAIS
   function baixarArquivoCSV(nomeArquivo, conteudoCsv) {
     const blob = new Blob(["\uFEFF" + conteudoCsv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
@@ -1555,7 +1555,6 @@
       return;
     }
 
-    // Nome dinâmico com o mês vigente por extenso (ex: Setembro)
     const mesesNomes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const nomeMesAtual = mesesNomes[new Date().getMonth()];
     const nomeRelatorio = `Relatório Parcial ${nomeMesAtual}`;
@@ -1567,20 +1566,18 @@
     const taxaConv = document.getElementById('radar-taxa-conversao').innerText;
     
     let somaPct = vendas.reduce((acc, v) => acc + v.porcentagem, 0);
-    const mediaPctComissao = qtdTotal > 0 ? (somaPct / qtdTotal).toFixed(2) + '%' : '0,0%';
+    const mediaPctComissao = qtdTotal > 0 ? (somaPct / qtdTotal).toFixed(2).replace('.', ',') + '%' : '0,0%';
 
     let csv = gerarCabecalhoComumCsv(nomeRelatorio);
 
-    // Linha 6: KPIs na mesma linha (com 1 único % na média de comissão)
     csv += `TICKET MEDIO:;${ticketMedio.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;${taxaConv}; ;MEDIA DE COMISSAO (%):;${mediaPctComissao}\n\n`;
 
-    // Tabela de Dados (Linha 8: Cabeçalhos com suporte nativo a filtros do Excel)
     csv += "Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
     vendas.forEach(v => {
-      csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.porcentagem};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
+      const pctFormatado = String(v.porcentagem).replace('.', ',');
+      csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${pctFormatado};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
     });
 
-    // Rodapé de Totalizadores ("Qtde. Lançamentos")
     csv += `TOTAL GERAL;;${faturamentoTotal.toFixed(2).replace('.', ',')};;${comissaoTotal.toFixed(2).replace('.', ',')};Qtde. Lançamentos: ${vendas.length}\n`;
 
     baixarArquivoCSV(`Relatorio_Parcial_${nomeMesAtual}.csv`, csv);
@@ -1598,20 +1595,18 @@
     const ticketPend = pendentes.length > 0 ? faturamentoPend / pendentes.length : 0;
     
     let somaPctP = pendentes.reduce((acc, v) => acc + v.porcentagem, 0);
-    const mediaPctPend = pendentes.length > 0 ? (somaPctP / pendentes.length).toFixed(2) + '%' : '0,0%';
+    const mediaPctPend = pendentes.length > 0 ? (somaPctP / pendentes.length).toFixed(2).replace('.', ',') + '%' : '0,0%';
 
     let csv = gerarCabecalhoComumCsv("Relatório de Pendências");
 
-    // Linha 6: KPIs na mesma linha (com 1 único %)
     csv += `TICKET MEDIO:;${ticketPend.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;-; ;MEDIA DE COMISSAO (%):;${mediaPctPend}\n\n`;
 
-    // Tabela de Dados (Linha 8: Cabeçalhos com suporte nativo a filtros)
     csv += "Data;Cliente;Valor da Venda (R$);Comissao a Receber (R$);Status\n";
     pendentes.forEach(v => {
+      const pctFormatado = String(v.porcentagem).replace('.', ',');
       csv += `${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
     });
 
-    // Rodapé de Totalizadores ("Qtde. Lançamentos")
     csv += `TOTAL PENDENTE;;${faturamentoPend.toFixed(2).replace('.', ',')};${comissaoPendTotal.toFixed(2).replace('.', ',')};Qtde. Lançamentos: ${pendentes.length}\n`;
 
     baixarArquivoCSV("Relatorio_Pendencias.csv", csv);
@@ -1654,7 +1649,6 @@
 
     document.getElementById('modal-relatorio-mensal').style.display = 'none';
 
-    // Se houver mais de 1 fechamento, o nome será "Relatório Mensal - Consolidado"
     const nomeRelatorio = selecionados.length > 1 ? "Relatório Mensal - Consolidado" : `Relatório Mensal - ${selecionados[0]}`;
 
     let todasVendasHistorico = [];
@@ -1683,20 +1677,18 @@
 
     const ticketMedioHist = totalQtdVendas > 0 ? faturamentoTotalHist / totalQtdVendas : 0;
     let somaPctHist = todasVendasHistorico.reduce((acc, v) => acc + v.porcentagem, 0);
-    const mediaPctHist = totalQtdVendas > 0 ? (somaPctHist / totalQtdVendas).toFixed(2) + '%' : '0,0%';
+    const mediaPctHist = totalQtdVendas > 0 ? (somaPctHist / totalQtdVendas).toFixed(2).replace('.', ',') + '%' : '0,0%';
 
     let csv = gerarCabecalhoComumCsv(nomeRelatorio);
 
-    // Linha 6: KPIs na mesma linha (com 1 único %)
     csv += `TICKET MEDIO:;${ticketMedioHist.toFixed(2).replace('.', ',')}; ;TAXA DE CONVERSAO:;Consolidado; ;MEDIA DE COMISSAO (%):;${mediaPctHist}\n\n`;
 
-    // Tabela de Dados (Linha 8: Cabeçalhos com suporte a filtros)
     csv += "Mes Referencia;Data;Cliente;Valor da Venda (R$);Comissao (%);Sua Comissao (R$);Status\n";
     todasVendasHistorico.forEach(v => {
-      csv += `"${v.mesRef}";${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${v.porcentagem};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
+      const pctFormatado = String(v.porcentagem).replace('.', ',');
+      csv += `"${v.mesRef}";${formatarDataBR(v.dataVenda)};"${v.cliente}";${v.valor.toFixed(2).replace('.', ',')};${pctFormatado};${v.comissao.toFixed(2).replace('.', ',')};${v.status}\n`;
     });
 
-    // Rodapé de Totalizadores
     csv += `TOTAL HISTORICO;;;${faturamentoTotalHist.toFixed(2).replace('.', ',')};;${comissaoTotalHist.toFixed(2).replace('.', ',')};Qtde. Lançamentos: ${totalQtdVendas}\n`;
 
     baixarArquivoCSV(`${nomeRelatorio.replace(/[^a-zA-Z0-9]/g, '_')}.csv`, csv);
@@ -1736,7 +1728,7 @@
       leadsDiariosNecessarios = Math.ceil((vendasFaltantes / taxaConversaoDecimal) / dias);
     }
 
-    const taxaExibicao = (taxaConversaoDecimal * 100).toFixed(1) + '%';
+    const taxaExibicao = (taxaConversaoDecimal * 100).toFixed(1).replace('.', ',') + '%';
     document.getElementById('radar-taxa-conversao').innerText = taxaExibicao;
     document.getElementById('taxa-conversao').innerText = taxaExibicao;
     document.getElementById('meta-realizada').innerText = formatarMoeda(totalComissaoRealizada);
@@ -1762,7 +1754,7 @@
     document.getElementById('comissao-normal').innerText = formatarMoeda(comissaoNormal);
     document.getElementById('venda-simulada').innerText = formatarMoeda(precoSimulado);
     document.getElementById('comissao-simulada').innerText = formatarMoeda(comissaoSimulada);
-    document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + desc + '%)';
+    document.getElementById('perda-comissao').innerText = '- ' + formatarMoeda(perda) + ' (' + String(desc).replace('.', ',') + '%)';
   }
 
   function goHome(ev) {
