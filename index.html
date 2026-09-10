@@ -304,7 +304,7 @@
 <!-- Modal de Pesquisa Inicial de Onboarding (E-mail travado e persistente) -->
 <div class="modal-overlay-onboarding" id="modal-onboarding" style="display: none;">
   <div class="modal-card-onboarding">
-    <h3 style="color: var(--accent-orange); margin-top:0;">📡 Perfil Comercial & Metas</h3>
+    <h3 style="color: var(--accent-orange); margin-top:0;">📊 Meu Perfil Comercial</h3>
     <p style="color: var(--text-muted); font-size: 0.88rem;">Preencha seus dados de perfil uma única vez para liberar suas calculadoras comerciais:</p>
     
     <form id="form-onboarding" onsubmit="salvarOnboardingFrontend(event)" style="display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
@@ -315,7 +315,7 @@
 
       <div class="modal-grid">
         <div class="input-field">
-          <label for="ob-email-display">E-mail Cadastrado (Bloqueado)</label>
+          <label for="ob-email-display">E-mail Cadastrado</label>
           <input type="email" id="ob-email-display" disabled style="height: 42px; background-color: var(--border-color); color: var(--text-muted);">
         </div>
         <div class="input-field">
@@ -370,13 +370,13 @@
       </div>
 
       <div class="input-field">
-        <label for="ob-empresa">Empresa / Organização (Opcional)</label>
-        <input type="text" id="ob-empresa" placeholder="Ex: Grupo Altus Edu" style="height: 42px;">
+        <label for="ob-empresa">Empresa / Organização</label>
+        <input type="text" id="ob-empresa" placeholder="Ex: Empresa em que Trabalha" style="height: 42px;">
       </div>
 
       <div class="modal-grid">
         <div class="input-field">
-          <label for="ob-faixa-renda">Faixa de Renda Desejada *</label>
+          <label for="ob-faixa-renda">Sua Renda Média Atual *</label>
           <select id="ob-faixa-renda" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Ate R$ 3.000">Até R$ 3.000,00</option>
@@ -386,7 +386,7 @@
           </select>
         </div>
         <div class="input-field">
-          <label for="ob-comissao">Comissão Média *</label>
+          <label for="ob-comissao">Comissão Média Atual *</label>
           <select id="ob-comissao" required style="height: 42px;">
             <option value="">Selecione...</option>
             <option value="Menos que 1%">Menos que 1%</option>
