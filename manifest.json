@@ -1,6 +1,6 @@
 {
-  "name": "Radar de Vendas",
-  "short_name": "Radar",
+  "name": "Radar do Vendedor Rico PRO",
+  "short_name": "Radar PRO",
   "start_url": "/radar-vendedor-rico-pro/",
   "scope": "/radar-vendedor-rico-pro/",
   "display": "standalone",
