@@ -1,19 +1,19 @@
 {
   "name": "Radar de Vendas",
   "short_name": "Radar",
-  "start_url": "/Radar-10K-Full/",
-  "scope": "/Radar-10K-Full/",
+  "start_url": "/radar-vendedor-rico-pro/",
+  "scope": "/radar-vendedor-rico-pro/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "icons": [
     {
-      "src": "/Radar-10K-Full/icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Radar-10K-Full/icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
